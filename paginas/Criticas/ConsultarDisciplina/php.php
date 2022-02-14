@@ -1,0 +1,44 @@
+<?php
+session_start();
+if(!isset($_SESSION['idUsuarioLogin']))
+{
+  header('location:../../Login/index.php');
+}?>
+<?php
+require '../../../CamadaDados/conectar.php';
+$tb2= 'critica';
+$tb3 = 'aluno';
+$send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
+if($send){
+    $id = filter_input(INPUT_POST,'disciplina',FILTER_SANITIZE_NUMBER_INT);
+    if(!is_numeric($id) || $id < 1 || $id > 99999999999){
+        $id = "";
+    }
+    try{
+        $result = "SELECT count(*) 'quantidade' FROM $db.$tb2 WHERE ProfessorDisciplina_idProfessorDisciplina =:id";
+		$select = $conx->prepare($result);
+		$select->bindParam(':id',$id);
+		$select->execute();
+        $variavelControle = 1;
+		foreach($select->fetchAll() as $linha_array){
+			if($linha_array['quantidade'] < 1){
+                $variavelControle = 0;}}
+        if($variavelControle){
+            $result = "SELECT C1.idCritica,A1.Matricula,C1.NotaDisciplina,C1.NotaProfessor,C1.Descrição,C1.Data FROM $db.$tb2 C1 inner join $db.$tb3 A1 ON C1.Aluno_idAluno = A1.idAluno WHERE C1.ProfessorDisciplina_idProfessorDisciplina = :id";
+            $select = $conx->prepare($result);
+            $select->bindParam(':id',$id);
+            $select->execute();
+            $_SESSION['queryCritica2'] = $select->fetchAll();
+            $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
+        else{
+            $_SESSION['mensagemErro'] = 'A consulta não retornou resultados';
+        }
+        header("Location: ./consultar.php");	
+    }
+    catch(PDOException $e) {
+            $msgErr = "Erro na consulta:<br />".$e->getMessage();
+            $_SESSION['mensagemErro'] = $msgErr;     
+			header("Location: ../index.php");			
+    }
+}
+?>

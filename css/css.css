@@ -1,0 +1,106 @@
+body{
+    background: #75eff1;
+    margin: 0;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+header, footer{
+    text-align: center;
+    min-height: 50px;
+}
+header{
+    padding-top: 10px;
+    padding-right: 5px;
+}
+#formLogout{
+    float: right;
+}
+#nomeProjeto{
+    font-size: 24px;
+}
+.button, input[type=submit]{
+    min-height: 30px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.button:hover, input[type=submit]:hover{
+    transition: 1.5s;
+    background-color:azure;
+}
+input[type=submit]{
+    margin: 5px;
+}
+.btnEntidades{
+    min-width: 220px;
+}
+.btnUsuarios{
+    background-color: lightblue;
+    border-color: lightblue;
+}
+.btnCursos{
+    background-color:rgb(37, 210, 223);
+    border-color: rgb(37, 210, 223);
+}
+.btnDisciplinas{
+    background-color:chartreuse;
+    border-color: chartreuse;
+}
+.btnCursosDisciplinas{
+    background-color: green;
+    border-color: green;
+}
+.btnProfessoresDisciplinas{
+    background-color:darksalmon;
+    border-color: darksalmon;
+}
+.btnCriticas{
+    background-color:crimson;
+    border-color: crimson;
+}
+.btnCadastrar{
+    min-width: 250px;
+    background-color:mediumorchid;
+    border-color: mediumorchid;
+}
+.btnAlterar{
+    min-width: 250px;
+    background-color: cyan;
+    border-color: cyan;
+}
+.btnConsultar{
+    min-width: 250px;
+    background-color: yellow;
+    border-color: yellow;
+}
+.btnConsultar2{
+    min-width: 250px;
+    background-color: gold;
+    border-color: gold;
+}
+.btnVoltar{
+    min-width: 80px;
+    min-height: 23px;
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+input, select{
+    margin-bottom: 5px;
+}
+.mensagemFinalizacao{
+    color: green;
+}
+.mensagemErro{
+    color: red;
+}
+table {
+    margin-left: auto;
+    margin-right: auto;
+    width:650px;
+    table-layout:fixed;
+}
+#push{
+    height: 200px;
+}

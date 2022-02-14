@@ -1,0 +1,94 @@
+<?php
+session_start();
+if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
+{
+  header('location:../../Login/index.php');
+}?>
+<?php
+    require '../../../CamadaDados/conectar.php';
+    $tb = 'Usuario';
+    $result = "SELECT idUsuario,Nome FROM $db.$tb Where Tipo=1";
+    $select = $conx->prepare($result);
+    $select->execute();
+    $_SESSION['queryProfessoresDisciplinasProfessores1'] = $select->fetchAll();
+?>
+<?php
+    require '../../../CamadaDados/conectar.php';
+    $tb = 'Disciplina';
+    $result = "SELECT Nome FROM $db.$tb";
+    $select = $conx->prepare($result);
+    $select->execute();
+    $_SESSION['queryProfessoresDisciplinasDisciplinas1'] = $select->fetchAll();
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel ="stylesheet" href="../../../css/css.css"/>
+
+    <script type="module" src="../../../js/componentes.js"></script>
+
+    <title>Projeto IES301</title>
+</head>
+<body>
+    <div id="navbar"></div>
+    <h1>Cadastrar professor em disciplina</h1>
+    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <form action="php.php" method="POST">
+        <?php
+            echo '<label id="labelProfessor" for="professorSelect"> Professor: </label>';
+            echo '<select id="professorSelect" onchange="mudaProfessor()">';
+            foreach($_SESSION['queryProfessoresDisciplinasProfessores1'] as $linha_array) {
+                $nome = $linha_array['Nome'];
+                $id = $linha_array['idUsuario'];
+                echo '<option value='."'$id'".">".$nome."</option>";
+            } 
+            foreach($_SESSION['queryProfessoresDisciplinasProfessores1'] as $linha_array) {
+                echo '<input type="hidden" id="professor" name="professor" value='."'$id'"."/>";
+                break;
+            }            
+            echo '</select>';
+            echo '<br/>';
+
+            echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
+            echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+            foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
+                $nome = $linha_array['Nome'];
+                echo '<option value='."'$nome'".">".$nome."</option>";
+            } 
+            foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
+                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$nome'"."/>";
+                break;
+            }            
+            echo '</select>';
+            echo '<br/>';
+        ?>
+        <label for="periodoSelect"> Periodo: </label>
+        <select id="periodoSelect" onchange="mudaPeriodo()">
+            <option value="0" selected> Manhã </option>
+            <option value="1"> Tarde </option>
+            <option value="2"> Noite </option>
+        </select><br/>
+        <input id="periodo" name="periodo" type="hidden" placeholder="" value="Manhã" maxlength="15"><br/> 
+        <label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" name="dataInicial" checked required> <br/>
+        <label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" name="dataFinal" checked> <br/>
+        <label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" name="diaSemana" type="number" min="2" max="6" required > <br/>
+        <input type="submit" name="submit" value="Enviar">
+    </form>
+    <script>
+        function mudaProfessor(){
+            document.getElementById('professor').value = document.getElementById('professorSelect').value;
+        }
+        function mudaDisciplina(){
+            document.getElementById('disciplina').value = document.getElementById('disciplinaSelect').value;
+        }
+        function mudaPeriodo(){
+            document.getElementById('periodo').value = document.getElementById('periodoSelect').value;
+        }
+    </script>
+    <div id="footer"></div>    
+</body>
+</html>
