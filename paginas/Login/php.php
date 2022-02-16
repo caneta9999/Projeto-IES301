@@ -51,7 +51,7 @@ if($send){
 					header("Location: ./index.php");}}}
 		}
     catch(PDOException $e) {
-            $mensagemErro = "Erro no login:<br />";
+            $mensagemErro = "Erro no login: " . $e . "<br />";
             $_SESSION['mensagemErro'] = $mensagemErro;      
 			header("Location: ./index.php");			
     }
