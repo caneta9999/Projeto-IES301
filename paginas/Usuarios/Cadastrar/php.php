@@ -5,11 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Usuario';
-$tb2 = 'Professor';
-$tb3 = 'Aluno';
-$tb4 = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING); 
 if($send){
 	$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
@@ -65,7 +62,7 @@ if($send){
         $_SESSION['mensagemErro'] = 'Matricula inválida';
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Cpf like :Cpf";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Cpf',$cpf);
 		$select->execute();
@@ -73,7 +70,7 @@ if($send){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse cpf cadastrado!";}}
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE ".'Login'." like :Login";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Login',$login);
 		$select->execute();
@@ -83,7 +80,7 @@ if($send){
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}
         if($variavelControle !=0){
             if($tipo != 2){
-                $result = "INSERT INTO $db.$tb ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
+                $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Login',$login);
                 $insert->bindParam(':Senha',$senha);
@@ -94,14 +91,14 @@ if($send){
                 $insert->execute();
                 if($tipo == 1){
                     $usuario = $conx->lastInsertId();
-                    $result = "INSERT INTO $db.$tb2 (Usuario_idUsuario) VALUES (:Usuario)";
+                    $result = "INSERT INTO $db.$TB_PROFESSOR (Usuario_idUsuario) VALUES (:Usuario)";
                     $insert = $conx->prepare($result);
                     $insert->bindParam(':Usuario',$usuario);
                     $insert->execute();
                 }
                 $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}            
             else{
-                $result = "SELECT idCurso FROM $db.$tb4 WHERE Nome=:Nome";
+                $result = "SELECT idCurso FROM $db.$TB_CURSO WHERE Nome=:Nome";
                 $select = $conx->prepare($result);
                 $select->bindParam(':Nome',$curso);
                 $select->execute();
@@ -112,7 +109,7 @@ if($send){
                     $_SESSION['mensagemErro'] = 'Curso inexistente!';
                     $variavelControle = 0;
                 }             
-                $result = "SELECT count(*) 'quantidade' FROM $db.$tb3 WHERE Matricula like :Matricula";
+                $result = "SELECT count(*) 'quantidade' FROM $db.$TB_ALUNO WHERE Matricula like :Matricula";
                 $select = $conx->prepare($result);
                 $select->bindParam(':Matricula',$matricula);
                 $select->execute();
@@ -124,7 +121,7 @@ if($send){
                     $administrador = 0;
                 }
                 if($variavelControle){
-                    $result = "INSERT INTO $db.$tb ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
+                    $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
                     $insert = $conx->prepare($result);
                     $insert->bindParam(':Login',$login);
                     $insert->bindParam(':Senha',$senha);
@@ -134,7 +131,7 @@ if($send){
                     $insert->bindParam(':Tipo',$tipo);
                     $insert->execute();
                     $usuario = $conx->lastInsertId();
-                    $result = "INSERT INTO $db.$tb3 (Matricula,Usuario_idUsuario,Curso_idCurso) VALUES (:Matricula,:Usuario,:Curso)";
+                    $result = "INSERT INTO $db.$TB_ALUNO (Matricula,Usuario_idUsuario,Curso_idCurso) VALUES (:Matricula,:Usuario,:Curso)";
                     $insert = $conx->prepare($result);
                     $insert->bindParam(':Matricula',$matricula);
                     $insert->bindParam(':Usuario',$usuario);

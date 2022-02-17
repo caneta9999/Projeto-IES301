@@ -1,8 +1,7 @@
 <?php
 session_start();
 require '../../camadaDados/conectar.php';
-$tb = 'Usuario';
-$tb2 = 'Aluno';
+require '../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
@@ -14,7 +13,7 @@ if($send){
 		if(strlen($senha)<8 || strlen($senha)>50){
 			$senha = "";
 		}
-		$result = "SELECT idUsuario,Senha,Tipo,Administrador FROM $db.$tb WHERE"." Login"."=:login";
+		$result = "SELECT idUsuario,Senha,Tipo,Administrador FROM $db.$TB_USUARIO WHERE"." Login"."=:login";
 		$select = $conx->prepare($result);
 		$select->execute([':login'=>$login]);
 		$select = $select->fetchAll();
@@ -33,7 +32,7 @@ if($send){
                     $_SESSION['tipoLogin'] = $linha_array['Tipo'];
                     $_SESSION['administradorLogin'] = $linha_array['Administrador'];
                     if($_SESSION['tipoLogin'] == 2){
-                        $result = "SELECT Curso_idCurso FROM $db.$tb2 WHERE Usuario_idUsuario=:Usuario";
+                        $result = "SELECT Curso_idCurso FROM $db.$TB_ALUNO WHERE Usuario_idUsuario=:Usuario";
                         $select = $conx->prepare($result);
                         $select->execute([':Usuario'=>$_SESSION['idUsuarioLogin']]);
                         $select = $select->fetchAll();

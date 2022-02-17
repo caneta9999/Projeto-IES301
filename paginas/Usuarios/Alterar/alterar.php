@@ -5,9 +5,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-    require '../../../CamadaDados/conectar.php';
-    $tb = 'Curso';
-    $result = "SELECT Nome FROM $db.$tb";
+    require '../../../camadaDados/conectar.php';
+    require '../../../camadaDados/tabelas.php';
+    $result = "SELECT Nome FROM $db.$TB_CURSO";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryPessoaCursos1'] = $select->fetchAll();

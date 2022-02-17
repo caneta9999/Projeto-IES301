@@ -5,10 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'critica';
-$tb2 = 'aluno';
-$tb3 = 'usuario';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
 if($id != $_SESSION['idAlteracao']){
@@ -28,7 +26,7 @@ if(strlen($descricao) > 500){
     $descricao = 'descricao';
 }
 $aluno = $_SESSION['idUsuarioLogin'];
-$result = "SELECT A1.idAluno FROM $db.$tb2 A1 inner join $db.$tb3 U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
+$result = "SELECT A1.idAluno FROM $db.$TB_ALUNO A1 inner join $db.$TB_USUARIO U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
 $select = $conx->prepare($result);
 $select->bindParam(':idUsuario',$aluno);
 $select->execute();
@@ -41,7 +39,7 @@ foreach($select->fetchAll() as $linha_array){
 if($send == 'Alterar'){
     try{     
         if($aluno != ''){
-            $result = "UPDATE $db.$tb SET NotaProfessor=:notaProfessor,NotaDisciplina=:notaDisciplina,Descrição=:descricao,Data=now() WHERE idCritica = :idCritica and Aluno_idAluno = :idAluno";
+            $result = "UPDATE $db.$TB_CRITICA SET NotaProfessor=:notaProfessor,NotaDisciplina=:notaDisciplina,Descrição=:descricao,Data=now() WHERE idCritica = :idCritica and Aluno_idAluno = :idAluno";
             $insert = $conx->prepare($result);
             $insert->bindParam(':notaProfessor',$notaProfessor);
             $insert->bindParam(':notaDisciplina', $notaDisciplina);
@@ -64,7 +62,7 @@ else if($send == 'Excluir'){
     if($_SESSION['administradorLogin']){
         $aluno = "%%";
     }
-    $result= "DELETE FROM $db.$tb WHERE idCritica = :idCritica and Aluno_idAluno like :idAluno";
+    $result= "DELETE FROM $db.$TB_CRITICA WHERE idCritica = :idCritica and Aluno_idAluno like :idAluno";
     $delete = $conx->prepare($result);
     $delete->bindParam(':idCritica',$id);
     $delete->bindParam(':idAluno',$aluno);

@@ -5,9 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'professordisciplina';
-$tb2 = 'critica';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
 if($id != $_SESSION['idAlteracao']){
@@ -33,7 +32,7 @@ if(!is_numeric($diaSemana) || $diaSemana < 2 || $diaSemana > 6 ){
 }
 if($send == 'Alterar'){
     try{   
-        $result = "UPDATE $db.$tb SET Periodo=:periodo,DataInicial=:dataInicial, DataFinal=:dataFinal, DiaSemana=:diaSemana WHERE idProfessorDisciplina = :id";
+        $result = "UPDATE $db.$TB_PROFESSORDISCIPLINA SET Periodo=:periodo,DataInicial=:dataInicial, DataFinal=:dataFinal, DiaSemana=:diaSemana WHERE idProfessorDisciplina = :id";
         $insert = $conx->prepare($result);
         $insert->bindParam(':id',$id);
         $insert->bindParam(':periodo',$periodo);
@@ -50,12 +49,12 @@ if($send == 'Alterar'){
     }
 }
 else if($send == 'Excluir'){
-    $result= "DELETE FROM $db.$tb2 WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
+    $result= "DELETE FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
     $delete = $conx->prepare($result);
     $delete->bindParam(':id', $id);
     $delete->execute();
     $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
-    $result= "DELETE FROM $db.$tb WHERE idProfessorDisciplina = :id";
+    $result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE idProfessorDisciplina = :id";
     $delete = $conx->prepare($result);
     $delete->bindParam(':id', $id);
     $delete->execute();

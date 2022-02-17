@@ -5,6 +5,7 @@ if(!isset($_SESSION))
 } 
 require ("preparar_conexao.php");
 try {
+
      $conx = new PDO("mysql:host=$host;dbname=$db", $user,$pass); 
      $conx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }

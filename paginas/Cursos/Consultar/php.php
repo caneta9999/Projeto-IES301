@@ -5,8 +5,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Curso';
+echo 'Até aqui deu';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
@@ -19,7 +20,7 @@ if($send){
         $id = "";
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Nome like :nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSO WHERE Nome like :nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':nome',$nome);
 		$select->execute();
@@ -28,7 +29,7 @@ if($send){
 			if($linha_array['quantidade'] == 0 || $nome == "%%"){
                 $variavelControle = 0;}}
         if(!$variavelControle){
-            $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE idCurso like :idCurso";
+            $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSO WHERE idCurso like :idCurso";
             $select = $conx->prepare($result);
             $select->bindParam(':idCurso',$id);
             $select->execute();
@@ -39,13 +40,13 @@ if($send){
         }
         if($variavelControle){
             if($variavelControle == 1){//nome
-                $result = "SELECT * FROM $db.$tb WHERE Nome like :nome";
+                $result = "SELECT * FROM $db.$TB_CURSO WHERE Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryCurso1'] = $select->fetchAll();
             }
             else{//id
-                $result = "SELECT * FROM $db.$tb WHERE idCurso=:idCurso";
+                $result = "SELECT * FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
                 $select = $conx->prepare($result);
                 $select->execute(['idCurso' => $id]);
                 $_SESSION['queryCurso1'] = $select->fetchAll();
@@ -53,7 +54,7 @@ if($send){
             $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
         else{
             if($nome=="%%" && $id==""){
-                $result = "SELECT * FROM $db.$tb";
+                $result = "SELECT * FROM $db.$TB_CURSO";
                 $select = $conx->prepare($result);
                 $select->execute();
                 $_SESSION['queryCurso1'] = $select->fetchAll();                

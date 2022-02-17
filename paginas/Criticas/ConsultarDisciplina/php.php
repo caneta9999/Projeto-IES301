@@ -5,9 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb2= 'critica';
-$tb3 = 'aluno';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
     $id = filter_input(INPUT_POST,'disciplina',FILTER_SANITIZE_NUMBER_INT);
@@ -15,7 +14,7 @@ if($send){
         $id = "";
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb2 WHERE ProfessorDisciplina_idProfessorDisciplina =:id";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina =:id";
 		$select = $conx->prepare($result);
 		$select->bindParam(':id',$id);
 		$select->execute();
@@ -24,7 +23,7 @@ if($send){
 			if($linha_array['quantidade'] < 1){
                 $variavelControle = 0;}}
         if($variavelControle){
-            $result = "SELECT C1.idCritica,A1.Matricula,C1.NotaDisciplina,C1.NotaProfessor,C1.Descrição,C1.Data FROM $db.$tb2 C1 inner join $db.$tb3 A1 ON C1.Aluno_idAluno = A1.idAluno WHERE C1.ProfessorDisciplina_idProfessorDisciplina = :id";
+            $result = "SELECT C1.idCritica,A1.Matricula,C1.NotaDisciplina,C1.NotaProfessor,C1.Descrição,C1.Data FROM $db.$TB_CRITICA C1 inner join $db.$TB_ALUNO A1 ON C1.Aluno_idAluno = A1.idAluno WHERE C1.ProfessorDisciplina_idProfessorDisciplina = :id";
             $select = $conx->prepare($result);
             $select->bindParam(':id',$id);
             $select->execute();

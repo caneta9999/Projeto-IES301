@@ -5,11 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'professordisciplina';
-$tb2 = 'Usuario';
-$tb3 = 'Disciplina';
-$tb4 = 'Professor';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$professor = filter_input(INPUT_POST,'professor',FILTER_SANITIZE_NUMBER_INT);
@@ -38,7 +35,7 @@ if($send){
         $diaSemana = 2;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb2 WHERE idUsuario = :professor";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE idUsuario = :professor";
 		$select = $conx->prepare($result);
 		$select->bindParam(':professor',$professor);
 		$select->execute();
@@ -48,7 +45,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Esse professor não está cadastrado!";}}
 
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb3 WHERE nome = :nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE nome = :nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':nome',$disciplina);
 		$select->execute();
@@ -58,20 +55,20 @@ if($send){
 				$_SESSION['mensagemErro'] = "Não há uma disciplina com esse nome cadastrado!";}}
 
         if($variavelControle){
-            $result = "SELECT idDisciplina FROM $db.$tb3 WHERE nome = :nome";
+            $result = "SELECT idDisciplina FROM $db.$TB_DISCIPLINA WHERE nome = :nome";
             $select = $conx->prepare($result);
             $select->bindParam(':nome',$disciplina);
             $select->execute();
             $idDisciplina = 0;
             foreach($select->fetchAll() as $linha_array){
                 $idDisciplina = $linha_array['idDisciplina'];}  
-            $result = "SELECT idProfessor FROM $db.$tb4 WHERE Usuario_idUsuario = :professor";
+            $result = "SELECT idProfessor FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario = :professor";
             $select = $conx->prepare($result);
             $select->bindParam(':professor',$professor);
             $select->execute();
             foreach($select->fetchAll() as $linha_array){
                 $professor = $linha_array['idProfessor'];}          
-            $result = "INSERT INTO $db.$tb (Professor_idProfessor, Disciplina_idDisciplina, Periodo, DataInicial,DataFinal, DiaSemana) VALUES (:idProfessor, :idDisciplina, :periodo, :dataInicial, :dataFinal, :diaSemana)";
+            $result = "INSERT INTO $db.$TB_PROFESSORDISCIPLINA (Professor_idProfessor, Disciplina_idDisciplina, Periodo, DataInicial,DataFinal, DiaSemana) VALUES (:idProfessor, :idDisciplina, :periodo, :dataInicial, :dataFinal, :diaSemana)";
             $insert = $conx->prepare($result);
             $insert->bindParam(':idProfessor',$professor);
             $insert->bindParam(':idDisciplina',$idDisciplina);

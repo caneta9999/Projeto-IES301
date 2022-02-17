@@ -5,13 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Usuario';
-$tb2 = 'Professor';
-$tb3 = 'Aluno';
-$tb4 = 'Curso';
-$tb5 = 'professordisciplina';
-$tb6 = 'Critica';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
 if($id != $_SESSION['idAlteracao2']){
@@ -65,7 +60,7 @@ if((!is_numeric($matricula) || $matricula <1 || $matricula>99999999) && $tipo ==
 }
 if($send == 'Alterar'){
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Cpf like :Cpf and idUsuario != :Id";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Cpf',$cpf);
         $select->bindParam(':Id',$id);
@@ -74,7 +69,7 @@ if($send == 'Alterar'){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse cpf cadastrado!";}}
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE ".'Login'." like :Login";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Login',$login);
 		$select->execute();
@@ -84,7 +79,7 @@ if($send == 'Alterar'){
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}
         if($variavelControle !=0){ 
             if($tipo != 2){   
-                $result = "UPDATE $db.$tb SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
+                $result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Login',$login);
                 $insert->bindParam(':Senha',$senha);
@@ -95,7 +90,7 @@ if($send == 'Alterar'){
                 $insert->execute();
                 $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
             else{
-                $result = "SELECT idCurso FROM $db.$tb4 WHERE Nome=:Nome";
+                $result = "SELECT idCurso FROM $db.$TB_CURSO WHERE Nome=:Nome";
                 $select = $conx->prepare($result);
                 $select->bindParam(':Nome',$curso);
                 $select->execute();
@@ -106,7 +101,7 @@ if($send == 'Alterar'){
                     $_SESSION['mensagemErro'] = 'Curso inexistente!';
                     $variavelControle = 0;
                 }             
-                $result = "SELECT count(*) 'quantidade' FROM $db.$tb3 WHERE Matricula like :Matricula and Usuario_idUsuario != :Id";
+                $result = "SELECT count(*) 'quantidade' FROM $db.$TB_ALUNO WHERE Matricula like :Matricula and Usuario_idUsuario != :Id";
                 $select = $conx->prepare($result);
                 $select->bindParam(':Matricula',$matricula);
                 $select->bindParam(':Id',$id);
@@ -118,7 +113,7 @@ if($send == 'Alterar'){
                 if($administrador == 1){
                     $administrador = 0;
                 }
-                $result = "UPDATE $db.$tb SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
+                $result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Login',$login);
                 $insert->bindParam(':Senha',$senha);
@@ -127,7 +122,7 @@ if($send == 'Alterar'){
                 $insert->bindParam(':Cpf',$cpf);          
                 $insert->bindParam(':Id',$id);
                 $insert->execute();
-                $result = "UPDATE $db.$tb3 SET Matricula=:Matricula,Curso_idCurso=:Curso Where Usuario_idUsuario=:Usuario";
+                $result = "UPDATE $db.$TB_ALUNO SET Matricula=:Matricula,Curso_idCurso=:Curso Where Usuario_idUsuario=:Usuario";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Matricula',$matricula);
                 $insert->bindParam(':Usuario',$id);
@@ -145,33 +140,33 @@ if($send == 'Alterar'){
 }
 else if($send == 'Excluir'){
     if($tipo == 0){
-        $result= "DELETE FROM $db.$tb WHERE idUsuario=:idUsuario";
+        $result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idUsuario', $id);
         $delete->execute();
     }else if($tipo == 1){
-        $result = "SELECT idProfessor FROM $db.$tb2 WHERE Usuario_idUsuario=:idUsuario";
+        $result = "SELECT idProfessor FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
         $select = $conx->prepare($result);
         $select->bindParam(':idUsuario',$id);
         $select->execute();
         $idProfessor = 0;
         foreach($select->fetchAll() as $linha_array){
             $idProfessor = $linha_array['idProfessor'];}
-        $result= "DELETE FROM $db.$tb5 WHERE Professor_idProfessor=:idProfessor";
+        $result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idProfessor', $idProfessor);
         $delete->execute();        
-        $result= "DELETE FROM $db.$tb2 WHERE Usuario_idUsuario=:idUsuario";
+        $result= "DELETE FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idUsuario', $id);
         $delete->execute();
-        $result= "DELETE FROM $db.$tb WHERE idUsuario=:idUsuario";
+        $result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idUsuario', $id);
         $delete->execute();                
     }else if($tipo == 2){
         $aluno = $_SESSION['idUsuarioLogin'];
-        $result = "SELECT A1.idAluno FROM $db.$tb3 A1 inner join $db.$tb U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
+        $result = "SELECT A1.idAluno FROM $db.$TB_ALUNO A1 inner join $db.$TB_USUARIO U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
         $select = $conx->prepare($result);
         $select->bindParam(':idUsuario',$id);
         $select->execute();
@@ -181,15 +176,15 @@ else if($send == 'Excluir'){
             $aluno = $linha_array['idAluno'];
             break;
         } 
-        $result= "DELETE FROM $db.$tb6 WHERE Aluno_idAluno=:id";
+        $result= "DELETE FROM $db.$TB_CRITICA WHERE Aluno_idAluno=:id";
         $delete = $conx->prepare($result);
         $delete->bindParam(':id', $aluno);
         $delete->execute();        
-        $result= "DELETE FROM $db.$tb3 WHERE Usuario_idUsuario=:idUsuario";
+        $result= "DELETE FROM $db.$TB_ALUNO WHERE Usuario_idUsuario=:idUsuario";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idUsuario', $id);
         $delete->execute();
-        $result= "DELETE FROM $db.$tb WHERE idUsuario=:idUsuario";
+        $result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idUsuario', $id);
         $delete->execute();                

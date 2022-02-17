@@ -3,10 +3,11 @@ session_start();
 if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 {
   header('location:../../Login/index.php');
-}?>
+}
+?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
@@ -14,7 +15,7 @@ if($send){
         if(strlen($nome)<1 || strlen($nome) > 50){
             $nome = "CursoSemNome".rand(0,1000);
         }
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE nome like :nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSO WHERE nome like :nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':nome',$nome);
 		$select->execute();
@@ -24,7 +25,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Já há um curso com esse nome cadastrado!";}}
         if($variavelControle){    
-            $result = "INSERT INTO $db.$tb (Nome) VALUES (:nome)";
+            $result = "INSERT INTO $db.$TB_CURSO (Nome) VALUES (:nome)";
             $insert = $conx->prepare($result);
             $insert->bindParam(':nome',$nome);
             $insert->execute();

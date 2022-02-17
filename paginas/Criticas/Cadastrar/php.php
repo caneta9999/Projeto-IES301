@@ -1,11 +1,6 @@
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'critica';
-$tb2 = 'aluno';
-$tb3 = 'usuario';
-$tb4 = 'professordisciplina';
-$tb5 = 'disciplina';
-$tb6 = 'cursodisciplina';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if(!isset($_SESSION['idUsuarioLogin']))
 {
@@ -18,7 +13,7 @@ if(!is_numeric($disciplina) || $disciplina > 99999999999 || $disciplina < 1){
 }
 $idCurso = "";
 if($_SESSION['tipoLogin'] == 2){
-    $result = "SELECT A1.Curso_idCurso FROM $db.$tb2 A1 where A1.Usuario_idUsuario=:id";
+    $result = "SELECT A1.Curso_idCurso FROM $db.$TB_ALUNO A1 where A1.Usuario_idUsuario=:id";
     $select = $conx->prepare($result);
     $select->bindParam(':id',$_SESSION['idUsuarioLogin']);
     $select->execute();
@@ -29,7 +24,7 @@ if($_SESSION['tipoLogin'] == 2){
 else{
     $idCurso = "%%";
 }
-$result = "SELECT PD1.idProfessorDisciplina FROM $db.$tb4 PD1 inner join $db.$tb5 D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$tb6 CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
+$result = "SELECT PD1.idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
 $select = $conx->prepare($result);
 $select->bindParam(':id',$idCurso);
 $select->execute();
@@ -63,7 +58,7 @@ if($send && $variavelControleExterna!=0){
         $descricao = 'descricao';
     }
     $aluno = $_SESSION['idUsuarioLogin'];
-    $result = "SELECT A1.idAluno FROM $db.$tb2 A1 inner join $db.$tb3 U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
+    $result = "SELECT A1.idAluno FROM $db.$TB_ALUNO A1 inner join $db.$TB_USUARIO U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
     $select = $conx->prepare($result);
     $select->bindParam(':idUsuario',$aluno);
     $select->execute();
@@ -73,7 +68,7 @@ if($send && $variavelControleExterna!=0){
         break;
     }    
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb4 WHERE idProfessorDisciplina = :id";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_PROFESSORDISCIPLINA WHERE idProfessorDisciplina = :id";
 		$select = $conx->prepare($result);
 		$select->bindParam(':id',$disciplina);
 		$select->execute();
@@ -83,7 +78,7 @@ if($send && $variavelControleExterna!=0){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Essa disciplina não existe!";}}
         if($variavelControle){           
-            $result = "INSERT INTO $db.$tb (Aluno_idAluno, NotaDisciplina, NotaProfessor, Descrição, ProfessorDisciplina_idProfessorDisciplina, Data) VALUES (:idAluno, :notaDisciplina, :notaProfessor, :descricao,:idDisciplina, now())";
+            $result = "INSERT INTO $db.$TB_CRITICA (Aluno_idAluno, NotaDisciplina, NotaProfessor, Descrição, ProfessorDisciplina_idProfessorDisciplina, Data) VALUES (:idAluno, :notaDisciplina, :notaProfessor, :descricao,:idDisciplina, now())";
             $insert = $conx->prepare($result);
             $insert->bindParam(':idAluno',$aluno);
             $insert->bindParam(':notaDisciplina',$notaDisciplina);

@@ -5,10 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'cursodisciplina';
-$tb3 = 'Disciplina';
-$tb2 = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
@@ -16,7 +14,7 @@ if($send){
         $id = -1;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE CursoDisciplinaId=:id";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSODISCIPLINA WHERE CursoDisciplinaId=:id";
 		$select = $conx->prepare($result);
 		$select->bindParam(':id',$id);
 		$select->execute();
@@ -26,7 +24,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não há disciplina vinculada a um curso com esse id!";}}
         if($variavelControle){    
-            $result = "SELECT CD1.CursoDisciplinaId,C1.nome 'CursoNome', D1.nome, CD1.tipo, CD1.ativa FROM $db.$tb CD1 inner join $db.$tb2 C1 ON CD1.Curso_idCurso = C1.idCurso inner join $db.$tb3 D1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina WHERE CursoDisciplinaId=:id";
+            $result = "SELECT CD1.CursoDisciplinaId,C1.nome 'CursoNome', D1.nome, CD1.tipo, CD1.ativa FROM $db.$TB_CURSODISCIPLINA CD1 inner join $db.$TB_CURSO C1 ON CD1.Curso_idCurso = C1.idCurso inner join $db.$TB_DISCIPLINA D1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina WHERE CursoDisciplinaId=:id";
             $select = $conx->prepare($result);
             $select->execute(['id' => $id]);
             $_SESSION['queryCursoDisciplina2'] = $select->fetchAll();

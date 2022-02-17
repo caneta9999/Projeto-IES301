@@ -5,10 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Usuario';
-$tb2 = 'Aluno';
-$tb3 = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
@@ -16,7 +14,7 @@ if($send){
         $id = -1;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE idUsuario=:idUsuario";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
 		$select = $conx->prepare($result);
 		$select->bindParam(':idUsuario',$id);
 		$select->execute();
@@ -26,7 +24,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não há usuário com esse id!";}}
         if($variavelControle){    
-            $result = "SELECT * FROM $db.$tb WHERE idUsuario=:idUsuario";
+            $result = "SELECT * FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
             $select = $conx->prepare($result);
             $select->execute(['idUsuario' => $id]);
             $tipo = 0;
@@ -34,12 +32,12 @@ if($send){
                 $tipo = $linha_array['Tipo'];
             }
             if($tipo == 2){
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Senha,U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,A1.Curso_idCurso,C1.Nome 'NomeCurso' FROM $db.$tb U1 inner join $db.$tb2 A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$tb3 C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Usuario_idUsuario=:usuario";
+                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Senha,U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,A1.Curso_idCurso,C1.Nome 'NomeCurso' FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Usuario_idUsuario=:usuario";
                 $select = $conx->prepare($result);
                 $select->execute(['usuario' => $id]);
                 $_SESSION['queryUsuario3'] = $select->fetchAll();
             }else{
-                $result = "SELECT * FROM $db.$tb WHERE idUsuario=:idUsuario";
+                $result = "SELECT * FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
                 $select = $conx->prepare($result);
                 $select->execute(['idUsuario' => $id]);
                 $_SESSION['queryUsuario3'] = $select->fetchAll();

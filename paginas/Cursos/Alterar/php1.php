@@ -5,8 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
@@ -14,7 +14,7 @@ if($send){
         $id = -1;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE idCurso=:idCurso";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
 		$select = $conx->prepare($result);
 		$select->bindParam(':idCurso',$id);
 		$select->execute();
@@ -24,7 +24,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não há curso com esse id!";}}
         if($variavelControle){    
-            $result = "SELECT * FROM $db.$tb WHERE idCurso=:idCurso";
+            $result = "SELECT * FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
             $select = $conx->prepare($result);
             $select->execute(['idCurso' => $id]);
             $_SESSION['queryCurso2'] = $select->fetchAll();

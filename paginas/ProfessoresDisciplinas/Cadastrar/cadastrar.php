@@ -5,17 +5,17 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-    require '../../../CamadaDados/conectar.php';
-    $tb = 'Usuario';
-    $result = "SELECT idUsuario,Nome FROM $db.$tb Where Tipo=1";
+    require '../../../camadaDados/conectar.php';
+    require '../../../camadaDados/tabelas.php';
+    $result = "SELECT idUsuario,Nome FROM $db.$TB_USUARIO Where Tipo=1";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessoresDisciplinasProfessores1'] = $select->fetchAll();
 ?>
 <?php
-    require '../../../CamadaDados/conectar.php';
-    $tb = 'Disciplina';
-    $result = "SELECT Nome FROM $db.$tb";
+    require '../../../camadaDados/conectar.php';
+    require '../../../camadaDados/tabelas.php';
+    $result = "SELECT Nome FROM $db.$TB_DISCIPLINA";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessoresDisciplinasDisciplinas1'] = $select->fetchAll();

@@ -5,10 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Usuario';
-$tb2 = 'Aluno';
-$tb3 = 'Curso';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
@@ -21,7 +19,7 @@ if($send){
         $matricula = -1;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Nome like :nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Nome like :nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':nome',$nome);
 		$select->execute();
@@ -30,7 +28,7 @@ if($send){
 			if($linha_array['quantidade'] == 0 || $nome == "%%"){
                 $variavelControle = 0;}}
         if(!$variavelControle){
-            $result = "SELECT count(*) 'quantidade' FROM $db.$tb2 WHERE Matricula like :matricula";
+            $result = "SELECT count(*) 'quantidade' FROM $db.$TB_ALUNO WHERE Matricula like :matricula";
             $select = $conx->prepare($result);
             $select->bindParam(':matricula',$matricula);
             $select->execute();
@@ -41,17 +39,17 @@ if($send){
         }
         if($variavelControle){
             if($variavelControle == 1){//nome
-                $result = "SELECT idUsuario,".'Login'.",Nome,Administrador,Cpf,Tipo FROM $db.$tb WHERE Nome like :nome";
+                $result = "SELECT idUsuario,".'Login'.",Nome,Administrador,Cpf,Tipo FROM $db.$TB_USUARIO WHERE Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryUsuario1'] = $select->fetchAll();
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome' FROM $db.$tb U1 inner join $db.$tb2 A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$tb3 C1 On A1.Curso_idCurso = C1.idCurso WHERE U1.Nome like :nome";
+                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome' FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE U1.Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryUsuario2'] = $select->fetchAll();
             }
             else{//matricula
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome'  FROM $db.$tb U1 inner join $db.$tb2 A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$tb3 C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Matricula=:Matricula";
+                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome'  FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Matricula=:Matricula";
                 $select = $conx->prepare($result);
                 $select->execute(['Matricula' => $matricula]);
                 $_SESSION['queryUsuario2'] = $select->fetchAll();

@@ -5,8 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'Disciplina';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
@@ -27,7 +27,7 @@ if($send){
         $sigla = "AAA000";
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Nome=:nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Nome=:nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':nome',$nome);
 		$select->execute();
@@ -37,7 +37,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse nome cadastrado!";}}
             
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Sigla=:sigla";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Sigla=:sigla";
 		$select = $conx->prepare($result);
 		$select->bindParam(':sigla',$sigla);
 		$select->execute();
@@ -46,7 +46,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Já há uma disciplina com essa sigla cadastrada!";}}
 
-        $result = "SELECT count(*) 'quantidade' FROM $db.$tb WHERE Código=:codigo";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Código=:codigo";
 		$select = $conx->prepare($result);
 		$select->bindParam(':codigo',$codigo);
 		$select->execute();
@@ -55,7 +55,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse código cadastrada!";}}
         if($variavelControle){    
-            $result = "INSERT INTO $db.$tb (Nome,Descrição,Código,Sigla) VALUES (:nome,:descricao,:codigo,:sigla)";
+            $result = "INSERT INTO $db.$TB_DISCIPLINA (Nome,Descrição,Código,Sigla) VALUES (:nome,:descricao,:codigo,:sigla)";
             $insert = $conx->prepare($result);
             $insert->bindParam(':nome',$nome);
             $insert->bindParam(':descricao',$descricao);

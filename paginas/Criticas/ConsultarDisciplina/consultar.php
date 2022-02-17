@@ -6,14 +6,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 }
 ?>
 <?php
-    require '../../../CamadaDados/conectar.php';
-    $tb = 'professordisciplina';
-    $tb2 = 'Disciplina';
-    $tb3 = 'Professor';
-    $tb4 = 'Usuario';
-    $tb5 = 'cursodisciplina';
-    $tb6 = 'Aluno';
-    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$tb PD1 inner join $db.$tb2 D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$tb3 P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$tb4 U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$tb5 CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina order by D1.Nome";
+    require '../../../camadaDados/conectar.php';
+    require '../../../camadaDados/tabelas.php';
+    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina order by D1.Nome";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessorDisciplinaCriticas2'] = $select->fetchAll();

@@ -5,8 +5,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
   header('location:../../Login/index.php');
 }?>
 <?php
-require '../../../CamadaDados/conectar.php';
-$tb = 'cursodisciplina';
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
 if($id != $_SESSION['idAlteracao']){
@@ -35,7 +35,7 @@ if($ativa){
 }
 if($send == 'Alterar'){
     try{   
-        $result = "UPDATE $db.$tb SET Tipo=:tipo,Ativa=:ativa WHERE CursoDisciplinaId = :id";
+        $result = "UPDATE $db.$TB_CURSODISCIPLINA SET Tipo=:tipo,Ativa=:ativa WHERE CursoDisciplinaId = :id";
         $insert = $conx->prepare($result);
         $insert->bindParam(':id',$id);
         $insert->bindParam(':tipo', $tipo);
@@ -50,7 +50,7 @@ if($send == 'Alterar'){
     }
 }
 else if($send == 'Excluir'){
-    $result= "DELETE FROM $db.$tb WHERE CursoDisciplinaId = :id";
+    $result= "DELETE FROM $db.$TB_CURSODISCIPLINA WHERE CursoDisciplinaId = :id";
     $delete = $conx->prepare($result);
     $delete->bindParam(':id', $id);
     $delete->execute();
