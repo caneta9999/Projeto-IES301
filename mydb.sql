@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 -- Banco de dados: `mydb`
 --
 
+CREATE DATABASE mydb;
+USE mydb;
+
 -- --------------------------------------------------------
 
 --
@@ -50,10 +53,11 @@ CREATE TABLE `critica` (
   `idCritica` int(11) NOT NULL,
   `Aluno_idAluno` int(11) NOT NULL,
   `NotaDisciplina` decimal(1,0) NOT NULL,
-  `NotaProfessor` decimal(1,0) NOT NULL,
   `Descrição` varchar(500) NOT NULL,
   `ProfessorDisciplina_idProfessorDisciplina` int(11) NOT NULL,
-  `Data` datetime NOT NULL
+  `Data` datetime NOT NULL,
+  `NotaEvolucao` decimal(1,0) NOT NULL,
+  `NotaAluno` decimal(1,0) NOT NULL	
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

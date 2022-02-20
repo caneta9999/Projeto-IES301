@@ -49,7 +49,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $idCritica = $linha_array['idCritica'];
                 $nome = $linha_array['Nome'];
                 $notaDisciplina = $linha_array['NotaDisciplina'];
-                $notaProfessor = $linha_array['NotaProfessor'];
+                $notaAluno = $linha_array['NotaAluno'];
+                $notaEvolucao = $linha_array['NotaEvolucao'];
                 $descricao = $linha_array['Descrição'];
                 $idProfessorDisciplina = $linha_array['ProfessorDisciplina_idProfessorDisciplina'];
                 $_SESSION['idAlteracao'] = $idCritica;
@@ -96,8 +97,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             $disciplina = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
             echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina'"."/>";         
             echo '<br/>';
-            echo '<label for="notaProfessor">Nota para o professor: </label><input type="number" value='.$notaProfessor.' name="notaProfessor" id="notaProfessor" min="1" max="5" required> <br/>';
             echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>';
+            echo '<label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" value='.$notaEvolucao.' type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>';
+            echo '<label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" value='.$notaAluno.' placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>';
             echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" >'.$descricao.'</textarea> <br/>';
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';

@@ -45,9 +45,13 @@ if($_SESSION['tipoLogin']!=2){
     $send = '';
 }
 if($send && $variavelControleExterna!=0){
-    $notaProfessor = filter_input(INPUT_POST,'notaProfessor',FILTER_SANITIZE_NUMBER_INT);
-    if(!is_numeric($notaProfessor) || $notaProfessor > 5 || $notaProfessor < 1){
-        $notaProfessor = 3;
+    $notaAluno = filter_input(INPUT_POST,'notaAluno',FILTER_SANITIZE_NUMBER_INT);
+    if(!is_numeric($notaAluno) || $notaAluno > 5 || $notaAluno < 1){
+        $notaAluno = 3;
+    }
+    $notaEvolucao = filter_input(INPUT_POST,'notaEvolucao',FILTER_SANITIZE_NUMBER_INT);
+    if(!is_numeric($notaEvolucao) || $notaEvolucao > 5 || $notaEvolucao < 1){
+        $notaEvolucao = 3;
     }
     $notaDisciplina = filter_input(INPUT_POST, 'notaDisciplina',FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($notaDisciplina) || $notaDisciplina > 5 || $notaDisciplina < 1){
@@ -78,11 +82,12 @@ if($send && $variavelControleExterna!=0){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Essa disciplina não existe!";}}
         if($variavelControle){           
-            $result = "INSERT INTO $db.$TB_CRITICA (Aluno_idAluno, NotaDisciplina, NotaProfessor, Descrição, ProfessorDisciplina_idProfessorDisciplina, Data) VALUES (:idAluno, :notaDisciplina, :notaProfessor, :descricao,:idDisciplina, now())";
+            $result = "INSERT INTO $db.$TB_CRITICA (Aluno_idAluno, NotaDisciplina, NotaAluno, NotaEvolucao, Descrição, ProfessorDisciplina_idProfessorDisciplina, Data) VALUES (:idAluno, :notaDisciplina, :notaAluno, :notaEvolucao, :descricao,:idDisciplina, now())";
             $insert = $conx->prepare($result);
             $insert->bindParam(':idAluno',$aluno);
             $insert->bindParam(':notaDisciplina',$notaDisciplina);
-            $insert->bindParam(':notaProfessor',$notaProfessor);
+            $insert->bindParam(':notaAluno',$notaAluno);
+            $insert->bindParam(':notaEvolucao',$notaEvolucao);
             $insert->bindParam(':descricao',$descricao);
             $insert->bindParam(':idDisciplina',$disciplina);
             $insert->execute();

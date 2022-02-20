@@ -89,6 +89,9 @@ input[type=submit]{
 input, select{
     margin-bottom: 5px;
 }
+.inputNota{
+    min-width: 330px;
+}
 .mensagemFinalizacao{
     color: green;
 }

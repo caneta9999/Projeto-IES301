@@ -54,7 +54,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                   echo "<th>Id</th>";
                 echo"<th >Disciplina</th>";
                 echo"<th >Nota da disciplina</th>";
-                echo"<th >Nota do professor</th>";
+                echo"<th >Nota para evolucao do aluno</th>";
+                echo"<th >Nota para o aluno</th>";
                 echo"<th >Descrição</th>";
                 echo"<th >Data</th>";
                 echo"</tr>";
@@ -103,7 +104,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 $disciplina = $id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
                 echo "<td>". $disciplina ."</td>";
                 echo "<td>". $linha_array['NotaDisciplina'] ."</td>";
-                echo "<td>". $linha_array['NotaProfessor'] ."</td>";
+                echo "<td>". $linha_array['NotaEvolucao'] ."</td>";
+                echo "<td>". $linha_array['NotaAluno'] ."</td>";
                 echo "<td>". $linha_array['Descrição'] ."</td>";
                 echo "<td>". $linha_array['Data'] ."</td>";
                 echo "</tr>";}

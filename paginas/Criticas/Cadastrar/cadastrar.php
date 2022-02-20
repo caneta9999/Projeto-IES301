@@ -86,8 +86,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '</select>';
             echo '<br/>';
         ?>
-        <label for="notaProfessor">Nota para o professor: </label><input type="number" name="notaProfessor" id="notaProfessor" min="1" max="5" required> <br/>
-        <label for="notaDisciplina">Nota para a disciplina: </label><input type="number" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>
+        <label for="notaDisciplina">Nota para a disciplina: </label><input class="inputNota" type="number" placeholder="Nota para a disciplina" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>
+        <label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>
+        <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>        
         <label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" ></textarea> <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>

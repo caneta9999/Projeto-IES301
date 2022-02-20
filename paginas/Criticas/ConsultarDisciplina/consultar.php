@@ -94,8 +94,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 if(isset($_SESSION['administradorLogin'])){
                   echo"<th >Id da critica</th>";
                   echo"<th >Matricula Aluno</th>";}
-                echo"<th> Nota Disciplina</th>";
-                echo"<th> Nota Professor </th>";
+                echo"<th> Nota da disciplina</th>";
+                echo"<th >Nota para evolucao do aluno</th>";
+                echo"<th >Nota para o aluno</th>";
                 echo"<th> Descrição </th>";
                 echo"<th> Data </th>";
                 echo"</tr>";
@@ -107,7 +108,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                   echo "<td>". $linha_array['idCritica'] ."</td>";        
                   echo "<td>". $linha_array['Matricula'] ."</td>";}	
                 echo "<td>". $linha_array['NotaDisciplina'] ."</td>";	
-                echo "<td>". $linha_array['NotaProfessor'] ."</td>";	
+                echo "<td>". $linha_array['NotaEvolucao'] ."</td>";
+                echo "<td>". $linha_array['NotaAluno'] ."</td>";	
                 echo "<td>". $linha_array['Descrição'] ."</td>";
                 echo "<td>". $linha_array['Data'] ."</td>";	 	 
                 echo "</tr>";}

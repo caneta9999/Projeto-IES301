@@ -35,7 +35,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não há critica cadastrada com esse id!";}}
         if($variavelControle){    
-            $result = "SELECT C1.idCritica, U1.Nome, C1.NotaDisciplina, C1.NotaProfessor, C1.Descrição, C1.ProfessorDisciplina_idProfessorDisciplina FROM $db.$TB_CRITICA C1 inner join $db.$TB_ALUNO A1 ON  C1.Aluno_idAluno = A1.idAluno inner join $db.$TB_USUARIO U1 ON A1.Usuario_idUsuario = U1.idUsuario Where C1.idCritica = :id";
+            $result = "SELECT C1.idCritica, U1.Nome, C1.NotaDisciplina, C1.NotaAluno, C1.NotaEvolucao, C1.Descrição, C1.ProfessorDisciplina_idProfessorDisciplina FROM $db.$TB_CRITICA C1 inner join $db.$TB_ALUNO A1 ON  C1.Aluno_idAluno = A1.idAluno inner join $db.$TB_USUARIO U1 ON A1.Usuario_idUsuario = U1.idUsuario Where C1.idCritica = :id";
             $select = $conx->prepare($result);
             $select->bindParam(':id',$id);
             $select->execute();   

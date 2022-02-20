@@ -13,9 +13,13 @@ if($id != $_SESSION['idAlteracao']){
     $id = $_SESSION['idAlteracao'];
     unset($_SESSION['idAlteracao']);
 }
-$notaProfessor = filter_input(INPUT_POST,'notaProfessor',FILTER_SANITIZE_NUMBER_INT);
-if(!is_numeric($notaProfessor) || $notaProfessor > 5 || $notaProfessor < 1){
-    $notaProfessor = 3;
+$notaAluno = filter_input(INPUT_POST,'notaAluno',FILTER_SANITIZE_NUMBER_INT);
+if(!is_numeric($notaAluno) || $notaAluno > 5 || $notaAluno < 1){
+    $notaAluno = 3;
+}
+$notaEvolucao = filter_input(INPUT_POST,'notaEvolucao',FILTER_SANITIZE_NUMBER_INT);
+if(!is_numeric($notaEvolucao) || $notaEvolucao > 5 || $notaEvolucao < 1){
+    $notaEvolucao = 3;
 }
 $notaDisciplina = filter_input(INPUT_POST, 'notaDisciplina',FILTER_SANITIZE_NUMBER_INT);
 if(!is_numeric($notaDisciplina) || $notaDisciplina > 5 || $notaDisciplina < 1){
@@ -39,9 +43,10 @@ foreach($select->fetchAll() as $linha_array){
 if($send == 'Alterar'){
     try{     
         if($aluno != ''){
-            $result = "UPDATE $db.$TB_CRITICA SET NotaProfessor=:notaProfessor,NotaDisciplina=:notaDisciplina,Descrição=:descricao,Data=now() WHERE idCritica = :idCritica and Aluno_idAluno = :idAluno";
+            $result = "UPDATE $db.$TB_CRITICA SET NotaAluno=:notaAluno,NotaEvolucao=:notaEvolucao,NotaDisciplina=:notaDisciplina,Descrição=:descricao,Data=now() WHERE idCritica = :idCritica and Aluno_idAluno = :idAluno";
             $insert = $conx->prepare($result);
-            $insert->bindParam(':notaProfessor',$notaProfessor);
+            $insert->bindParam(':notaAluno',$notaAluno);
+            $insert->bindParam(':notaEvolucao',$notaEvolucao);
             $insert->bindParam(':notaDisciplina', $notaDisciplina);
             $insert->bindParam(':descricao',$descricao);
             $insert->bindParam(':idCritica',$id);

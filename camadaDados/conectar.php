@@ -10,7 +10,7 @@ try {
      $conx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch(PDOException $e) {
-     $msgErr =  "Falha de conexão<br />" . $e->getMessage();
+     $msgErr =  "Falha de conexão<br />";
      $_SESSION['msgErr'] = $msgErr; 
 } 
 ?>
