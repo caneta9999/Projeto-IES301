@@ -77,7 +77,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo '<option value='."'$id'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
                 $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
             } 
-            foreach($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
+            foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroId'"."/>";
                 break;
             }            

@@ -80,6 +80,11 @@ input[type=submit]{
     background-color: gold;
     border-color: gold;
 }
+.btnEstatisticas{
+    min-width: 250px;
+    background-color:darkorange;
+    border-color: darkorange;
+}
 .btnVoltar{
     min-width: 80px;
     min-height: 23px;
@@ -105,5 +110,21 @@ table {
     table-layout:fixed;
 }
 #push{
+    height: 400px;
+}
+#push2{
     height: 200px;
+}
+.grid{
+    display:grid;
+}
+#gridEstatisticasMediasDisciplina,#gridEstatisticasMediasGeral{
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#graficoMediaDisciplinaGeral, #graficoMediaEvolucaoGeral,#graficoMediaAlunoGeral{
+    grid-template-columns: 1fr 1fr;
+}
+canvas{
+	width: 400px;
+	height: 400px;
 }
