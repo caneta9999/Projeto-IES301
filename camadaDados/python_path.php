@@ -1,4 +1,0 @@
-<?php
-    $python = '';
-    $pythonFile = '';
-?>
