@@ -29,14 +29,14 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				unset($_SESSION['mensagemErro']);
 			}
 	?>
-    <h1>Criticas</h1>
+    <h1>Críticas</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <?php
-    	echo '<button class="button btnCadastrar" id="btnCadastrarCriticas"><a href="./Cadastrar/cadastrar.php">Cadastrar critica</a></button> <br/>';
-    	echo '<button class="button btnAlterar" id="btnAlterarCriticas"><a href="./Alterar/alterar.php">Alterar critica</a></button> <br/>';
+    	echo '<button class="button btnCadastrar" id="btnCadastrarCriticas"><a href="./Cadastrar/cadastrar.php">Cadastrar crítica</a></button> <br/>';
+    	echo '<button class="button btnAlterar" id="btnAlterarCriticas"><a href="./Alterar/alterar.php">Alterar crítica</a></button> <br/>';
     ?>
-    <button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Consultar/consultar.php">Consultar criticas realizadas por alunos</a></button> <br/>
-    <button class="button btnConsultar2" id="btnConsultarCriticas2"><a href="./ConsultarDisciplina/consultar.php">Consultar criticas sobre disciplina</a></button> <br/>
+    <button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Consultar/consultar.php">Consultar críticas realizadas por alunos</a></button> <br/>
+    <button class="button btnConsultar2" id="btnConsultarCriticas2"><a href="./ConsultarDisciplina/consultar.php">Consultar críticas sobre disciplina</a></button> <br/>
     <?php
 	  if($_SESSION['administradorLogin']){
 		  echo '<button class="button btnEstatisticas" id="btnEstatisticas"><a href="./Estatisticas/estatisticas.php">Estatisticas</a></button> <br/>';}

@@ -41,9 +41,37 @@ if(!isset($_SESSION['idUsuarioLogin']))
 </head>
 <body>
     <div id="navbar"></div>
-    <h1>Cadastrar critica</h1>
+    <h1>Cadastrar crítica</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
+        <?php
+            function selectElogio($numeroSelect){
+                echo '<label id=labelElogio'.$numeroSelect.' for=elogioSelect'.$numeroSelect.' > Elogio: </label>';
+                echo '<select id=elogioSelect'.$numeroSelect.' onchange=mudaElogio'.$numeroSelect.'() >';
+                    echo '<option value="Nenhum" selected>Nenhum</option>';
+                    echo '<option value="Explicação">Explicação</option>';
+                    echo '<option value="Material">Material</option>';
+                    echo '<option value="Organização">Organização</option>';
+                    echo '<option value="Pontualidade">Pontualidade</option>';
+                    echo '<option value="Prestativo">Prestativo</option>';
+                    echo '<option value="Carismático">Carismático</option>';
+                    echo '</select><br/>';
+                echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value="Nenhum"/>';
+            }
+            function selectCritica($numeroSelect){
+                echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Critica: </label>';
+                echo '<select id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
+                    echo '<option value="Nenhum" selected>Nenhum</option>';
+                    echo '<option value="Explicação">Explicação</option>';
+                    echo '<option value="Material">Material</option>';
+                    echo '<option value="Organização">Organização</option>';
+                    echo '<option value="Pontualidade">Pontualidade</option>';
+                    echo '<option value="Comunicação">Comunicação</option>';
+                    echo '<option value="Método de avaliação">Método de avaliação</option>';
+                    echo '</select><br/>';
+                echo '<input type="hidden" id=critica'.$numeroSelect.' name=critica'.$numeroSelect.' value="Nenhum"/>';
+            }
+        ?>
         <?php
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
             echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
@@ -79,23 +107,56 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 }
                 echo '<option value='."'$id'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
             } 
+            echo '</select>';
+            echo '<br/>';
             foreach($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idPrimeiro'"."/>";
                 break;
             }            
-            echo '</select>';
-            echo '<br/>';
         ?>
         <label for="notaDisciplina">Nota para a disciplina: </label><input class="inputNota" type="number" placeholder="Nota para a disciplina" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>
         <label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>
-        <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>        
-        <label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" ></textarea> <br/>
+        <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>                
+        <label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="Ano de conclusão" name="ano" id="ano" min="1973" max="2100" required> <br/>                
+        <label for="semestre">Semestre de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="Semestre de conclusão" name="semestre" id="semestre" min="1" max="2" required> <br/>                		
+        <h2>Elogios para o professor (máximo 3):</h2>
+        <?php
+            selectElogio(1);
+            selectElogio(2);
+            selectElogio(3);
+        ?>
+        <h2>Críticas/Áreas de melhoria para o professor (máximo 3):</h2>
+        <?php
+            selectCritica(1);
+            selectCritica(2);
+            selectCritica(3);
+        ?>
+        <label for="descricao"> Comentário mais detalhado: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Comentário..." required maxlength="500" ></textarea> <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>
+    <div id="push"></div>
     <script>
         function mudaDisciplina(){
             document.getElementById('disciplina').value = document.getElementById('disciplinaSelect').value;
         }
+        function mudaElogio1(){
+            document.getElementById('elogio1').value = document.getElementById('elogioSelect1').value;
+        }
+        function mudaElogio2(){
+            document.getElementById('elogio2').value = document.getElementById('elogioSelect2').value;
+        }
+        function mudaElogio3(){
+            document.getElementById('elogio3').value = document.getElementById('elogioSelect3').value;
+        }
+        function mudaCritica1(){
+            document.getElementById('critica1').value = document.getElementById('criticaSelect1').value;
+        }
+        function mudaCritica2(){
+            document.getElementById('critica2').value = document.getElementById('criticaSelect2').value;
+        }
+        function mudaCritica3(){
+            document.getElementById('critica3').value = document.getElementById('criticaSelect3').value;
+        }          
     </script>
     <div id="footer"></div>    
 </body>

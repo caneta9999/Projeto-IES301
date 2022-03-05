@@ -187,7 +187,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
 
                 echo "<script>estatisticasId = 0</script>";
 
-                $result = "Select AVG(NotaDisciplina) 'MediaNotaDisciplina',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaDisciplina) desc Limit 10;";
+                $result = "Select AVG(NotaDisciplina) 'MediaNotaDisciplina',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaDisciplina) desc Limit 8;";
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
@@ -210,7 +210,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                     array_push($labelExplicadoMediaNotaDisciplina,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
                 }
 
-                $result = "Select AVG(NotaEvolucao) 'MediaNotaEvolucao',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaEvolucao) desc Limit 10;";
+                $result = "Select AVG(NotaEvolucao) 'MediaNotaEvolucao',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaEvolucao) desc Limit 8;";
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
@@ -233,7 +233,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                     array_push($labelExplicadoMediaNotaEvolucao,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
                 }
 
-                $result = "Select AVG(NotaAluno) 'MediaNotaAluno',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaAluno) desc Limit 10;";
+                $result = "Select AVG(NotaAluno) 'MediaNotaAluno',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaAluno) desc Limit 8;";
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
@@ -261,7 +261,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
     </form>
     <script src="../../../js/chart.js/dist/chart.js"></script>
         <div id="divGraficosGeral">
-            <h2>Média disciplina</h2>
+            <h2>Melhores médias de disciplina</h2>
             <div class='grid' id="graficoMediaDisciplinaGeral">
                 <div id="graficoMediaDisciplinaGeralGrafico">
                     <div class="containerChartMediaNotaDisciplina" style="height:200px; width:400px">
@@ -280,7 +280,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             </div>
             <div id="push2"></div>
 
-            <h2>Média evolução</h2>
+            <h2>Melhores médias de evolução</h2>
             <div class='grid' id="graficoMediaEvolucaoGeral">
                 <div id="graficoMediaEvolucaoGeralGrafico">
                     <div class="containerChartMediaNotaEvolucao" style="height:200px; width:400px">
@@ -299,7 +299,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             </div>
             <div id="push2"></div>
 
-            <h2>Média de auto-avaliação dos alunos</h2>
+            <h2>Melhores médias de auto-avaliação dos alunos</h2>
             <div class='grid' id="graficoMediaAlunoGeral">
                 <div id="graficoMediaAlunoGeralGrafico">
                     <div class="containerChartMediaNotaAluno" style="height:200px; width:400px">
@@ -322,6 +322,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
         echo "<script>divGraficosGeral.style.display = 'none'</script>";
     ?>
     <script type="text/javascript">
+		function gerarCores(tamanho){
+            var cores = [];
+            for(var i=0;i<tamanho;i++){
+                cores.push(`rgba(${Math.random() * 256},${Math.random() * 256},${Math.random() * 256},1)`)
+            }
+            return cores;
+		}
         try{
             if(estatisticasId == 0){
                 divGraficosGeral.style.display = 'block';
@@ -335,6 +342,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                         datasets: [{
                             label: 'Média da disciplina',
                             data: data,
+                            backgroundColor: gerarCores(labels.length),
                             borderWidth: 1}]}})
                 var labels = <?php echo json_encode($labelMediaNotaEvolucao); ?>;
                 var data = <?php echo json_encode($valoresMediaNotaEvolucao); ?>;
@@ -346,6 +354,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                         datasets: [{
                             label: 'Média da evolução dos alunos',
                             data: data,
+                            backgroundColor: gerarCores(labels.length),
                             borderWidth: 1}]}})               
                             var labels = <?php echo json_encode($labelMediaNotaAluno); ?>;
                 var data = <?php echo json_encode($valoresMediaNotaAluno); ?>;
@@ -357,6 +366,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                         datasets: [{
                             label: 'Média da auto-avaliação dos alunos',
                             data: data,
+                            backgroundColor: gerarCores(labels.length),
                             borderWidth: 1}]}})  
                 }}             
         catch{}

@@ -94,7 +94,7 @@ input[type=submit]{
 input, select{
     margin-bottom: 5px;
 }
-.inputNota{
+.inputNota,.inputAnoSemestre{
     min-width: 330px;
 }
 .mensagemFinalizacao{
@@ -106,7 +106,7 @@ input, select{
 table {
     margin-left: auto;
     margin-right: auto;
-    width:650px;
+    width:750px;
     table-layout:fixed;
 }
 #push{

@@ -57,7 +57,10 @@ CREATE TABLE `critica` (
   `ProfessorDisciplina_idProfessorDisciplina` int(11) NOT NULL,
   `Data` datetime NOT NULL,
   `NotaEvolucao` decimal(1,0) NOT NULL,
-  `NotaAluno` decimal(1,0) NOT NULL	
+  `NotaAluno` decimal(1,0) NOT NULL,
+  `AnoSemestre` decimal(5,0) NOT NULL,
+  `Elogios` varchar(50) NOT NULL,
+  `Criticas` varchar(50) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

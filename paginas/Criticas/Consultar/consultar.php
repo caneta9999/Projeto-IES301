@@ -29,7 +29,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Consultar criticas</h1>
+    <h1>Consultar críticas</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <?php
@@ -57,7 +57,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th >Nota para evolucao do aluno</th>";
                 echo"<th >Nota para o aluno</th>";
                 echo"<th >Descrição</th>";
-                echo"<th >Data</th>";
+                echo"<th >Ano e Semestre</th>";
+                echo"<th>Elogios</th>";
+                echo"<th >Críticas</th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -107,7 +109,23 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo "<td>". $linha_array['NotaEvolucao'] ."</td>";
                 echo "<td>". $linha_array['NotaAluno'] ."</td>";
                 echo "<td>". $linha_array['Descrição'] ."</td>";
-                echo "<td>". $linha_array['Data'] ."</td>";
+                echo "<td>".substr($linha_array['AnoSemestre'], 0, 4)."-".substr($linha_array['AnoSemestre'], 4, 1)."</td>";
+                $elogios = explode('-', $linha_array['Elogios']);
+                $elogiosFinal = "";
+                foreach($elogios as $elogio){
+                  if($elogio != "Nenhum"){
+                    $elogiosFinal = $elogio."<br/>".$elogiosFinal;
+                  }
+                }
+                echo "<td>".$elogiosFinal."</td>";
+                $criticas = explode('-', $linha_array['Criticas']);
+                $criticasFinal = "";
+                foreach($criticas as $criticas){
+                  if($criticas != "Nenhum"){
+                    $criticasFinal = $criticas."<br/>".$criticasFinal;
+                  }
+                }
+                echo "<td>".$criticasFinal."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
