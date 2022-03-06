@@ -207,7 +207,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                     array_push($valoresMediaAlunoAnoSemestreDisciplina, $linha_array['MediaAluno'] );
                     array_push($labelsAnoSemestreMediasDisciplina,substr($linha_array['AnoSemestre'], 0, 4)."-".substr($linha_array['AnoSemestre'], 4, 1));
                 }
-                    echo '<div class="containerChartMediasDisciplina" style="height:200px; width:400px">';
+                    echo '<div class="containerChartMediasDisciplina" style="height:400px; width:550px">';
                         echo '<canvas id="chartMediasDisciplina" width="100" height="100"></canvas>';
                     echo '</div>';
                 echo "<script>estatisticasId = 1</script>";
