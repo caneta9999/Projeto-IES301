@@ -108,7 +108,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             }  
             echo '</select>';
             echo '<br/>';
-            echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".'id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
+            echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
             if($tipo != 2){
                 echo '<script>document.getElementById("cursoSelect").style.visibility= "hidden"</script>'; 
                 echo '<script>document.getElementById("labelCurso").style.visibility= "hidden"</script>';

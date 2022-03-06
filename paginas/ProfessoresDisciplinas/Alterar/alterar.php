@@ -92,11 +92,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo '<option value="2" selected> Noite </option>';                 
             }
             echo '</select><br/>';
-            echo '<input id="periodo" name="periodo" type="hidden" placeholder="" value='."'$periodo'".'maxlength="1">';
+            echo '<input id="periodo" name="periodo" type="hidden" placeholder="" value='."'$periodo'".' maxlength="1">';
             echo '<br/>';         
-            echo '<label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" value='."'$dataInicial'".'name="dataInicial" checked required> <br/>';
-            echo '<label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" value='."'$dataFinal'".'name="dataFinal" checked> <br/>';
-            echo '<label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" value='."'$diaSemana'".'name="diaSemana" type="number" min="2" max="6" required > <br/>';
+            echo '<label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" value='."'$dataInicial'".' name="dataInicial" checked required> <br/>';
+            echo '<label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" value='."'$dataFinal'".' name="dataFinal" checked> <br/>';
+            echo '<label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" value='."'$diaSemana'".' name="diaSemana" type="number" min="2" max="6" required > <br/>';
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';
             echo '</form>';

@@ -62,6 +62,7 @@ if($_SESSION['tipoLogin']!=2){
     $send = '';
 }
 if($send && $variavelControleExterna!=0){
+	$variavelControle = 1;
     //receber variáveis e validar
     $notaAluno = filter_input(INPUT_POST,'notaAluno',FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($notaAluno) || $notaAluno > 5 || $notaAluno < 1){
@@ -124,7 +125,6 @@ if($send && $variavelControleExterna!=0){
     $select = $conx->prepare($result);
     $select->bindParam(':idUsuario',$aluno);
     $select->execute();
-    $variavelControle = 1;
     foreach($select->fetchAll() as $linha_array){
         $aluno = $linha_array['idAluno'];
         break;

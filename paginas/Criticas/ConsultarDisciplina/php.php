@@ -23,7 +23,7 @@ if($send){
 			if($linha_array['quantidade'] < 1){
                 $variavelControle = 0;}}
         if($variavelControle){
-            $result = "SELECT C1.idCritica,A1.Matricula,C1.NotaDisciplina,C1.NotaEvolucao, C1.NotaAluno,C1.Descrição,C1.Data FROM $db.$TB_CRITICA C1 inner join $db.$TB_ALUNO A1 ON C1.Aluno_idAluno = A1.idAluno WHERE C1.ProfessorDisciplina_idProfessorDisciplina = :id";
+            $result = "SELECT C1.idCritica,A1.Matricula,C1.NotaDisciplina,C1.NotaEvolucao, C1.NotaAluno,C1.Descrição,C1.Data,C1.AnoSemestre, C1.Elogios, C1.Criticas FROM $db.$TB_CRITICA C1 inner join $db.$TB_ALUNO A1 ON C1.Aluno_idAluno = A1.idAluno WHERE C1.ProfessorDisciplina_idProfessorDisciplina = :id";
             $select = $conx->prepare($result);
             $select->bindParam(':id',$id);
             $select->execute();

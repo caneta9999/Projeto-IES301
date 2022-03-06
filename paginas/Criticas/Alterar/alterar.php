@@ -37,14 +37,45 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
     </form>
     <hr/>
     <?php
+        function selectElogio($numeroSelect, $item){
+            echo '<label id=labelElogio'.$numeroSelect.' for=elogioSelect'.$numeroSelect.' > Elogio: </label>';
+            echo '<select id=elogioSelect'.$numeroSelect.' onchange=mudaElogio'.$numeroSelect.'() >';
+                echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
+                echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
+                echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
+                echo '<option value="Organização" '.($item=='Organização'?"selected":"").'>Organização</option>';
+                echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
+                echo '<option value="Prestativo" '.($item=='Prestativo'?"selected":"").'>Prestativo</option>';
+                echo '<option value="Carismático" '.($item=='Carismático'?"selected":"").'>Carismático</option>';
+                echo '</select><br/>';
+            echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value='."'$item'".'/>';
+        }
+        function selectCritica($numeroSelect, $item){
+            echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Critica: </label>';
+            echo '<select id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
+            echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
+            echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
+            echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
+            echo '<option value="Organização" '.($item=='Organização'?"selected":"").'>Organização</option>';
+            echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
+                echo '<option value="Comunicação"'.($item=='Comunicação'?"selected":"").'>Comunicação</option>';
+                echo '<option value="Método de avaliação"'.($item=='Método de avaliação'?"selected":"").'>Método de avaliação</option>';
+                echo '</select><br/>';
+            echo '<input type="hidden" id=critica'.$numeroSelect.' name=critica'.$numeroSelect.' value='."'$item'".'/>';
+        }
+    ?>
+    <?php
         if(isset($_SESSION['queryCritica3'])){
-            json_encode($_SESSION['queryCritica3']);
             $idCritica = -1;
             $nome = "";
             $notaDisciplina = 3;
             $notaProfessor = 3;
             $descricao = '';
             $idProfessorDisciplina=0;
+            $ano = 0;
+            $semestre = 0;
+            $elogios = '';
+            $criticas = '';
             foreach($_SESSION['queryCritica3'] as $linha_array){
                 $idCritica = $linha_array['idCritica'];
                 $nome = $linha_array['Nome'];
@@ -52,6 +83,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $notaAluno = $linha_array['NotaAluno'];
                 $notaEvolucao = $linha_array['NotaEvolucao'];
                 $descricao = $linha_array['Descrição'];
+                $ano = substr($linha_array['AnoSemestre'], 0, 4);
+                $semestre = substr($linha_array['AnoSemestre'], 4, 1);
+                $elogios = explode('-', $linha_array['Elogios']);
+                $criticas = explode('-', $linha_array['Criticas']);
                 $idProfessorDisciplina = $linha_array['ProfessorDisciplina_idProfessorDisciplina'];
                 $_SESSION['idAlteracao'] = $idCritica;
             }
@@ -100,6 +135,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>';
             echo '<label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" value='.$notaEvolucao.' type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>';
             echo '<label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" value='.$notaAluno.' placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>';
+            echo '<label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" value='.$ano.' type="number" placeholder="Ano de conclusão" name="ano" id="ano" min="1973" max="2100" required> <br/>';              
+            echo '<label for="semestre">Semestre de conclusão da disciplina: </label><input value='.$semestre.' class="inputAnoSemestre" type="number" placeholder="Semestre de conclusão" name="semestre" id="semestre" min="1" max="2" required> <br/>';                		
+            echo '<h2>Elogios para o professor (máximo 3):</h2>';
+            foreach($elogios as $indice => $elogio){
+                selectElogio($indice+1, $elogio);
+            }
+            echo '<h2>Críticas/Áreas de melhoria para o professor (máximo 3):</h2>';
+            foreach($criticas as $indice => $critica){
+                selectCritica($indice+1, $critica);
+            }
             echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" >'.$descricao.'</textarea> <br/>';
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';
@@ -110,7 +155,26 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
         function mudaTipo(){
             document.getElementById('tipo').value = document.getElementById('tipoSelect').value;
         }
+        function mudaElogio1(){
+            document.getElementById('elogio1').value = document.getElementById('elogioSelect1').value;
+        }
+        function mudaElogio2(){
+            document.getElementById('elogio2').value = document.getElementById('elogioSelect2').value;
+        }
+        function mudaElogio3(){
+            document.getElementById('elogio3').value = document.getElementById('elogioSelect3').value;
+        }
+        function mudaCritica1(){
+            document.getElementById('critica1').value = document.getElementById('criticaSelect1').value;
+        }
+        function mudaCritica2(){
+            document.getElementById('critica2').value = document.getElementById('criticaSelect2').value;
+        }
+        function mudaCritica3(){
+            document.getElementById('critica3').value = document.getElementById('criticaSelect3').value;
+        }      
     </script>
+    <div id="push"></div>
     <div id="footer"></div>    
 </body>
 </html>
