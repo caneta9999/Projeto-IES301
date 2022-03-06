@@ -68,16 +68,20 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             return $periodo;}
       ?>
       <?php
-            echo "<script>var estatistiscasId = 1</script>";
-            $labelMediaNotaDisciplina = [];
-            $labelExplicadoMediaNotaDisciplina = 0;
-            $valoresMediaNotaDisciplina = [];
-            $labelMediaNotaEvolucao = [];
-            $labelExplicadoMediaNotaEvolucao = 0;
-            $valoresMediaNotaEvolucao = [];
-            $labelMediaNotaAluno = [];
-            $labelExplicadoMediaNotaAluno = 0;
-            $valoresMediaNotaAluno = [];
+            echo "<script>var estatistiscasId = -1</script>";
+            $labelMediaNotaDisciplinaGeral = [];
+            $labelExplicadoMediaNotaDisciplinaGeral = 0;
+            $valoresMediaNotaDisciplinaGeral = [];
+            $labelMediaNotaEvolucaoGeral = [];
+            $labelExplicadoMediaNotaEvolucaoGeral = 0;
+            $valoresMediaNotaEvolucaoGeral = [];
+            $labelMediaNotaAlunoGeral = [];
+            $labelExplicadoMediaNotaAlunoGeral = 0;
+            $valoresMediaNotaAlunoGeral = [];
+            $valoresMediaDisciplinaAnoSemestreDisciplina = [];
+            $valoresMediaEvolucaoAnoSemestreDisciplina = [];
+            $valoresMediaAlunoAnoSemestreDisciplina = [];
+            $labelsAnoSemestreMediasDisciplina = [];
             if(!isset($_SESSION['estatisticasId'])){
                 echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
                 echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
@@ -104,50 +108,113 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                 echo '<input type="submit" name="submit" value="Consultar dados gerais">';
             }
             else if($_SESSION['estatisticasId'] != 0){
+                $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
+                $select=$conx->prepare($result);
+                $select->bindParam(':id',$_SESSION['estatisticasId']);
+                $select->execute();
+                $mediaDisciplina = 0;
+                $mediaEvolucao = 0;
+                $mediaAluno = 0;
+                foreach($select->fetchAll() as $linha_array){
+                    $mediaDisciplina = number_format($linha_array['MediaDisciplina'], 2, '.', ' ');
+                    $mediaEvolucao = number_format($linha_array['MediaEvolucao'], 2, '.', ' ');
+                    $mediaAluno = number_format($linha_array['MediaAluno'], 2, '.', ' ');
+                }
                 echo "<div class='grid' id='gridEstatisticasMediasDisciplina'>";
                 echo "<div id='mediaDisciplinaDisciplina'>";
                 echo "<h2>Média da disciplina</h2>";
-                $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
-                $select=$conx->prepare($result);
-                $select->bindParam(':id',$_SESSION['estatisticasId']);
-                $select->execute();
-                foreach($select->fetchAll() as $linha_array){
-                    $media = number_format($linha_array['MediaDisciplina'], 2, '.', ' ');
-                    echo "<b>".$media."</b>";
-                }
+                echo "<b>".$mediaDisciplina."</b>";
                 echo "</div>";
                 echo "<div id='mediaEvolucaoDisciplina'>";
                 echo "<h2>Média de evolução dos alunos</h2>";
-                $result="SELECT AVG(NotaEvolucao) 'MediaEvolucao' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
-                $select=$conx->prepare($result);
-                $select->bindParam(':id',$_SESSION['estatisticasId']);
-                $select->execute();
-                foreach($select->fetchAll() as $linha_array){
-                    $media = number_format($linha_array['MediaEvolucao'], 2, '.', ' ');
-                    echo "<b>".$media."</b>";
-                }
+                echo "<b>".$mediaEvolucao."</b>";
                 echo "</div>";
                 echo "<div id='mediaAlunoDisciplina'>";
                 echo "<h2>Média de auto-avaliação dos alunos</h2>";
-                $result="SELECT AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
+                echo "<b>".$mediaAluno."</b>";
+                echo "</div>";
+                echo "</div>";
+                echo "<div class='grid' id='gridEstatisticasContagemDisciplina'>";
+                $result="SELECT Elogios, Criticas FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
+                $select=$conx->prepare($result);
+                $select->bindParam(':id',$_SESSION['estatisticasId']);
+                $select->execute();
+                $elogios = [];
+                $criticas = [];
+                foreach($select->fetchAll() as $linha_array){
+                    array_push($elogios, $linha_array['Elogios']);
+                    array_push($criticas, $linha_array['Criticas']);
+                }
+                echo "<div id='contagemElogios'>";
+                echo "<h2>Contagem de elogios</h2>";
+                $elogiosContagem = [];
+                foreach($elogios as $conjuntoElogios){
+                    foreach(explode("-",$conjuntoElogios) as $elogio){
+                        if($elogio == 'Nenhum'){}
+                        else{
+                            if(!array_key_exists($elogio,$elogiosContagem)){
+                                $elogiosContagem[$elogio] = 1;
+                            }else{
+                                $elogiosContagem[$elogio] += 1;}}
+                    }
+                }
+                echo "<ul>";
+                foreach($elogiosContagem as $elogio=>$contagem){
+                    echo "<li>".$elogio.": ".$contagem."</li>";
+                }
+                echo "</ul>";
+                echo "</div>";
+                echo "<div id='contagemCriticas'>";
+                echo "<h2>Contagem de críticas</h2>";
+                $criticasContagem = [];
+                foreach($criticas as $conjuntoCriticas){
+                    foreach(explode("-",$conjuntoCriticas) as $critica){
+                        if($critica == 'Nenhum'){}
+                        else{
+                            if(!array_key_exists($critica,$criticasContagem)){
+                                $criticasContagem[$critica] = 1;
+                            }else{
+                                $criticasContagem[$critica] += 1;}}
+                    }
+                }
+                echo "<ul>";
+                foreach($criticasContagem as $critica=>$contagem){
+                    echo "<li>".$critica.": ".$contagem."</li>";
+                }
+                echo "</div>";
+                echo "</div>";
+                echo "<div class='grid' id='gridEstatisticasUltimaLinhaDisciplina'>";
+                echo "<div id='ultimasCriticas'>";
+                echo "<h2>Últimas críticas</h2>";
+                $result="SELECT Descrição FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id and Descrição != '' Order by Data desc limit 3 ";
                 $select=$conx->prepare($result);
                 $select->bindParam(':id',$_SESSION['estatisticasId']);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
-                    $media = number_format($linha_array['MediaAluno'], 2, '.', ' ');
-                    echo "<b>".$media."</b>";
+                    echo "→ ".$linha_array['Descrição'];
+                    echo "<br/><br/>";
+                }                
+                echo "</div>";
+                echo "<div id='graficosMediasDisciplina'>";
+                echo "<h2>Médias por Ano e Semestre</h2>";
+                $result = "SELECT AnoSemestre,AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA C1 Where ProfessorDisciplina_idProfessorDisciplina = :id Group by AnoSemestre order by SUBSTRING(C1.AnoSemestre,1 ,4) Desc,SUBSTRING(C1.AnoSemestre,5 ,1) Desc Limit 30";                
+                $select=$conx->prepare($result);
+                $select->bindParam(':id',$_SESSION['estatisticasId']);
+                $select->execute();
+                foreach($select->fetchAll() as $linha_array){
+                    array_push($valoresMediaDisciplinaAnoSemestreDisciplina, $linha_array['MediaDisciplina'] );
+                    array_push($valoresMediaEvolucaoAnoSemestreDisciplina, $linha_array['MediaEvolucao'] );
+                    array_push($valoresMediaAlunoAnoSemestreDisciplina, $linha_array['MediaAluno'] );
+                    array_push($labelsAnoSemestreMediasDisciplina,substr($linha_array['AnoSemestre'], 0, 4)."-".substr($linha_array['AnoSemestre'], 4, 1));
                 }
+                    echo '<div class="containerChartMediasDisciplina" style="height:200px; width:400px">';
+                        echo '<canvas id="chartMediasDisciplina" width="100" height="100"></canvas>';
+                    echo '</div>';
+                echo "<script>estatisticasId = 1</script>";
                 echo "</div>";
                 echo "</div>";
-                echo "<h2>Palavras-chaves mais usadas para descrever a disciplina</h2>";
-                require '../../../camadaDados/python_path.php';
-    		    $palavrasChave = shell_exec($python." ".$pythonFile." ".$_SESSION['estatisticasId']);
-    		    $palavrasChave = utf8_encode($palavrasChave);
-                $palavrasChave = explode(" ", $palavrasChave);
-                foreach($palavrasChave as $palavra){
-					echo $palavra."<br/>";
-                }
                 unset($_SESSION['estatisticasId']);
+
 
 
 
@@ -191,69 +258,69 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
-                    array_push($labelMediaNotaDisciplina , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
-                    array_push($valoresMediaNotaDisciplina, $linha_array['MediaNotaDisciplina']);
+                    array_push($labelMediaNotaDisciplinaGeral , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
+                    array_push($valoresMediaNotaDisciplinaGeral, $linha_array['MediaNotaDisciplina']);
                 }
-                $in = implode(',', array_fill(0, count($labelMediaNotaDisciplina ), '?'));
+                $in = implode(',', array_fill(0, count($labelMediaNotaDisciplinaGeral ), '?'));
                 $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                 $select = $conx->prepare($result);
-                foreach ($labelMediaNotaDisciplina as $indice => $id){
+                foreach ($labelMediaNotaDisciplinaGeral as $indice => $id){
                     $select->bindValue(($indice+1), $id);}
                 $select->execute();
-                $labelExplicadoMediaNotaDisciplina = [];
+                $labelExplicadoMediaNotaDisciplinaGeral = [];
                 foreach($select->fetchAll() as $linha_array){
                     $disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
                     $id = $linha_array['idProfessorDisciplina'];
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    array_push($labelExplicadoMediaNotaDisciplina,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                    array_push($labelExplicadoMediaNotaDisciplinaGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
                 }
 
                 $result = "Select AVG(NotaEvolucao) 'MediaNotaEvolucao',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaEvolucao) desc Limit 8;";
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
-                    array_push($labelMediaNotaEvolucao , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
-                    array_push($valoresMediaNotaEvolucao, $linha_array['MediaNotaEvolucao']);
+                    array_push($labelMediaNotaEvolucaoGeral , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
+                    array_push($valoresMediaNotaEvolucaoGeral, $linha_array['MediaNotaEvolucao']);
                 }
-                $in = implode(',', array_fill(0, count($labelMediaNotaEvolucao ), '?'));
+                $in = implode(',', array_fill(0, count($labelMediaNotaEvolucaoGeral ), '?'));
                 $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                 $select = $conx->prepare($result);
-                foreach ($labelMediaNotaEvolucao as $indice => $id){
+                foreach ($labelMediaNotaEvolucaoGeral as $indice => $id){
                     $select->bindValue(($indice+1), $id);}
                 $select->execute();
-                $labelExplicadoMediaNotaEvolucao = [];
+                $labelExplicadoMediaNotaEvolucaoGeral = [];
                 foreach($select->fetchAll() as $linha_array){
                     $disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
                     $id = $linha_array['idProfessorDisciplina'];
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    array_push($labelExplicadoMediaNotaEvolucao,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                    array_push($labelExplicadoMediaNotaEvolucaoGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
                 }
 
                 $result = "Select AVG(NotaAluno) 'MediaNotaAluno',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaAluno) desc Limit 8;";
                 $select = $conx->prepare($result);
                 $select->execute();
                 foreach($select->fetchAll() as $linha_array){
-                    array_push($labelMediaNotaAluno , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
-                    array_push($valoresMediaNotaAluno, $linha_array['MediaNotaAluno']);
+                    array_push($labelMediaNotaAlunoGeral , $linha_array['ProfessorDisciplina_idProfessorDisciplina']);
+                    array_push($valoresMediaNotaAlunoGeral, $linha_array['MediaNotaAluno']);
                 }
-                $in = implode(',', array_fill(0, count($labelMediaNotaAluno ), '?'));
+                $in = implode(',', array_fill(0, count($labelMediaNotaAlunoGeral ), '?'));
                 $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                 $select = $conx->prepare($result);
-                foreach ($labelMediaNotaAluno as $indice => $id){
+                foreach ($labelMediaNotaAlunoGeral as $indice => $id){
                     $select->bindValue(($indice+1), $id);}
                 $select->execute();
-                $labelExplicadoMediaNotaAluno = [];
+                $labelExplicadoMediaNotaAlunoGeral = [];
                 foreach($select->fetchAll() as $linha_array){
                     $disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
                     $id = $linha_array['idProfessorDisciplina'];
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    array_push($labelExplicadoMediaNotaAluno,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                    array_push($labelExplicadoMediaNotaAlunoGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
                 }
                 unset($_SESSION['estatisticasId']);
             }
@@ -264,14 +331,14 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             <h2>Melhores médias de disciplina</h2>
             <div class='grid' id="graficoMediaDisciplinaGeral">
                 <div id="graficoMediaDisciplinaGeralGrafico">
-                    <div class="containerChartMediaNotaDisciplina" style="height:200px; width:400px">
-                        <canvas id="chartMediaNotaDisciplina" width="100" height="100"></canvas>
+                    <div class="containerChartMediaNotaDisciplinaGeral" style="height:200px; width:400px">
+                        <canvas id="chartMediaNotaDisciplinaGeral" width="100" height="100"></canvas>
                     </div>
                 </div>
                 <?php
-                    if($labelExplicadoMediaNotaDisciplina != 0){
-                        echo "<ul id=labelExplicadoMediaNotaDisciplina>";
-                        foreach($labelExplicadoMediaNotaDisciplina as $label){
+                    if($labelExplicadoMediaNotaDisciplinaGeral != 0){
+                        echo "<ul id=labelExplicadoMediaNotaDisciplinaGeral>";
+                        foreach($labelExplicadoMediaNotaDisciplinaGeral as $label){
                             echo "<li>".$label."</li>";
                         }
                         echo "</ul>";
@@ -283,14 +350,14 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             <h2>Melhores médias de evolução</h2>
             <div class='grid' id="graficoMediaEvolucaoGeral">
                 <div id="graficoMediaEvolucaoGeralGrafico">
-                    <div class="containerChartMediaNotaEvolucao" style="height:200px; width:400px">
-                        <canvas id="chartMediaNotaEvolucao" width="100" height="100"></canvas>
+                    <div class="containerchartMediaNotaEvolucaoGeral" style="height:200px; width:400px">
+                        <canvas id="chartMediaNotaEvolucaoGeral" width="100" height="100"></canvas>
                     </div>
                 </div>
                 <?php
-                    if($labelExplicadoMediaNotaEvolucao != 0){
-                        echo "<ul id=labelExplicadoMediaNotaEvolucao>";
-                        foreach($labelExplicadoMediaNotaEvolucao as $label){
+                    if($labelExplicadoMediaNotaEvolucaoGeral != 0){
+                        echo "<ul id=labelExplicadoMediaNotaEvolucaoGeral>";
+                        foreach($labelExplicadoMediaNotaEvolucaoGeral as $label){
                             echo "<li>".$label."</li>";
                         }
                         echo "</ul>";
@@ -302,14 +369,14 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             <h2>Melhores médias de auto-avaliação dos alunos</h2>
             <div class='grid' id="graficoMediaAlunoGeral">
                 <div id="graficoMediaAlunoGeralGrafico">
-                    <div class="containerChartMediaNotaAluno" style="height:200px; width:400px">
-                        <canvas id="chartMediaNotaAluno" width="100" height="100"></canvas>
+                    <div class="containerchartMediaNotaAlunoGeral" style="height:200px; width:400px">
+                        <canvas id="chartMediaNotaAlunoGeral" width="100" height="100"></canvas>
                     </div>
                 </div>
                 <?php
-                    if($labelExplicadoMediaNotaAluno != 0){
-                        echo "<ul id=labelExplicadoMediaNotaAluno>";
-                        foreach($labelExplicadoMediaNotaAluno as $label){
+                    if($labelExplicadoMediaNotaAlunoGeral != 0){
+                        echo "<ul id=labelExplicadoMediaNotaAlunoGeral>";
+                        foreach($labelExplicadoMediaNotaAlunoGeral as $label){
                             echo "<li>".$label."</li>";
                         }
                         echo "</ul>";
@@ -330,12 +397,46 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             return cores;
 		}
         try{
-            if(estatisticasId == 0){
+            if(estatisticasId == 1){
+                var labels = (<?php echo json_encode($labelsAnoSemestreMediasDisciplina); ?>).reverse();
+                var dataMediaDisciplina = (<?php echo json_encode($valoresMediaDisciplinaAnoSemestreDisciplina); ?>).reverse();
+                var dataMediaEvolucao = (<?php echo json_encode($valoresMediaEvolucaoAnoSemestreDisciplina); ?>).reverse();
+                var dataMediaAluno = (<?php echo json_encode($valoresMediaAlunoAnoSemestreDisciplina); ?>).reverse();
+                var cores = gerarCores(3);
+                const ctxMediasDisciplina = document.getElementById('chartMediasDisciplina');
+                const chartMediasDisciplina = new Chart(ctxMediasDisciplina, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Média da disciplina',
+                                data: dataMediaDisciplina,
+                                backgroundColor: cores[0],
+                                borderColor: cores[0],
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Média de evolução',
+                                data: dataMediaEvolucao,
+                                backgroundColor: cores[1],
+                                borderColor: cores[1],
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Média de auto-avaliação dos alunos',
+                                data: dataMediaAluno,
+                                backgroundColor: cores[2],
+                                borderColor: cores[2],
+                                borderWidth: 1
+                            }]}})
+            }
+            else if(estatisticasId == 0){
                 divGraficosGeral.style.display = 'block';
-                var labels = <?php echo json_encode($labelMediaNotaDisciplina); ?>;
-                var data = <?php echo json_encode($valoresMediaNotaDisciplina); ?>;
-                const ctxMediaNotaDisciplina = document.getElementById('chartMediaNotaDisciplina');
-                const chartMediaNotaDisciplina = new Chart(ctxMediaNotaDisciplina, {
+                var labels = <?php echo json_encode($labelMediaNotaDisciplinaGeral); ?>;
+                var data = <?php echo json_encode($valoresMediaNotaDisciplinaGeral); ?>;
+                const ctxMediaNotaDisciplinaGeral = document.getElementById('chartMediaNotaDisciplinaGeral');
+                const chartMediaNotaDisciplinaGeral = new Chart(ctxMediaNotaDisciplinaGeral, {
                     type: 'bar',
                     data: {
                         labels: labels,
@@ -344,10 +445,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                             data: data,
                             backgroundColor: gerarCores(labels.length),
                             borderWidth: 1}]}})
-                var labels = <?php echo json_encode($labelMediaNotaEvolucao); ?>;
-                var data = <?php echo json_encode($valoresMediaNotaEvolucao); ?>;
-                const ctxMediaNotaEvolucao = document.getElementById('chartMediaNotaEvolucao');
-                const chartMediaNotaEvolucao = new Chart(ctxMediaNotaEvolucao, {
+                var labels = <?php echo json_encode($labelMediaNotaEvolucaoGeral); ?>;
+                var data = <?php echo json_encode($valoresMediaNotaEvolucaoGeral); ?>;
+                const ctxMediaNotaEvolucaoGeral = document.getElementById('chartMediaNotaEvolucaoGeral');
+                const chartMediaNotaEvolucaoGeral = new Chart(ctxMediaNotaEvolucaoGeral, {
                     type: 'bar',
                     data: {
                         labels: labels,
@@ -356,10 +457,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                             data: data,
                             backgroundColor: gerarCores(labels.length),
                             borderWidth: 1}]}})               
-                            var labels = <?php echo json_encode($labelMediaNotaAluno); ?>;
-                var data = <?php echo json_encode($valoresMediaNotaAluno); ?>;
-                const ctxMediaNotaAluno = document.getElementById('chartMediaNotaAluno');
-                const chartMediaNotaAluno = new Chart(ctxMediaNotaAluno, {
+                var labels = <?php echo json_encode($labelMediaNotaAlunoGeral); ?>;
+                var data = <?php echo json_encode($valoresMediaNotaAlunoGeral); ?>;
+                const ctxMediaNotaAlunoGeral = document.getElementById('chartMediaNotaAlunoGeral');
+                const chartMediaNotaAlunoGeral = new Chart(ctxMediaNotaAlunoGeral, {
                     type: 'bar',
                     data: {
                         labels: labels,

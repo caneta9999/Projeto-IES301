@@ -121,10 +121,22 @@ table {
 #gridEstatisticasMediasDisciplina,#gridEstatisticasMediasGeral{
     grid-template-columns: 1fr 1fr 1fr;
 }
-#graficoMediaDisciplinaGeral, #graficoMediaEvolucaoGeral,#graficoMediaAlunoGeral{
+#graficoMediaDisciplinaGeral, #graficoMediaEvolucaoGeral,#graficoMediaAlunoGeral, #gridEstatisticasContagemDisciplina{
     grid-template-columns: 1fr 1fr;
 }
+#gridEstatisticasUltimaLinhaDisciplina{
+    grid-template-columns: 1fr 2.5fr;
+}
+#ultimasCriticas{
+    margin-left: 2px;
+}
 canvas{
-	width: 400px;
-	height: 400px;
+	width: 550px;
+	height: 550px;
+}
+li {
+  list-style-type: none;
+}
+#graficosMediasDisciplina{
+    text-align: center;
 }
