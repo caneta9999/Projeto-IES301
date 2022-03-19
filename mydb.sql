@@ -60,7 +60,7 @@ CREATE TABLE `critica` (
   `NotaAluno` decimal(1,0) NOT NULL,
   `AnoSemestre` decimal(5,0) NOT NULL,
   `Elogios` varchar(50) NOT NULL,
-  `Criticas` varchar(50) NOT NULL,
+  `Criticas` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
