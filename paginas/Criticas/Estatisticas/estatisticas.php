@@ -389,13 +389,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
 		function gerarCores(tamanho){
             var cores = [];
             for(var i=0;i<tamanho;i++){
-				var cor1 = Math.random() * 256;
-				var cor2 = Math.random() * 256;
-				var cor3 = Math.random() * 256;
-				if(cor1>225 && cor2>225 && cor3>225){
-					cor1 = 200;
-					cor2 = 200;
-					cor3 = 200;
+				var cor1 = 255;
+				var cor2 = 255;
+				var cor3 = 255;
+				while(cor1>225 && cor2>225 && cor3>225){
+					cor1 =  Math.random() * 256;
+					cor2 = Math.random() * 256;
+					cor3 = Math.random() * 256;
 				}
                 cores.push(`rgba(${cor1},${cor2},${cor3},1)`)
             }
