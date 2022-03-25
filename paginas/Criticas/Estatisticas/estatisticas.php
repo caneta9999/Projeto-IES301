@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
+if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $_SESSION['tipoLogin']!=1))
 {
   header('location:../../Login/index.php');
 }
@@ -8,8 +8,22 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
 <?php
     require '../../../camadaDados/conectar.php';
     require '../../../camadaDados/tabelas.php';
-    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina order by D1.Nome";
+    $idProfessor = '%%';
+    if(!$_SESSION['administradorLogin']){
+        $idProfessor = $_SESSION['idUsuarioLogin'];
+        $result = "SELECT P1.idProfessor from $db.$TB_PROFESSOR P1 Where Usuario_idUsuario = :idUsuario";
+        $select= $conx->prepare($result);
+        $select->bindParam(':idUsuario',$idProfessor);
+        $select->execute();
+        foreach($select->fetchAll() as $linha_array){
+            $idProfessor = $linha_array['idProfessor'];
+            $_SESSION['idProfessorLogin'] = $idProfessor;
+            break;
+        }
+    }
+    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.Professor_idProfessor like :idProfessor order by D1.Nome";
     $select = $conx->prepare($result);
+    $select->bindParam(':idProfessor',$idProfessor);
     $select->execute();
     $_SESSION['queryProfessorDisciplinaCriticas3'] = $select->fetchAll();
 ?>
@@ -39,7 +53,15 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
 		}
     ?>
     <h1>Estatisticas</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <?php
+        if(!isset($_SESSION['estatisticasId'])){
+            echo "<button class='button btnVoltar'><a href='../index.php'>Voltar</a></button><br/>";//voltar para a tela anterior na hierarquia
+        }
+        else{
+            echo "<button class='button btnVoltar'><a href='./estatisticas.php'>Voltar</a></button><br/>";//dar reload na página de estatísticas
+        }
+    ?>
+    
     <form action="php.php" method="POST">
       <?php
        function diaSemana($diaSemana){
@@ -85,17 +107,17 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
             if(!isset($_SESSION['estatisticasId'])){
                 echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
                 echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
-                $primeiroId = 0;
+                $primeiroIdDisciplina = 0;
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     $disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
-                    $id = $linha_array['idProfessorDisciplina'];
-                    if($primeiroId ==0){
-                    $primeiroId = $id;
+                    $idDisciplina = $linha_array['idProfessorDisciplina'];
+                    if($primeiroIdDisciplina ==0){
+                        $primeiroIdDisciplina = $idDisciplina;
                     }
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    echo '<option value='."'$id'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
+                    echo '<option value='."'$idDisciplina'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
                     $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
                 } 
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
@@ -105,9 +127,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
                 echo '</select>';
                 echo '<br/>';
                 echo '<input type="submit" name="submit" value="Consultar disciplina"><br/>';
-                echo '<input type="submit" name="submit" value="Consultar dados gerais">';
+                if($_SESSION['administradorLogin']){
+                    echo '<input type="submit" name="submit" value="Consultar dados gerais">';}
             }
-            else if($_SESSION['estatisticasId'] != 0){
+            else if($_SESSION['estatisticasId'] != 0){//consulta de disciplina
                 $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
                 $select=$conx->prepare($result);
                 $select->bindParam(':id',$_SESSION['estatisticasId']);
@@ -218,7 +241,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || !$_SESSION['administradorLogin'])
 
 
 
-            }else if($_SESSION['estatisticasId'] == 0){
+            }else if($_SESSION['estatisticasId'] == 0){//consulta geral
                 echo "<div class='grid' id='gridEstatisticasMediasGeral'>";
                 echo "<div id='mediaDisciplinaGeral'>";
 				 $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina', AVG(NotaEvolucao) 'MediaEvolucao', AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA";
