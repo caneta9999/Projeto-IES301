@@ -5,7 +5,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
   header('location:../../Login/index.php');
 }?>
 <?php
-echo 'Até aqui deu';
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
