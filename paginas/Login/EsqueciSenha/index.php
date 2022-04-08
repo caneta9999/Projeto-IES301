@@ -25,13 +25,14 @@
     <script>
         window.onload = function () {
             var vetor = [
-                { teste: "BAAABbanAnaAA", valor: "banana" },
-                { teste: "AACAabaCAxiII", valor: "abacaxi" },
-                { teste: "BABtOMateAA", valor: "tomate" },
-                { teste: "BBkiWiABBCCA", valor: "kiwi" },
-                { teste: "BBmELaoAFFASFDFSDAA", valor: "melao" }
+                { teste: "BA AA BbanAnaAA", valor: "banana" },
+                { teste: "A ACAabaCAxiII", valor: "abacaxi" },
+                { teste: "B ABtOMateAA", valor: "tomate" },
+                { teste: "BBkiWiABBC CA", valor: "kiwi" },
+                { teste: "BBmELãoAFFASFDFSDAA", valor: "melão" },
+				{ teste: "MMAABA A12maÇã445AAA", valor: "maçã"}
             ];
-            var indice = Math.floor(Math.random() * 100) % 5;
+            var indice = Math.floor(Math.random() * 100) % 6;
             document.getElementById("captchaText").innerHTML = "<b>" + vetor[indice].teste + "</b>";
             document.getElementById("formEsqueciSenha").onsubmit = function (e) {
                 if (document.getElementById("captcha").value != vetor[indice].valor) {
