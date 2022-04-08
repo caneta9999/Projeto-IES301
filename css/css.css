@@ -141,3 +141,11 @@ li {
 #graficosMediasDisciplina{
     text-align: center;
 }
+#captchaText{
+	border: 2px solid black;
+	width: 250px;
+	height: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	background: white;
+}

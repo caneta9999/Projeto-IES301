@@ -55,7 +55,7 @@ if($send){
 			header("Location: ./index.php");			
     }
 }else{
-	$_SESSION['msgLogin'] = "<p>Mensagem de login não enviada</p>";
+	$_SESSION['mensagemErro'] = 'Mensagem de login não enviada';
 	header("Location: ./index.php");	
 }
 ?>

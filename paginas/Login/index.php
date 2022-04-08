@@ -19,6 +19,10 @@
             echo "<p class='mensagemErro'>".$_SESSION['mensagemErro']."</p>";
             unset($_SESSION['mensagemErro']);
         }
+		if(isset($_SESSION['mensagemFinalizacao'])){
+			echo "<p class='mensagemFinalizacao'>".$_SESSION['mensagemFinalizacao']."</p>";
+			unset($_SESSION['mensagemFinalizacao']);
+		}
 	?>    
     <h1>Login</h1>
     <form method="POST" action="php.php">
@@ -26,6 +30,7 @@
 		<label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Senha" minlength="8" maxlength="50" required /> <br/>         
     <input name="submit" type="submit" value="Entrar" />
     </form>
+    <a href="./EsqueciSenha/index.php">Esqueceu a senha?</a>
     <div id="footer"></div>    
 </body>
 </html>
