@@ -158,7 +158,7 @@ if($send && $variavelControleExterna!=0){
     foreach($select->fetchAll() as $linha_array){
             if($linha_array['Quantidade'] != 1){
                 $variavelControle = 0;
-                $_SESSION['mensagemErro'] = 'Data inválida!';}
+                $_SESSION['mensagemErro'] = 'Data inválida para a disciplina!';}
             break;
     }       
     try{

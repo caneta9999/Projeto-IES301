@@ -21,8 +21,7 @@ if($send){
     $variavelControle = 1;
     
     if(strlen($login) > 100 || !filter_var($login, FILTER_VALIDATE_EMAIL)){
-        $variavelControle = 0;
-        $_SESSION['mensagemErro'] = 'Email inválido';
+        $login = 'email@gmail.com';
     }
 
     if(strlen($senha) > 50 || strlen($senha) < 8){
@@ -40,8 +39,7 @@ if($send){
         $administrador = 0;
     }
     if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
-        $variavelControle = 0;
-        $_SESSION['mensagemErro'] = 'CPF inválido';
+        $cpf = 1;
     }
     if($tipo != 'Professor' && $tipo !='Aluno' && $tipo!='Nenhum'){
         $tipo = 'Nenhum';
@@ -58,8 +56,7 @@ if($send){
         $_SESSION['mensagemErro'] = 'Curso inválido';
     }
     if((!is_numeric($matricula) || $matricula <1 || $matricula>99999999) && $tipo == 2){
-        $variavelControle = 0;
-        $_SESSION['mensagemErro'] = 'Matricula inválida';
+        $matricula = 1;
     }
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf";

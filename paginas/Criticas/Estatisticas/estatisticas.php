@@ -143,99 +143,103 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                     $mediaEvolucaoDisciplina = number_format($linha_array['MediaEvolucao'], 2, '.', ' ');
                     $mediaAlunoDisciplina = number_format($linha_array['MediaAluno'], 2, '.', ' ');
                 }
-                echo "<div class='grid' id='gridEstatisticasMediasDisciplina'>";
-                echo "<div id='mediaDisciplinaDisciplina'>";
-                echo "<h2>Média da disciplina</h2>";
-                echo "<b>".$mediaDisciplinaDisciplina."</b>";
-                echo "</div>";
-                echo "<div id='mediaEvolucaoDisciplina'>";
-                echo "<h2>Média de evolução dos alunos</h2>";
-                echo "<b>".$mediaEvolucaoDisciplina."</b>";
-                echo "</div>";
-                echo "<div id='mediaAlunoDisciplina'>";
-                echo "<h2>Média de auto-avaliação dos alunos</h2>";
-                echo "<b>".$mediaAlunoDisciplina."</b>";
-                echo "</div>";
-                echo "</div>";
-                echo "<div class='grid' id='gridEstatisticasContagemDisciplina'>";
-                $result="SELECT Elogios, Criticas FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
-                $select=$conx->prepare($result);
-                $select->bindParam(':id',$_SESSION['estatisticasId']);
-                $select->execute();
-                $elogios = [];
-                $criticas = [];
-                foreach($select->fetchAll() as $linha_array){
-                    array_push($elogios, $linha_array['Elogios']);
-                    array_push($criticas, $linha_array['Criticas']);
-                }
-                echo "<div id='contagemElogios'>";
-                echo "<h2>Contagem de elogios</h2>";
-                $elogiosContagem = [];
-                foreach($elogios as $conjuntoElogios){
-                    foreach(explode("-",$conjuntoElogios) as $elogio){
-                        if($elogio == 'Nenhum'){}
-                        else{
-                            if(!array_key_exists($elogio,$elogiosContagem)){
-                                $elogiosContagem[$elogio] = 1;
-                            }else{
-                                $elogiosContagem[$elogio] += 1;}}
-                    }
-                }
-                echo "<ul>";
-                foreach($elogiosContagem as $elogio=>$contagem){
-                    echo "<li>".$elogio.": ".$contagem."</li>";
-                }
-                echo "</ul>";
-                echo "</div>";
-                echo "<div id='contagemCriticas'>";
-                echo "<h2>Contagem de críticas</h2>";
-                $criticasContagem = [];
-                foreach($criticas as $conjuntoCriticas){
-                    foreach(explode("-",$conjuntoCriticas) as $critica){
-                        if($critica == 'Nenhum'){}
-                        else{
-                            if(!array_key_exists($critica,$criticasContagem)){
-                                $criticasContagem[$critica] = 1;
-                            }else{
-                                $criticasContagem[$critica] += 1;}}
-                    }
-                }
-                echo "<ul>";
-                foreach($criticasContagem as $critica=>$contagem){
-                    echo "<li>".$critica.": ".$contagem."</li>";
-                }
-                echo "</div>";
-                echo "</div>";
-                echo "<div class='grid' id='gridEstatisticasUltimaLinhaDisciplina'>";
-                echo "<div id='ultimasCriticas'>";
-                echo "<h2>Últimas críticas</h2>";
-                $result="SELECT Descrição FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id and Descrição != '' Order by Data desc limit 3 ";
-                $select=$conx->prepare($result);
-                $select->bindParam(':id',$_SESSION['estatisticasId']);
-                $select->execute();
-                foreach($select->fetchAll() as $linha_array){
-                    echo "→ ".$linha_array['Descrição'];
-                    echo "<br/><br/>";
-                }                
-                echo "</div>";
-                echo "<div id='graficosMediasDisciplina'>";
-                echo "<h2>Médias por Ano e Semestre</h2>";
-                $result = "SELECT AnoSemestre,AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA C1 Where ProfessorDisciplina_idProfessorDisciplina = :id Group by AnoSemestre order by SUBSTRING(C1.AnoSemestre,1 ,4) Desc,SUBSTRING(C1.AnoSemestre,5 ,1) Desc Limit 30";                
-                $select=$conx->prepare($result);
-                $select->bindParam(':id',$_SESSION['estatisticasId']);
-                $select->execute();
-                foreach($select->fetchAll() as $linha_array){
-                    array_push($valoresMediaDisciplinaAnoSemestreDisciplina, $linha_array['MediaDisciplina'] );
-                    array_push($valoresMediaEvolucaoAnoSemestreDisciplina, $linha_array['MediaEvolucao'] );
-                    array_push($valoresMediaAlunoAnoSemestreDisciplina, $linha_array['MediaAluno'] );
-                    array_push($labelsAnoSemestreMediasDisciplina,substr($linha_array['AnoSemestre'], 0, 4)."-".substr($linha_array['AnoSemestre'], 4, 1));
-                }
-                    echo '<div class="containerChartMediasDisciplina" style="height:400px; width:550px">';
-                        echo '<canvas id="chartMediasDisciplina" width="100" height="100"></canvas>';
-                    echo '</div>';
-                echo "<script>estatisticasId = 1</script>";
-                echo "</div>";
-                echo "</div>";
+				if($mediaDisciplinaDisciplina == 0){
+					echo "<p class='mensagemErro'>"."Não há críticas cadastradas!"."</p>"; 
+				}
+				else{
+					echo "<div class='grid' id='gridEstatisticasMediasDisciplina'>";
+					echo "<div id='mediaDisciplinaDisciplina'>";
+					echo "<h2>Média da disciplina</h2>";
+					echo "<b>".$mediaDisciplinaDisciplina."</b>";
+					echo "</div>";
+					echo "<div id='mediaEvolucaoDisciplina'>";
+					echo "<h2>Média de evolução dos alunos</h2>";
+					echo "<b>".$mediaEvolucaoDisciplina."</b>";
+					echo "</div>";
+					echo "<div id='mediaAlunoDisciplina'>";
+					echo "<h2>Média de auto-avaliação dos alunos</h2>";
+					echo "<b>".$mediaAlunoDisciplina."</b>";
+					echo "</div>";
+					echo "</div>";
+					echo "<div class='grid' id='gridEstatisticasContagemDisciplina'>";
+					$result="SELECT Elogios, Criticas FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
+					$select=$conx->prepare($result);
+					$select->bindParam(':id',$_SESSION['estatisticasId']);
+					$select->execute();
+					$elogios = [];
+					$criticas = [];
+					foreach($select->fetchAll() as $linha_array){
+						array_push($elogios, $linha_array['Elogios']);
+						array_push($criticas, $linha_array['Criticas']);
+					}
+					echo "<div id='contagemElogios'>";
+					echo "<h2>Contagem de elogios</h2>";
+					$elogiosContagem = [];
+					foreach($elogios as $conjuntoElogios){
+						foreach(explode("-",$conjuntoElogios) as $elogio){
+							if($elogio == 'Nenhum'){}
+							else{
+								if(!array_key_exists($elogio,$elogiosContagem)){
+									$elogiosContagem[$elogio] = 1;
+								}else{
+									$elogiosContagem[$elogio] += 1;}}
+						}
+					}
+					echo "<ul>";
+					foreach($elogiosContagem as $elogio=>$contagem){
+						echo "<li>".$elogio.": ".$contagem."</li>";
+					}
+					echo "</ul>";
+					echo "</div>";
+					echo "<div id='contagemCriticas'>";
+					echo "<h2>Contagem de críticas</h2>";
+					$criticasContagem = [];
+					foreach($criticas as $conjuntoCriticas){
+						foreach(explode("-",$conjuntoCriticas) as $critica){
+							if($critica == 'Nenhum'){}
+							else{
+								if(!array_key_exists($critica,$criticasContagem)){
+									$criticasContagem[$critica] = 1;
+								}else{
+									$criticasContagem[$critica] += 1;}}
+						}
+					}
+					echo "<ul>";
+					foreach($criticasContagem as $critica=>$contagem){
+						echo "<li>".$critica.": ".$contagem."</li>";
+					}
+					echo "</div>";
+					echo "</div>";
+					echo "<div class='grid' id='gridEstatisticasUltimaLinhaDisciplina'>";
+					echo "<div id='ultimasCriticas'>";
+					echo "<h2>Últimas críticas</h2>";
+					$result="SELECT Descrição FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id and Descrição != '' Order by Data desc limit 3 ";
+					$select=$conx->prepare($result);
+					$select->bindParam(':id',$_SESSION['estatisticasId']);
+					$select->execute();
+					foreach($select->fetchAll() as $linha_array){
+						echo "→ ".$linha_array['Descrição'];
+						echo "<br/><br/>";
+					}                
+					echo "</div>";
+					echo "<div id='graficosMediasDisciplina'>";
+					echo "<h2>Médias por Ano e Semestre</h2>";
+					$result = "SELECT AnoSemestre,AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA C1 Where ProfessorDisciplina_idProfessorDisciplina = :id Group by AnoSemestre order by SUBSTRING(C1.AnoSemestre,1 ,4) Desc,SUBSTRING(C1.AnoSemestre,5 ,1) Desc Limit 30";                
+					$select=$conx->prepare($result);
+					$select->bindParam(':id',$_SESSION['estatisticasId']);
+					$select->execute();
+					foreach($select->fetchAll() as $linha_array){
+						array_push($valoresMediaDisciplinaAnoSemestreDisciplina, $linha_array['MediaDisciplina'] );
+						array_push($valoresMediaEvolucaoAnoSemestreDisciplina, $linha_array['MediaEvolucao'] );
+						array_push($valoresMediaAlunoAnoSemestreDisciplina, $linha_array['MediaAluno'] );
+						array_push($labelsAnoSemestreMediasDisciplina,substr($linha_array['AnoSemestre'], 0, 4)."-".substr($linha_array['AnoSemestre'], 4, 1));
+					}
+						echo '<div class="containerChartMediasDisciplina" style="height:400px; width:550px">';
+							echo '<canvas id="chartMediasDisciplina" width="100" height="100"></canvas>';
+						echo '</div>';
+					echo "<script>estatisticasId = 1</script>";
+					echo "</div>";
+					echo "</div>";}
                 unset($_SESSION['estatisticasId']);
 
 

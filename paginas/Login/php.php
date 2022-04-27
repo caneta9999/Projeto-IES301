@@ -4,11 +4,12 @@ require '../../camadaDados/conectar.php';
 require '../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
-	$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
+	$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_EMAIL);
 	$senha = filter_input(INPUT_POST,'senha',FILTER_SANITIZE_STRING);
     try{
-		if(strlen($login)<1 || strlen($login) > 100){
-			$login = "";
+		if(strlen($login) > 100 || !filter_var($login, FILTER_VALIDATE_EMAIL)){
+			$variavelControle = 0;
+			$_SESSION['mensagemErro'] = 'Email inválido';
 		}
 		if(strlen($senha)<8 || strlen($senha)>50){
 			$senha = "";
