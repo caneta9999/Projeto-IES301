@@ -32,7 +32,7 @@ if($send){
                 $tipo = $linha_array['Tipo'];
             }
             if($tipo == 2){
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Senha,U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,A1.Curso_idCurso,C1.Nome 'NomeCurso' FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Usuario_idUsuario=:usuario";
+                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Senha,U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,A1.Curso_idCurso,C1.Nome 'NomeCurso',U1.Ativo FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Usuario_idUsuario=:usuario";
                 $select = $conx->prepare($result);
                 $select->execute(['usuario' => $id]);
                 $_SESSION['queryUsuario3'] = $select->fetchAll();

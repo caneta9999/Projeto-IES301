@@ -17,6 +17,7 @@ if($send){
     $tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
     $curso = filter_input(INPUT_POST,'curso',FILTER_SANITIZE_STRING);
     $matricula = filter_input(INPUT_POST,'matricula',FILTER_SANITIZE_NUMBER_INT);
+	$ativo = 1;
 
     $variavelControle = 1;
     
@@ -33,11 +34,7 @@ if($send){
     if($administrador != true && $administrador != false){
         $administrador = 0;
     }
-    if($administrador == true){
-        $administrador = 1;}
-    else if($administrador == false){
-        $administrador = 0;
-    }
+	$administrador = $administrador?1:0;
     if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
         $cpf = 1;
     }
@@ -59,14 +56,14 @@ if($send){
         $matricula = 1;
     }
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and Ativo = 1";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Cpf',$cpf);
 		$select->execute();
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
-                $_SESSION['mensagemErro'] = "Já há um usuário com esse cpf cadastrado!";}}
+                $_SESSION['mensagemErro'] = "Já há um usuário ativo com esse cpf cadastrado!";}}
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Login',$login);
@@ -77,7 +74,7 @@ if($send){
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}
         if($variavelControle !=0){
             if($tipo != 2){
-                $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
+                $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo, Ativo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo,:Ativo)";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Login',$login);
                 $insert->bindParam(':Senha',$senha);
@@ -85,6 +82,7 @@ if($send){
                 $insert->bindParam(':Administrador',$administrador);
                 $insert->bindParam(':Cpf',$cpf);
                 $insert->bindParam(':Tipo',$tipo);
+				$insert->bindParam(':Ativo',$ativo);
                 $insert->execute();
                 if($tipo == 1){
                     $usuario = $conx->lastInsertId();

@@ -1,25 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Tempo de geração: 14-Fev-2022 às 12:50
--- Versão do servidor: 10.4.22-MariaDB
--- versão do PHP: 8.1.2
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `mydb`
---
-
+DROP DATABASE if exists `mydb`;
 CREATE DATABASE mydb;
 USE mydb;
 
@@ -178,16 +157,17 @@ CREATE TABLE `usuario` (
   `Nome` varchar(100) NOT NULL,
   `Administrador` decimal(1,0) NOT NULL,
   `Cpf` decimal(11,0) NOT NULL,
-  `Tipo` decimal(1,0) NOT NULL
+  `Tipo` decimal(1,0) NOT NULL,
+  `Ativo` decimal(1,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`idUsuario`, `Login`, `Senha`, `Nome`, `Administrador`, `Cpf`, `Tipo`) VALUES
-(4, 'email@gmail.com', '12345678', 'André', '1', '123', '1'),
-(6, 'email2@gmail.com', '12345678', 'André', '0', '1142', '2');
+INSERT INTO `usuario` (`idUsuario`, `Login`, `Senha`, `Nome`, `Administrador`, `Cpf`, `Tipo`, `Ativo`) VALUES
+(4, 'email@gmail.com', '12345678', 'André', '1', '123', '1', 1),
+(6, 'email2@gmail.com', '12345678', 'André', '0', '1142', '2', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -254,7 +234,6 @@ ALTER TABLE `professordisciplina`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`idUsuario`),
-  ADD UNIQUE KEY `Cpf_UNIQUE` (`Cpf`),
   ADD UNIQUE KEY `Login_UNIQUE` (`Login`);
 
 --
@@ -346,8 +325,3 @@ ALTER TABLE `professor`
 ALTER TABLE `professordisciplina`
   ADD CONSTRAINT `fk_Professor_has_Disciplina_Disciplina1` FOREIGN KEY (`Disciplina_idDisciplina`) REFERENCES `disciplina` (`idDisciplina`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Professor_has_Disciplina_Professor1` FOREIGN KEY (`Professor_idProfessor`) REFERENCES `professor` (`idProfessor`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

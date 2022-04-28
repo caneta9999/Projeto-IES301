@@ -50,6 +50,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<th >Administrador</th>";
                 echo "<th >Cpf</th>";
                 echo "<th >Tipo</th>";
+				echo "<th >Ativo</th>";
                 echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -57,12 +58,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<tr>";
                 echo "<td>". $linha_array['idUsuario'] ."</td>";        
                 echo "<td>". $linha_array['Login'] ."</td>";	
-                echo "<td>". $linha_array['Nome'] ."</td>";        
-                if($linha_array['Administrador']){
-                    echo "<td>". "Sim"."</td>";
-                }else{
-                    echo "<td>". "Não"."</td>";
-                }      	
+                echo "<td>". $linha_array['Nome'] ."</td>";
+				echo "<td>".($linha_array['Administrador']?"Sim":"Não")."</td>";    	
                 echo "<td>". $linha_array['Cpf'] ."</td>";        
                 if($linha_array['Tipo'] == 0){
                     echo "<td>". 'Nenhum' ."</td>";
@@ -71,6 +68,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 }else{
                     echo "<td>". 'Aluno' ."</td>";
                 }
+				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
@@ -84,11 +82,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<th >Id</th>";
                 echo "<th >Login</th>";
                 echo "<th >Nome</th>";
-                echo "<th >Administrador</th>";
                 echo "<th >Cpf</th>";
                 echo "<th >Tipo</th>";
                 echo "<th>Matricula</th>";
                 echo "<th>Curso</th>";
+				echo "<th>Ativo</th>";
                 echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -96,12 +94,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<tr>";
                 echo "<td>". $linha_array['idUsuario'] ."</td>";        
                 echo "<td>". $linha_array['Login'] ."</td>";	
-                echo "<td>". $linha_array['Nome'] ."</td>";        
-                if($linha_array['Administrador']){
-                    echo "<td>". "Sim"."</td>";
-                }else{
-                    echo "<td>". "Não"."</td>";
-                }  	
+                echo "<td>". $linha_array['Nome'] ."</td>";        	
                 echo "<td>". $linha_array['Cpf'] ."</td>";
                 if($linha_array['Tipo'] == 0){
                     echo "<td>". 'Nenhum' ."</td>";
@@ -112,6 +105,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 }
                 echo "<td>". $linha_array['Matricula'] ."</td>";
                 echo "<td>". $linha_array['CursoNome'] ."</td>";
+				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";

@@ -56,6 +56,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             $curso = 0;
             $matricula = 0;
             $nomeCursoSelecionado = 0;
+			$ativo = 0;
             foreach($_SESSION['queryUsuario3'] as $linha_array){
                 $nome = $linha_array['Nome'];
                 $id = $linha_array['idUsuario'];
@@ -64,6 +65,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 $administrador = $linha_array['Administrador'];
                 $cpf = $linha_array['Cpf'];
                 $tipo = $linha_array['Tipo'];
+				$ativo = $linha_array['Ativo'];
                 if($tipo == 2){
                     $curso = $linha_array['Curso_idCurso'];
                     $matricula = $linha_array['Matricula'];
@@ -83,7 +85,12 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo '<input type="checkbox" id="administrador" name="administrador"> <label for="administrador">Administrador</label> <br/>';
             }
             echo '<label for="cpf">Cpf:</label> <input value='."'$cpf'".' id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>';
-            if($tipo == 0){
+            if($ativo){
+                echo '<input type="checkbox" id="ativo" name="ativo" checked> <label for="ativo">Ativo</label> <br/>';
+            }else{
+                echo '<input type="checkbox" id="ativo" name="ativo"> <label for="ativo">Ativo</label> <br/>';
+            }
+			if($tipo == 0){
                 $tipoString = 'Nenhum';
             }else if($tipo == 1){
                 $tipoString = 'Professor';
@@ -114,7 +121,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo '<script>document.getElementById("labelCurso").style.visibility= "hidden"</script>';
                 echo '<script>document.getElementById("matricula").style.visibility= "hidden"</script>';
                 echo '<script>document.getElementById("labelMatricula").style.visibility= "hidden"</script>';
-             }
+            }
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';
             echo '</form>';

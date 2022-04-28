@@ -19,6 +19,7 @@ $nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
 $administrador = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
 $cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_NUMBER_INT);
 $tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
+$ativo = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
 if($tipo != $_SESSION['tipoAlteracao']){
     $tipo = $_SESSION['tipoAlteracao'];
     unset($_SESSION['tipoAlteracao']);
@@ -40,14 +41,14 @@ if(strlen($nome)<1 || strlen($nome) >100){
 if($administrador != true && $administrador != false){
         $administrador = 0;
 }
-if($administrador == true){
-        $administrador = 1;}
-else if($administrador == false){
-        $administrador = 0;
-}
+$administrador = $administrador?1:0;
 if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
         $cpf = 1;
 }
+if($ativo != true && $ativo != false){
+        $ativo = 0;
+}
+$ativo = $ativo?1:0;
 if(strlen($curso) < 1 && strlen($curso) > 100){
         $variavelControle = 0;
         $_SESSION['mensagemErro'] = 'Curso inválido';
@@ -57,7 +58,7 @@ if((!is_numeric($matricula) || $matricula <1 || $matricula>99999999) && $tipo ==
 }
 if($send == 'Alterar'){
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id and Ativo = 1";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Cpf',$cpf);
         $select->bindParam(':Id',$id);
@@ -65,10 +66,11 @@ if($send == 'Alterar'){
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
-                $_SESSION['mensagemErro'] = "Já há um usuário com esse cpf cadastrado!";}}
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login";
+                $_SESSION['mensagemErro'] = "Já há um usuário ativo com esse cpf cadastrado!";}}
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login and idUsuario != :Id";
 		$select = $conx->prepare($result);
 		$select->bindParam(':Login',$login);
+		$select->bindParam(':Id',$id);
 		$select->execute();
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
@@ -76,7 +78,7 @@ if($send == 'Alterar'){
                 $_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}
         if($variavelControle !=0){ 
             if($tipo != 2){   
-                $result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
+                $result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf,Ativo=:Ativo Where idUsuario=:Id";
                 $insert = $conx->prepare($result);
                 $insert->bindParam(':Login',$login);
                 $insert->bindParam(':Senha',$senha);
@@ -84,6 +86,7 @@ if($send == 'Alterar'){
                 $insert->bindParam(':Administrador',$administrador);
                 $insert->bindParam(':Cpf',$cpf);
                 $insert->bindParam(':Id',$id);
+				$insert->bindParam(':Ativo',$ativo);
                 $insert->execute();
                 $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
             else{
