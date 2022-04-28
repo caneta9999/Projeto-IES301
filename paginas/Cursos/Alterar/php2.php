@@ -49,31 +49,34 @@ else if($send == 'Excluir'){
     $select = $conx->prepare($result);
     $select->bindParam(':idCurso', $id);
     $select->execute();
-    $usuarios = $select->fetchAll();  
+    $usuarios = $select->fetchAll();
+	if(count($usuarios) == 0){//caso não haja usuários cadastrados no curso
+		$result= "DELETE FROM $db.$TB_ALUNO WHERE Curso_idCurso=:idCurso";
+		$delete = $conx->prepare($result);
+		$delete->bindParam(':idCurso', $id);
+		$delete->execute();  
 
-    $result= "DELETE FROM $db.$TB_ALUNO WHERE Curso_idCurso=:idCurso";
-    $delete = $conx->prepare($result);
-    $delete->bindParam(':idCurso', $id);
-    $delete->execute();  
+		foreach($usuarios as $linha_array) {
+			$usuario = $linha_array['Usuario_idUsuario'];
+			$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:usuario";
+			$delete = $conx->prepare($result);
+			$delete->bindParam(':usuario', $usuario);
+			$delete->execute();         
+		}  
 
-    foreach($usuarios as $linha_array) {
-        $usuario = $linha_array['Usuario_idUsuario'];
-        $result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:usuario";
-        $delete = $conx->prepare($result);
-        $delete->bindParam(':usuario', $usuario);
-        $delete->execute();         
-    }  
+		$result= "DELETE FROM $db.$TB_CURSODISCIPLINA WHERE Curso_idCurso=:idCurso";
+		$delete = $conx->prepare($result);
+		$delete->bindParam(':idCurso', $id);
+		$delete->execute();
 
-    $result= "DELETE FROM $db.$TB_CURSODISCIPLINA WHERE Curso_idCurso=:idCurso";
-    $delete = $conx->prepare($result);
-    $delete->bindParam(':idCurso', $id);
-    $delete->execute();
-
-    $result= "DELETE FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
-    $delete = $conx->prepare($result);
-    $delete->bindParam(':idCurso', $id);
-    $delete->execute();
-    $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
+		$result= "DELETE FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
+		$delete = $conx->prepare($result);
+		$delete->bindParam(':idCurso', $id);
+		$delete->execute();
+		$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
+	else{//caso haja usuários cadastrados no curso
+		$_SESSION['mensagemErro'] = 'Há usuários cadastrados no curso!';
+	}
     header("Location: ../index.php");
 }
 ?>

@@ -10,7 +10,7 @@ require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 if($send){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
-    if(strlen($nome) > 100){
+    if(strlen($nome) > 50){
         $nome = "";
     }
     $nome = "%".$nome."%";

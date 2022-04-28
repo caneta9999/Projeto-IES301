@@ -33,7 +33,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h2>As disciplinas serão mostradas caso só haja um curso com o nome passado</h2>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
-        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100"> <br/>
+        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>
     <?php
@@ -43,37 +43,41 @@ if(!isset($_SESSION['idUsuarioLogin']))
               $curso = $linha_array['CursoNome'];
               break;
             }
-            echo "<h2>"."'$curso'"."</h2>";
-            echo "<table>";
-            echo "<thead>";
-                echo"<tr>";
-                if(isset($_SESSION['administradorLogin'])){
-                  echo "<th>Id</th>";
-                }
-                echo"<th >Nome da disciplina</th>";
-                echo"<th >Tipo</th>";
-                echo"<th >Ativa</th>";
-                echo"</tr>";
-            echo "</thead>";
-            echo "<tbody>";
-            foreach($_SESSION['queryCursoDisciplina1'] as $linha_array) {
-                echo "<tr>";
-                if(isset($_SESSION['administradorLogin'])){
-                  echo "<th>".$linha_array['CursoDisciplinaId']."</th>";
-                }
-                echo "<td>". $linha_array['nome'] ."</td>";
-                if($linha_array['tipo'] == 2){
-                  $linha_array['tipo'] = 'Escolha';
-                }else if($linha_array['tipo'] == 1){
-                  $linha_array['tipo'] = 'Eletiva';
-                }else{
-                  $linha_array['tipo']='Obrigatória';
-                }      
-                echo "<td>". $linha_array['tipo'] ."</td>";	
-                echo "<td>".($linha_array['ativa']?"Sim":"Não")."</td>";
-                echo "</tr>";}
-            echo  "</tbody>";
-            echo "</table>";
+			if($curso){
+				echo "<h2>".$curso."</h2>";
+				echo "<table>";
+				echo "<thead>";
+					echo"<tr>";
+					if(isset($_SESSION['administradorLogin'])){
+					  echo "<th>Id</th>";
+					}
+					echo"<th >Nome da disciplina</th>";
+					echo"<th >Tipo</th>";
+					echo"<th >Ativa</th>";
+					echo"</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				foreach($_SESSION['queryCursoDisciplina1'] as $linha_array) {
+					echo "<tr>";
+					if(isset($_SESSION['administradorLogin'])){
+					  echo "<th>".$linha_array['CursoDisciplinaId']."</th>";
+					}
+					echo "<td>". $linha_array['nome'] ."</td>";
+					if($linha_array['tipo'] == 2){
+					  $linha_array['tipo'] = 'Escolha';
+					}else if($linha_array['tipo'] == 1){
+					  $linha_array['tipo'] = 'Eletiva';
+					}else{
+					  $linha_array['tipo']='Obrigatória';
+					}      
+					echo "<td>". $linha_array['tipo'] ."</td>";	
+					echo "<td>".($linha_array['ativa']?"Sim":"Não")."</td>";
+					echo "</tr>";}
+				echo  "</tbody>";
+				echo "</table>";				
+			}else{
+				echo "<p class='mensagemErro'>".'Não há disciplina cadastrada no curso!'."</p>";
+			}
             unset($_SESSION['queryCursoDisciplina1']);
 		}
 		?>

@@ -86,7 +86,20 @@ else if($send == 'Excluir'){
     $delete = $conx->prepare($result);
     $delete->bindParam(':idDisciplina', $id);
     $delete->execute();
-
+	
+	$result= "Select idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA WHERE Disciplina_idDisciplina=:idDisciplina";
+	$select = $conx->prepare($result);
+	$select->bindParam(':idDisciplina', $id);
+	$select->execute();
+	$disciplinas = $select->fetchAll();
+	foreach($disciplinas as $linha_array) {
+		$disciplina = $linha_array['idProfessorDisciplina'];
+		$result= "DELETE FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina=:idProfessorDisciplina";
+		$delete = $conx->prepare($result);
+		$delete->bindParam(':idProfessorDisciplina', $disciplina);
+		$delete->execute();         
+	}
+	
     $result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE Disciplina_idDisciplina=:idDisciplina";
     $delete = $conx->prepare($result);
     $delete->bindParam(':idDisciplina', $id);
@@ -96,6 +109,7 @@ else if($send == 'Excluir'){
     $delete = $conx->prepare($result);
     $delete->bindParam(':idDisciplina', $id);
     $delete->execute();
+	
     $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
     header("Location: ../index.php");
 }

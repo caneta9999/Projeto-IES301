@@ -33,7 +33,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h2>Os professores serão mostradas caso só haja uma disciplina com o nome passado</h2>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
-        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100"> <br/>
+        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>
     <?php
@@ -43,55 +43,59 @@ if(!isset($_SESSION['idUsuarioLogin']))
               $disciplina = $linha_array['DisciplinaNome'];
               break;
             }
-            echo "<h2>"."'$disciplina"."</h2>";
-            echo "<table>";
-            echo "<thead>";
-                echo"<tr>";
-                if(isset($_SESSION['administradorLogin'])){
-                  echo "<th>Id</th>";
-                }
-                echo"<th >Nome do professor</th>";
-                echo"<th >Periodo</th>";
-                echo"<th >Data Inicial</th>";
-                echo"<th >Data Final</th>";
-                echo"<th >Dia da Semana</th>";
-                echo"</tr>";
-            echo "</thead>";
-            echo "<tbody>";
-            foreach($_SESSION['queryProfessorDisciplina1'] as $linha_array) {
-                echo "<tr>";
-                if(isset($_SESSION['administradorLogin'])){
-                  echo "<th>".$linha_array['idProfessorDisciplina']."</th>";
-                }
-                echo "<td>". $linha_array['Nome'] ."</td>";
-                if($linha_array['Periodo'] == 2){
-                  $linha_array['Periodo'] = 'Noite';
-                }else if($linha_array['Periodo'] == 1){
-                  $linha_array['Periodo'] = 'Tarde';
-                }else{
-                  $linha_array['Periodo']='Manhã';
-                }      
-                echo "<td>". $linha_array['Periodo'] ."</td>";	
-                echo "<td>".$linha_array['dataInicial']."</td>";
-                echo "<td>".($linha_array['dataFinal']!='0000-00-00'?$linha_array['dataFinal']:"Não finalizada!")."</td>";
-                $diaSemana = $linha_array['diaSemana'];
-                if($diaSemana == 2){
-                  $diaSemana = 'Segunda-feira';
-                }else if($diaSemana == 3){
-                  $diaSemana = 'Terça-feira';
-                }else if($diaSemana == 4){
-                  $diaSemana = 'Quarta-feira';
-                }else if($diaSemana == 5){
-                  $diaSemana = 'Quinta-feira';
-                }else if($diaSemana == 6){
-                  $diaSemana = 'Sexta-feira';
-                }else{
-                  $diaSemana = 'Sabado';
-                }
-                echo "<td>".$diaSemana."</td>";
-                echo "</tr>";}
-            echo  "</tbody>";
-            echo "</table>";
+			if($disciplina != ''){
+				echo "<h2>"."$disciplina"."</h2>";
+				echo "<table>";
+				echo "<thead>";
+					echo"<tr>";
+					if(isset($_SESSION['administradorLogin'])){
+					  echo "<th>Id</th>";
+					}
+					echo"<th >Nome do professor</th>";
+					echo"<th >Periodo</th>";
+					echo"<th >Data Inicial</th>";
+					echo"<th >Data Final</th>";
+					echo"<th >Dia da Semana</th>";
+					echo"</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				foreach($_SESSION['queryProfessorDisciplina1'] as $linha_array) {
+					echo "<tr>";
+					if(isset($_SESSION['administradorLogin'])){
+					  echo "<th>".$linha_array['idProfessorDisciplina']."</th>";
+					}
+					echo "<td>". $linha_array['Nome'] ."</td>";
+					if($linha_array['Periodo'] == 2){
+					  $linha_array['Periodo'] = 'Noite';
+					}else if($linha_array['Periodo'] == 1){
+					  $linha_array['Periodo'] = 'Tarde';
+					}else{
+					  $linha_array['Periodo']='Manhã';
+					}      
+					echo "<td>". $linha_array['Periodo'] ."</td>";	
+					echo "<td>".$linha_array['dataInicial']."</td>";
+					echo "<td>".($linha_array['dataFinal']!='0000-00-00'?$linha_array['dataFinal']:"Não finalizada!")."</td>";
+					$diaSemana = $linha_array['diaSemana'];
+					if($diaSemana == 2){
+					  $diaSemana = 'Segunda-feira';
+					}else if($diaSemana == 3){
+					  $diaSemana = 'Terça-feira';
+					}else if($diaSemana == 4){
+					  $diaSemana = 'Quarta-feira';
+					}else if($diaSemana == 5){
+					  $diaSemana = 'Quinta-feira';
+					}else if($diaSemana == 6){
+					  $diaSemana = 'Sexta-feira';
+					}else{
+					  $diaSemana = 'Sabado';
+					}
+					echo "<td>".$diaSemana."</td>";
+					echo "</tr>";}
+				echo  "</tbody>";
+				echo "</table>";}
+			else{
+				echo "<p class='mensagemErro'>"."Não há professores associados à disciplina!"."</p>";
+			}
             unset($_SESSION['queryProfessorDisciplina1']);
 		}
 		?>

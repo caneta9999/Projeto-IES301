@@ -149,6 +149,18 @@ else if($send == 'Excluir'){
         $idProfessor = 0;
         foreach($select->fetchAll() as $linha_array){
             $idProfessor = $linha_array['idProfessor'];}
+		$result= "Select idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
+		$select = $conx->prepare($result);
+		$select->bindParam(':idProfessor', $idProfessor);
+		$select->execute();
+		$disciplinas = $select->fetchAll();
+		foreach($disciplinas as $linha_array) {
+			$disciplina = $linha_array['idProfessorDisciplina'];
+			$result= "DELETE FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina=:idProfessorDisciplina";
+			$delete = $conx->prepare($result);
+			$delete->bindParam(':idProfessorDisciplina', $disciplina);
+			$delete->execute();         
+		}
         $result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
         $delete = $conx->prepare($result);
         $delete->bindParam(':idProfessor', $idProfessor);

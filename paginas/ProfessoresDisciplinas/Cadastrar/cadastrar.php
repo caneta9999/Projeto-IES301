@@ -41,13 +41,17 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <?php
             echo '<label id="labelProfessor" for="professorSelect"> Professor: </label>';
             echo '<select id="professorSelect" onchange="mudaProfessor()">';
+			$idSelect1 = '';
             foreach($_SESSION['queryProfessoresDisciplinasProfessores1'] as $linha_array) {
                 $nome = $linha_array['Nome'];
+				if($idSelect1 == ''){
+					$idSelect1 = $linha_array['idUsuario'];
+				}
                 $id = $linha_array['idUsuario'];
                 echo '<option value='."'$id'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasProfessores1'] as $linha_array) {
-                echo '<input type="hidden" id="professor" name="professor" value='."'$id'"."/>";
+                echo '<input type="hidden" id="professor" name="professor" value='."'$idSelect1'"."/>";
                 break;
             }            
             echo '</select>';
@@ -55,12 +59,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
             echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+			$nomeSelect2 = '';
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
-                $nome = $linha_array['Nome'];
+				if($nomeSelect2 == ''){
+					$nomeSelect2 = $linha_array['Nome'];
+				}
+				$nome = $linha_array['Nome'];
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
-                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$nome'"."/>";
+                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$nomeSelect2'"."/>";
                 break;
             }            
             echo '</select>';

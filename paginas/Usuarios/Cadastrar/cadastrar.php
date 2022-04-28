@@ -45,12 +45,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <?php
             echo '<label id="labelCurso" for="cursoSelect"> Curso do usuário: </label>';
             echo '<select id="cursoSelect" onchange="mudaCurso()">';
+			$nomeSelect1 = '';
             foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
+				if($nomeSelect1 == ''){
+					$nomeSelect1 = $nome;
+				}
                 $nome = $linha_array['Nome'];
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
-                echo '<input type="hidden" id="curso" name="curso" value='."'$nome'"."/>";
+                echo '<input type="hidden" id="curso" name="curso" value='."'$nomeSelect1'"."/>";
                 break;
             }            
             echo '</select>';
