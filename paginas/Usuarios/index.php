@@ -1,9 +1,13 @@
 <?php
 session_start();
-if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
+if(isset($_SESSION['idUsuarioLogin']) && $_SESSION['administradorLogin']!=1){
+	header('location:../index.php');
+}
+else if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 {
   header('location:../Login/index.php');
-}?>
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -20,11 +24,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 <body>
     <div id="navbar"></div>
     <?php
-			if(isset($_SESSION['mensagemFinalizacao'])){
+			if(isset($_SESSION['mensagemFinalizacao']) && $_SESSION['administradorLogin']==1){
 				echo "<p class='mensagemFinalizacao'>".$_SESSION['mensagemFinalizacao']."</p>";
 				unset($_SESSION['mensagemFinalizacao']);
 			}
-			if(isset($_SESSION['mensagemErro'])){
+			if(isset($_SESSION['mensagemErro']) && $_SESSION['administradorLogin']==1){
 				echo "<p class='mensagemErro'>".$_SESSION['mensagemErro']."</p>";
 				unset($_SESSION['mensagemErro']);
 			}

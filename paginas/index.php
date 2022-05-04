@@ -19,11 +19,25 @@ if(!isset($_SESSION['idUsuarioLogin']))
 </head>
 <body>
     <div id="navbar"></div>
+    <?php
+			if(isset($_SESSION['mensagemFinalizacao'])){
+				echo "<p class='mensagemFinalizacao'>".$_SESSION['mensagemFinalizacao']."</p>";
+				unset($_SESSION['mensagemFinalizacao']);
+			}
+			if(isset($_SESSION['mensagemErro'])){
+				echo "<p class='mensagemErro'>".$_SESSION['mensagemErro']."</p>";
+				unset($_SESSION['mensagemErro']);
+			}
+	?>
     <h1>Acessar</h1>
     <?php
       if($_SESSION['administradorLogin']){
         echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuarios</a></button> <br/>';
       }
+	  else{
+		$_SESSION['alterarProprioUsuario'] = $_SESSION['idUsuarioLogin'];
+		echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/Alterar/php1.php">Alterar seu usuário</a></button> <br/>';
+	  }
     ?>
     <button class="button btnCursos btnEntidades"><a href="./Cursos/index.php">Cursos</a></button> <br/>
     <button class="button btnDisciplinas btnEntidades"><a href="./Disciplinas/index.php">Disciplinas</a></button><br/>
