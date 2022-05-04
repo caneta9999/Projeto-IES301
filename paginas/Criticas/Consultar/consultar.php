@@ -14,6 +14,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
+	
+	<script src="../../../js/sorttable.js"></script>
 
     <title>Projeto IES301</title>
 </head>
@@ -48,7 +50,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
               break;
             }
             echo "<h2>".$aluno."</h2>";
-            echo "<table>";
+            echo "<table class='sortable'>";
             echo "<thead>";
                 echo"<tr>";
                   echo "<th>Id</th>";

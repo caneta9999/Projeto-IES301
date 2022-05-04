@@ -23,6 +23,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
+	
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
+	<script src='../../../js/jquery-paginate-master/jquery-paginate.min.js'></script>
 
     <title>Projeto IES301</title>
 </head>
@@ -88,7 +91,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     </form>
     <?php
 		if(isset($_SESSION['queryCritica2'])){
-            echo "<table>";
+            echo "<table id='tableCriticasDisciplina'>";
             echo "<thead>";
                 echo"<tr>";
                 if(isset($_SESSION['administradorLogin'])){
@@ -97,7 +100,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th> Nota da disciplina</th>";
                 echo"<th >Nota para evolucao do aluno</th>";
                 echo"<th >Nota para o aluno</th>";
-                echo"<th> Descrição </th>";
+                echo"<th>Descrição </th>";
+				echo"<th>Data </th>";
                 echo"<th >Ano e Semestre</th>";
                 echo"<th>Elogios</th>";
                 echo"<th >Críticas</th>";
@@ -134,6 +138,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
+			echo "<script>$('#tableCriticasDisciplina').paginate({ limit: 1 });</script>";//pagination
             unset($_SESSION['queryCritica2']);
 		}
 		?>

@@ -14,7 +14,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
-
+	
+	<script src="../../../js/sorttable.js"></script>
+	
     <title>Projeto IES301</title>
 </head>
 <body>
@@ -41,7 +43,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         
 		if(isset($_SESSION['queryUsuario1'])){
             echo "<h1>Usuarios</h1>";
-            echo "<table>";
+            echo "<table class='sortable'>";
             echo "<thead>";
                 echo "<tr>";
                 echo "<th >Id</th>";
@@ -76,7 +78,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 		}
         if(isset($_SESSION['queryUsuario2'])){
             echo "<h1>Alunos</h1>";
-            echo "<table>";
+            echo "<table class='sortable'>";
             echo "<thead>";
                 echo "<tr>";
                 echo "<th >Id</th>";
