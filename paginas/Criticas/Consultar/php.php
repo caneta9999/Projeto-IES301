@@ -8,7 +8,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
-if($send == 'Ver as críticas do aluno'){
+if($send == 'Ver as críticas do aluno' && $_SESSION['administradorLogin']){
     $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($id) || $id < 1 || $id > 99999999999){
         $id = "";
