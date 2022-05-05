@@ -30,9 +30,9 @@ function criticaValidar($critica){
 //receber id da critica
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
-if($id != $_SESSION['idAlteracao']){
-    $id = $_SESSION['idAlteracao'];
-    unset($_SESSION['idAlteracao']);
+if($id != $_SESSION['idAlteracao6']){
+    $id = $_SESSION['idAlteracao6'];
+    unset($_SESSION['idAlteracao6']);
 }
 //receber outros parâmetros
 $notaAluno = filter_input(INPUT_POST,'notaAluno',FILTER_SANITIZE_NUMBER_INT);

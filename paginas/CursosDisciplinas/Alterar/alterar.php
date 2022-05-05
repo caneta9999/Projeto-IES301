@@ -65,7 +65,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 $tipo = $linha_array['tipo'];
                 $ativa = $linha_array['ativa'];
                 $id = $linha_array['CursoDisciplinaId'];
-                $_SESSION['idAlteracao'] = $id;
+                $_SESSION['idAlteracao4'] = $id;
             }
             echo '<form method="POST" action="php2.php">';
             echo '<label for="id">Id:</label> <input value='.$id.' id="id" name="id" type="number" placeholder="Id do curso" min="1" max="99999999999" required readonly="readonly"/> <br/>';

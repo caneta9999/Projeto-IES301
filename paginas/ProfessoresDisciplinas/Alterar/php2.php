@@ -9,9 +9,9 @@ require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
-if($id != $_SESSION['idAlteracao']){
-    $id = $_SESSION['idAlteracao'];
-    unset($_SESSION['idAlteracao']);
+if($id != $_SESSION['idAlteracao5']){
+    $id = $_SESSION['idAlteracao5'];
+    unset($_SESSION['idAlteracao5']);
 }
 $periodo = filter_input(INPUT_POST,'periodo',FILTER_SANITIZE_NUMBER_INT);
 if($periodo != 0 && $periodo != 1 && $periodo !=2){

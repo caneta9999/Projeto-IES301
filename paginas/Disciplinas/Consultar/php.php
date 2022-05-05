@@ -15,10 +15,10 @@ if($send){
         $nome = "";
     }
     $nome = "%".$nome."%";
-    $regexSigla = '/[a-zA-Z][a-zA-Z][a-zA-Z]\d\d\d/';
-    if(!preg_match($regexSigla, $sigla) || strlen($sigla)>6){
-        $sigla = "";
+    if(strlen($sigla)>6){
+		$sigla = "";
     }
+	$sigla = "%".$sigla."%";
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Nome like :nome";
 		$select = $conx->prepare($result);
@@ -35,7 +35,7 @@ if($send){
             $select->execute();
             $variavelControle = 2;//sigla           
             foreach($select->fetchAll() as $linha_array){
-                if($linha_array['quantidade'] == 0){
+                if($linha_array['quantidade'] == 0 || $sigla == "%%"){
                     $variavelControle = 0;}}           
         }
         if($variavelControle){
@@ -46,18 +46,19 @@ if($send){
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();
             }
             else{//sigla
-                $result = "SELECT * FROM $db.$TB_DISCIPLINA WHERE Sigla=:sigla";
+                $result = "SELECT * FROM $db.$TB_DISCIPLINA WHERE Sigla like :sigla";
                 $select = $conx->prepare($result);
                 $select->execute(['sigla' => $sigla]);
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();
             }  
             $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
         else{
-            if($nome=="%%" && $sigla==""){
+            if($nome=="%%" && $sigla=="%%"){
                 $result = "SELECT * FROM $db.$TB_DISCIPLINA";
                 $select = $conx->prepare($result);
                 $select->execute();
-                $_SESSION['queryDisciplina1'] = $select->fetchAll();                
+                $_SESSION['queryDisciplina1'] = $select->fetchAll();
+				$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';                
             }
             else{
                 $_SESSION['mensagemErro'] = 'A consulta não retornou resultados';

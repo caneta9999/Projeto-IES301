@@ -9,9 +9,9 @@ require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_POST, 'id',FILTER_SANITIZE_NUMBER_INT);
-if($id != $_SESSION['idAlteracao']){
-    $id = $_SESSION['idAlteracao'];
-    unset($_SESSION['idAlteracao']);
+if($id != $_SESSION['idAlteracao4']){
+    $id = $_SESSION['idAlteracao4'];
+    unset($_SESSION['idAlteracao4']);
 }
 $tipo = filter_input(INPUT_POST,'tipo',FILTER_SANITIZE_STRING);
 if($tipo != 'Obrigatória' && $tipo != 'Escolha' && $tipo != 'Eletiva'){

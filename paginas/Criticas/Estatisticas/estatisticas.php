@@ -52,7 +52,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Estatisticas</h1>
+    <h1>Estatísticas</h1>
     <?php
         if(!isset($_SESSION['estatisticasId'])){
             echo "<button class='button btnVoltar'><a href='../index.php'>Voltar</a></button><br/>";//voltar para a tela anterior na hierarquia

@@ -31,7 +31,12 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Consultar críticas</h1>
+    <h1>Consultar críticas realizadas por alunos</h1>
+	<?php
+		if($_SESSION['administradorLogin']){
+			echo '<h2>Digite o id de aluno do usuário, não o id de usuário.</h2>';
+		}
+	?>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <?php
@@ -53,7 +58,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo"<tr>";
-                  echo "<th>Id</th>";
+                echo "<th>Id da crítica</th>";
                 echo"<th >Disciplina</th>";
                 echo"<th >Nota da disciplina</th>";
                 echo"<th >Nota para evolucao do aluno</th>";

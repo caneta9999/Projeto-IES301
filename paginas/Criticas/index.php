@@ -39,7 +39,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <button class="button btnConsultar2" id="btnConsultarCriticas2"><a href="./ConsultarDisciplina/consultar.php">Consultar críticas sobre disciplina</a></button> <br/>
     <?php
 	  if($_SESSION['administradorLogin'] || $_SESSION['tipoLogin']==1){
-		  echo '<button class="button btnEstatisticas" id="btnEstatisticas"><a href="./Estatisticas/estatisticas.php">Estatisticas</a></button> <br/>';}
+		  echo '<button class="button btnEstatisticas" id="btnEstatisticas"><a href="./Estatisticas/estatisticas.php">Estatísticas</a></button> <br/>';}
     ?>
     <div id="footer"></div>    
 </body>

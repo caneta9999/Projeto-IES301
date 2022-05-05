@@ -32,7 +32,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h1>Acessar</h1>
     <?php
       if($_SESSION['administradorLogin']){
-        echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuarios</a></button> <br/>';
+        echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuários</a></button> <br/>';
       }
 	  else{
 		$_SESSION['alterarProprioUsuario'] = $_SESSION['idUsuarioLogin'];
@@ -43,7 +43,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <button class="button btnDisciplinas btnEntidades"><a href="./Disciplinas/index.php">Disciplinas</a></button><br/>
     <button class="button btnCursosDisciplinas btnEntidades"><a href="./CursosDisciplinas/index.php">Cursos e suas disciplinas</a></button> <br/>
     <button class="button btnProfessoresDisciplinas btnEntidades"><a href="./ProfessoresDisciplinas/index.php">Disciplinas e seus professores</a></button> <br/>
-    <button class="button btnCriticas btnEntidades"><a href="./Criticas/index.php">Criticas sobre disciplinas</a></button> <br/>
+    <button class="button btnCriticas btnEntidades"><a href="./Criticas/index.php">Críticas sobre disciplinas</a></button> <br/>
     <div id="footer"></div>    
 </body>
 </html>

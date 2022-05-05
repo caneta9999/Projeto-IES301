@@ -31,7 +31,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Consultar usuario</h1>
+    <h1>Consultar usuário</h1>
     <h2>Consulta por nome possui prioridade</h2>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">

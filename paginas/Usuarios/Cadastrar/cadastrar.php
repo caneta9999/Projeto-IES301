@@ -27,7 +27,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 </head>
 <body>
     <div id="navbar"></div>
-    <h1>Cadastrar</h1>
+    <h1>Cadastrar usuário</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Digite o email" minlength="1" maxlength="100" required> <br/>
@@ -49,7 +49,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
 				$nome = $linha_array['Nome'];
 				if($nomeSelect1 == ''){
-					$nomeSelect1 = $nome;
+					$nomeSelect1 = $linha_array['Nome'];
 				}
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 

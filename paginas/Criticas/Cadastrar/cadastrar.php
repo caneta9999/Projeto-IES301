@@ -59,7 +59,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value="Nenhum"/>';
             }
             function selectCritica($numeroSelect){
-                echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Critica: </label>';
+                echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Possível melhoria: </label>';
                 echo '<select id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
                     echo '<option value="Nenhum" selected>Nenhum</option>';
                     echo '<option value="Explicação">Explicação</option>';

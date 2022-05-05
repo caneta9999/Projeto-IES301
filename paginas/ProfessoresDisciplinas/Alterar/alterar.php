@@ -68,7 +68,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 $dataFinal = $linha_array['dataFinal'];
                 $diaSemana = $linha_array['diaSemana'];
                 $id = $linha_array['idProfessorDisciplina'];
-                $_SESSION['idAlteracao'] = $id;
+                $_SESSION['idAlteracao5'] = $id;
             }
             echo '<form method="POST" action="php2.php">';
             echo '<label for="id">Id:</label> <input value='.$id.' id="id" name="id" type="number" min="1" max="99999999999" required readonly="readonly"/> <br/>';
@@ -76,7 +76,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<br/>';
             echo '<label for="professor">Professor:</label><input type="text" id="professor" readonly="readonly" name="professor" value='."'$professor'"."/>";         
             echo '<br/>';
-            echo '<label for="periodoSelect"> Periodo: </label>';
+            echo '<label for="periodoSelect"> Período: </label>';
             echo '<select id="periodoSelect" onchange="mudaPeriodo()">';
             if($periodo == 0){
                 echo '<option value="0" selected> Manhã </option>';

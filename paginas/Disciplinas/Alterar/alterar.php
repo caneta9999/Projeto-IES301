@@ -49,13 +49,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 $sigla = $linha_array['Sigla'];
                 $codigo = $linha_array['Código'];
                 $descricao = $linha_array['Descrição'];
-                $_SESSION['idAlteracao'] = $id;
+                $_SESSION['idAlteracao3'] = $id;
             }
             echo '<form method="POST" action="php2.php">';
             echo '<label for="id">Id:</label> <input value='.$id.' id="id" name="id" type="number" placeholder="Id da disciplina" min="1" max="99999999999" required readonly="readonly"/> <br/>';
             echo '<label for="nome">Nome:</label> <input value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome da disciplina" maxlength="50" required /> <br/>';
             echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Digite a descrição da matéria" required maxlength="500" >'."$descricao".'</textarea> <br/>';
-            echo '<label for="codigo">Código: </label><input value='."'$codigo'".'id="codigo" name="codigo" placeholder="Código da disciplina" type="number" min="1" max="9999" required> <br/>';
+            echo '<label for="codigo">Código: </label><input value='."'$codigo'".'id="codigo" name="codigo" placeholder="AAA000" type="number" min="1" max="9999" required> <br/>';
             echo '<label for="sigla">Sigla: </label><input value='."'$sigla'".'id="sigla" name="sigla" placeholder="Sigla da disciplina" type="text" maxlength="6" required> <br/>';        
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';

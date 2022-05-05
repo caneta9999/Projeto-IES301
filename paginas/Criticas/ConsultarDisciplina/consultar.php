@@ -41,7 +41,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Consultar criticas sobre disciplina</h1>
+    <h1>Consultar críticas sobre disciplina</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
       <?php
@@ -138,7 +138,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
-			echo "<script>$('#tableCriticasDisciplina').paginate({ limit: 1 });</script>";//pagination
+			echo "<script>$('#tableCriticasDisciplina').paginate({ limit: 10 });</script>";//pagination
             unset($_SESSION['queryCritica2']);
 		}
 		?>

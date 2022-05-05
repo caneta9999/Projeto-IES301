@@ -37,7 +37,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Alterar usuario</h1>
+    <h1>Alterar usuário</h1>
 	<?php
 		if($_SESSION['administradorLogin']){
 			echo '<button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>';

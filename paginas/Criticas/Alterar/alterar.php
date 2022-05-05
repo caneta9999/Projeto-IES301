@@ -29,7 +29,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Alterar critica</h1>
+    <h1>Alterar crítica</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php1.php" method="POST">
         <label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>
@@ -51,7 +51,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value='."'$item'".'/>';
         }
         function selectCritica($numeroSelect, $item){
-            echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Critica: </label>';
+            echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Possível melhoria: </label>';
             echo '<select id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
             echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
             echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
@@ -88,7 +88,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $elogios = explode('-', $linha_array['Elogios']);
                 $criticas = explode('-', $linha_array['Criticas']);
                 $idProfessorDisciplina = $linha_array['ProfessorDisciplina_idProfessorDisciplina'];
-                $_SESSION['idAlteracao'] = $idCritica;
+                $_SESSION['idAlteracao6'] = $idCritica;
             }
             require '../../../camadaDados/conectar.php';
             require '../../../camadaDados/tabelas.php';      

@@ -33,7 +33,7 @@ else if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=
 				unset($_SESSION['mensagemErro']);
 			}
 	?>
-    <h1>Usuarios</h1>
+    <h1>Usuários</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <button class="button btnCadastrar" id="btnCadastrarUsuarios"><a href="./Cadastrar/cadastrar.php">Cadastrar</a></button> <br/>
     <button class="button btnAlterar" id="btnAlterarUsuarios"><a href="./Alterar/alterar.php">Alterar</a></button> <br/>
