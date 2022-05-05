@@ -41,7 +41,7 @@ if($send == 'Alterar'){
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse nome cadastrado!";}}
+				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse nome!";}}
             
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Sigla=:sigla and idDisciplina!=:id";
 		$select = $conx->prepare($result);

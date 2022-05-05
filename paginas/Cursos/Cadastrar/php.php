@@ -23,7 +23,7 @@ if($send){
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há um curso com esse nome cadastrado!";}}
+				$_SESSION['mensagemErro'] = "Já há um curso com esse nome!";}}
         if($variavelControle){    
             $result = "INSERT INTO $db.$TB_CURSO (Nome) VALUES (:nome)";
             $insert = $conx->prepare($result);

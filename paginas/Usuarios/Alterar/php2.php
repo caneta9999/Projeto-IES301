@@ -15,8 +15,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	}
 	$senha = filter_input(INPUT_POST,'senha',FILTER_SANITIZE_STRING);
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
-	$cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_NUMBER_INT);
 	if($_SESSION['administradorLogin']){
+		$cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_NUMBER_INT);
 		$administrador = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
 		$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
 		$tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
@@ -35,10 +35,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	if(strlen($nome)<1 || strlen($nome) >100){
 			$nome = 'Paulo';
 	}
-	if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
-			$cpf = 1;
-	}
 	if($_SESSION['administradorLogin']){ 
+		if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
+				$cpf = 1;
+		}
 		if(strlen($login) > 100 || !filter_var($login, FILTER_VALIDATE_EMAIL)){
 				$login = 'email@gmail.com';
 		}
@@ -60,17 +60,18 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	}
 	if($send == 'Alterar'){
 		try{
-			$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id and Ativo = 1";
-			$select = $conx->prepare($result);
-			$select->bindParam(':Cpf',$cpf);
-			$select->bindParam(':Id',$id);
-			$select->execute();
-			foreach($select->fetchAll() as $linha_array){
-				if($linha_array['quantidade'] != 0){
-					$variavelControle = 0;
-					$_SESSION['mensagemErro'] = "Já há um usuário ativo com esse cpf cadastrado!";}}
-			$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login and idUsuario != :Id";
 			if($_SESSION['administradorLogin']){ 
+				$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id and Ativo = 1";
+				$select = $conx->prepare($result);
+				$select->bindParam(':Cpf',$cpf);
+				$select->bindParam(':Id',$id);
+				$select->execute();
+				foreach($select->fetchAll() as $linha_array){
+					if($linha_array['quantidade'] != 0){
+						$variavelControle = 0;
+						$_SESSION['mensagemErro'] = "Já há um usuário ativo com esse cpf cadastrado!";}}
+				$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE ".'Login'." like :Login and idUsuario != :Id";
+				
 				$select = $conx->prepare($result);
 				$select->bindParam(':Login',$login);
 				$select->bindParam(':Id',$id);
@@ -78,7 +79,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				foreach($select->fetchAll() as $linha_array){
 					if($linha_array['quantidade'] != 0){
 						$variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}}
+						$_SESSION['mensagemErro'] = "Já há um usuário com esse login cadastrado!";}}}
 			if($variavelControle !=0){ 
 				if($tipo != 2){
 					if($_SESSION['administradorLogin']){
@@ -94,11 +95,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 						$insert->execute();
 						$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
 					else{
-						$result = "UPDATE $db.$TB_USUARIO SET Senha=:Senha,Nome=:Nome,Cpf=:Cpf Where idUsuario=:Id";
+						$result = "UPDATE $db.$TB_USUARIO SET Senha=:Senha,Nome=:Nome Where idUsuario=:Id";
 						$insert = $conx->prepare($result);
 						$insert->bindParam(':Senha',$senha);
 						$insert->bindParam(':Nome',$nome);
-						$insert->bindParam(':Cpf',$cpf);
 						$insert->bindParam(':Id',$id);
 						$insert->execute();
 						$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
@@ -146,11 +146,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 						$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
 					}
 					else{
-						$result = "UPDATE $db.$TB_USUARIO SET Senha=:Senha,Nome=:Nome,Cpf=:Cpf Where idUsuario=:Id";
+						$result = "UPDATE $db.$TB_USUARIO SET Senha=:Senha,Nome=:Nome Where idUsuario=:Id";
 						$insert = $conx->prepare($result);
 						$insert->bindParam(':Senha',$senha);
 						$insert->bindParam(':Nome',$nome);
-						$insert->bindParam(':Cpf',$cpf);
 						$insert->bindParam(':Id',$id);
 						$insert->execute();
 						$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';						

@@ -95,7 +95,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<br/>';
             $checked = $ativa?"checked":"";
             echo '<input type="checkbox" id="ativa" name="ativa" '.$checked.'><label for="ativa">Ativa</label> <br/>';    
-            echo '</select><br/>';
+            echo '</select>';
             echo '<br/>';         
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';

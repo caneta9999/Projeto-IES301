@@ -3,7 +3,14 @@ session_start();
 if(!isset($_SESSION['idUsuarioLogin']))
 {
   header('location:../../Login/index.php');
-}?>
+}
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
+$result = "SELECT idCurso,Nome FROM $db.$TB_CURSO order by Nome";
+$select = $conx->prepare($result);
+$select->execute();
+$_SESSION['queryCursosDisciplinasCursos2'] = $select->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -32,12 +39,32 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		}
     ?>
     <h1>Consultar curso e suas disciplinas</h1>
-    <h2>As disciplinas serão mostradas caso só haja um curso com o nome passado</h2>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
-        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
+        <?php
+            echo '<label id="labelCurso" for="cursoSelect"> Selecione o curso: </label>';
+            echo '<select id="cursoSelect" onchange="mudaCurso()">';
+			$idSelect1 = '';
+            foreach($_SESSION['queryCursosDisciplinasCursos2'] as $linha_array) {
+				$idCurso = $linha_array['idCurso'];
+                if($idSelect1 == ''){
+					$idSelect1 = $linha_array['idCurso'];}				
+                echo '<option value='."'$idCurso'".">".$linha_array['Nome']."</option>";
+            } 
+            foreach($_SESSION['queryCursosDisciplinasCursos2'] as $linha_array) {
+                echo '<input type="hidden" id="curso" name="curso" value='."'$idSelect1'"."/>";
+                break;
+            }            
+            echo '</select>';
+            echo '<br/>';
+		?>
         <input type="submit" name="submit" value="Enviar">
     </form>
+    <script>
+        function mudaCurso(){
+            document.getElementById('curso').value = document.getElementById('cursoSelect').value;
+        }
+    </script>
     <?php
 		if(isset($_SESSION['queryCursoDisciplina1'])){
             $curso = '';
@@ -78,7 +105,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo  "</tbody>";
 				echo "</table>";				
 			}else{
-				echo "<p class='mensagemErro'>".'Não há disciplina cadastrada no curso!'."</p>";
+				echo "<p class='mensagemErro'>".'Entretanto, não há disciplinas cadastradas no curso!'."</p>";
 			}
             unset($_SESSION['queryCursoDisciplina1']);
 		}

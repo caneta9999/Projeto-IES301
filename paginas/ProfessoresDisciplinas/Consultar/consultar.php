@@ -3,7 +3,14 @@ session_start();
 if(!isset($_SESSION['idUsuarioLogin']))
 {
   header('location:../../Login/index.php');
-}?>
+}
+require '../../../camadaDados/conectar.php';
+require '../../../camadaDados/tabelas.php';
+$result = "SELECT idDisciplina,Nome FROM $db.$TB_DISCIPLINA order by Nome";
+$select = $conx->prepare($result);
+$select->execute();
+$_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -32,10 +39,31 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		}
     ?>
     <h1>Consultar disciplina e seus professores</h1>
-    <h2>Os professores serão mostradas caso só haja uma disciplina com o nome passado</h2>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
-        <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
+            <?php
+			echo '<label id="labelDisciplina" for="disciplinaSelect"> Selecione a disciplina: </label>';
+            echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+			$idSelect1 = '';
+            foreach($_SESSION['queryProfessoresDisciplinasDisciplinas2'] as $linha_array) {
+				$idDisciplina = $linha_array['idDisciplina'];
+				if($idSelect1 == ''){
+					$idSelect1 = $linha_array['idDisciplina'];
+				}
+                echo '<option value='."'$idDisciplina'".">".$linha_array['Nome']."</option>";
+            } 
+            foreach($_SESSION['queryProfessoresDisciplinasDisciplinas2'] as $linha_array) {
+                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idSelect1'"."/>";
+                break;
+            }            
+            echo '</select>';
+            echo '<br/>';
+			?>
+			<script>
+				function mudaDisciplina(){
+					document.getElementById('disciplina').value = document.getElementById('disciplinaSelect').value;
+				}
+			</script>
         <input type="submit" name="submit" value="Enviar">
     </form>
     <?php
@@ -96,7 +124,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo  "</tbody>";
 				echo "</table>";}
 			else{
-				echo "<p class='mensagemErro'>"."Não há professores associados à disciplina!"."</p>";
+				echo "<p class='mensagemErro'>"."Entretanto, não há professores associados à disciplina!"."</p>";
 			}
             unset($_SESSION['queryProfessorDisciplina1']);
 		}

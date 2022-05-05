@@ -28,7 +28,7 @@ if($send == 'Alterar'){
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há um curso com esse nome cadastrado!";}}
+				$_SESSION['mensagemErro'] = "Já há um curso com esse nome!";}}
         if($variavelControle){    
             $result = "UPDATE $db.$TB_CURSO SET nome=:nome WHERE idCurso = :idCurso";
             $insert = $conx->prepare($result);

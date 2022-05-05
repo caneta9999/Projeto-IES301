@@ -54,8 +54,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
             $nome = 'André';
             $id = -1;
             $senha = 'senha';
-			$cpf = 0;
 			if($_SESSION['administradorLogin']){
+				$cpf = 0;
 				$login = 'login';
 				$administrador = 0;
 				$tipo = 0;
@@ -67,8 +67,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 $nome = $linha_array['Nome'];
                 $id = $linha_array['idUsuario'];
                 $senha = $linha_array['Senha'];
-				$cpf = $linha_array['Cpf'];
 				if($_SESSION['administradorLogin']){
+					$cpf = $linha_array['Cpf'];
 					$login = $linha_array['Login'];
 					$administrador = $linha_array['Administrador'];       
 					$tipo = $linha_array['Tipo'];
@@ -89,8 +89,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			}
             echo '<label for="senha">Senha:</label> <input value='."'$senha'".' id="senha" name="senha" type="text" placeholder="Senha do usuário" maxlength="100" required /> <br/>';
             echo '<label for="nome">Nome:</label> <input value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome do usuário" maxlength="100" required /> <br/>';
-            echo '<label for="cpf">Cpf:</label> <input value='."'$cpf'".' id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>';
 			if($_SESSION['administradorLogin']){
+				echo '<label for="cpf">Cpf:</label> <input value='."'$cpf'".' id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>';
 				if($administrador){
 					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
 				}else{
