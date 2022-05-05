@@ -20,7 +20,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     else{
         $idCurso = "%%";
     }
-    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
+    $result = "SELECT distinct PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
     $select = $conx->prepare($result);
     $select->bindParam(':id',$idCurso);
     $select->execute();
@@ -82,7 +82,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 $id = $linha_array['idProfessorDisciplina'];
                 if($idPrimeiro == 0){
                     $idPrimeiro = $id;
-                }
+                }	
                 $periodo = $linha_array['Periodo'];
                 $diaSemana = $linha_array['DiaSemana'];
                 if($diaSemana == 2){
@@ -96,7 +96,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 }else if($diaSemana == 6){
                     $diaSemana = 'Sexta-feira';
                 }else{
-                    $diaSemana = 'Sabado';
+                    $diaSemana = 'Sábado';
                 }
                 if($periodo == 0){
                     $periodo = 'Manhã';

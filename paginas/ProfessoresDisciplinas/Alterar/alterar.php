@@ -45,7 +45,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h1>Alterar disciplina e profesor</h1>
+    <h1>Alterar disciplina e professor</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php1.php" method="POST">
         <label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>
@@ -96,7 +96,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<br/>';         
             echo '<label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" value='."'$dataInicial'".' name="dataInicial" checked required> <br/>';
             echo '<label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" value='."'$dataFinal'".' name="dataFinal" checked> <br/>';
-            echo '<label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" value='."'$diaSemana'".' name="diaSemana" type="number" min="2" max="6" required > <br/>';
+            echo '<label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" value='."'$diaSemana'".' name="diaSemana" type="number" min="2" max="7" required > <br/>';
             echo '<input name="submit" type="submit" value="Excluir" />';
             echo '<input name="submit" type="submit" value="Alterar" />';
             echo '</form>';

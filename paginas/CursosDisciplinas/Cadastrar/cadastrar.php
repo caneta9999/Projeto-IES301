@@ -43,9 +43,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<select id="cursoSelect" onchange="mudaCurso()">';
 			$nomeSelect1 = '';
             foreach($_SESSION['queryCursosDisciplinasCursos1'] as $linha_array) {
-                if($nomeSelect1 == ''){
-					$nomeSelect1 = $linha_array['Nome'];}
 				$nome = $linha_array['Nome'];
+                if($nomeSelect1 == ''){
+					$nomeSelect1 = $linha_array['Nome'];}				
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryCursosDisciplinasCursos1'] as $linha_array) {
@@ -59,9 +59,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
 			$nomeSelect2 = '';
             foreach($_SESSION['queryCursosDisciplinasDisciplinas1'] as $linha_array) {
+				$nome = $linha_array['Nome'];
                 if($nomeSelect2 == ''){
 					$nomeSelect2 = $linha_array['Nome'];}
-				$nome = $linha_array['Nome'];
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryCursosDisciplinasDisciplinas1'] as $linha_array) {

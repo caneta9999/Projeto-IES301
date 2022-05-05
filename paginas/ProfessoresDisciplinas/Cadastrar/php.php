@@ -31,7 +31,7 @@ if($send){
         $dataFinal = '2022-03-08';
     }
     $diaSemana = filter_input(INPUT_POST,'diaSemana', FILTER_SANITIZE_NUMBER_INT);
-    if(!is_numeric($diaSemana) || $diaSemana < 2 || $diaSemana > 6 ){
+    if(!is_numeric($diaSemana) || $diaSemana < 2 || $diaSemana > 7 ){
         $diaSemana = 2;
     }
     try{

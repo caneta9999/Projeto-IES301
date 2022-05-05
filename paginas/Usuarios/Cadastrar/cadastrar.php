@@ -47,10 +47,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<select id="cursoSelect" onchange="mudaCurso()">';
 			$nomeSelect1 = '';
             foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
+				$nome = $linha_array['Nome'];
 				if($nomeSelect1 == ''){
 					$nomeSelect1 = $nome;
 				}
-                $nome = $linha_array['Nome'];
                 echo '<option value='."'$nome'".">".$nome."</option>";
             } 
             foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {

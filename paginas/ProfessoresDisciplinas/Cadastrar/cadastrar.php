@@ -83,7 +83,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <input id="periodo" name="periodo" type="hidden" placeholder="" value="Manhã" maxlength="15"><br/> 
         <label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" name="dataInicial" checked required> <br/>
         <label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" name="dataFinal" checked> <br/>
-        <label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" name="diaSemana" type="number" min="2" max="6" required > <br/>
+        <label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" name="diaSemana" type="number" min="2" max="7" placeholder="2-7" required > <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>
     <script>
