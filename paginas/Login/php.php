@@ -14,8 +14,9 @@ if($send){
 		if(strlen($senha)<8 || strlen($senha)>50){
 			$senha = "";
 		}
-		$result = "SELECT idUsuario,Senha,Tipo,Administrador FROM $db.$TB_USUARIO WHERE"." Login"."=:login";
+		$result = "SELECT idUsuario,Senha,Tipo,Administrador,Ativo FROM $db.$TB_USUARIO WHERE"." Login"."=:login";
 		$select = $conx->prepare($result);
+		$ativo = 1;
 		$select->execute([':login'=>$login]);
 		$select = $select->fetchAll();
 		if(!$select){
@@ -27,7 +28,14 @@ if($send){
 				header("Location: ./index.php");}
 		else{
 		    foreach($select as $linha_array) {
-				if((strcmp($linha_array['Senha'], $senha))==0){
+				if($linha_array['Ativo'] != 1){
+					 unset($_SESSION['tipoLogin']);
+                    unset($_SESSION['administradorLogin']);
+                    unset($_SESSION['idCursoLogin']);
+					$_SESSION['mensagemErro'] = 'Usuário não mais ativo, não pode entrar!';
+					header("Location: ./index.php");
+				}
+				else if((strcmp($linha_array['Senha'], $senha))==0){
 					unset ($_SESSION['mensagemErro']);
 					$_SESSION['idUsuarioLogin'] = $linha_array['idUsuario'];
                     $_SESSION['tipoLogin'] = $linha_array['Tipo'];
@@ -48,7 +56,9 @@ if($send){
                     unset($_SESSION['administradorLogin']);
                     unset($_SESSION['idCursoLogin']);
 					$_SESSION['mensagemErro'] = 'Senha errada!';
-					header("Location: ./index.php");}}}
+					header("Location: ./index.php");}
+				break;
+			}}
 		}
     catch(PDOException $e) {
             $mensagemErro = "Erro no login: " . $e . "<br />";
