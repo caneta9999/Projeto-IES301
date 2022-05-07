@@ -1,11 +1,23 @@
+:root {
+    --color-background: #75eff1;
+    --color-main: #BD1B28;
+    --color-secondary: #37515E;
+    --color-success: #2e933c;
+    --color-warning: #f9dc5c;
+    --color-error: #fa8334;
+    --color-font-main: #000000;
+    --color-font-secondary: #ffffff;
+}
+
 body{
-    background: #75eff1;
+    background: var(--color-background);
     margin: 0;
     text-align: center;
 }
 a{
     text-decoration: none;
     color: black;
+    color: var(--color-font-main);
 }
 header, footer{
     text-align: center;

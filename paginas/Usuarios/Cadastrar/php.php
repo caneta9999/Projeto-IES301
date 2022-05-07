@@ -111,12 +111,16 @@ if($send){
                 foreach($select->fetchAll() as $linha_array){
                     if($linha_array['quantidade'] != 0){
                         $variavelControle = 0;
-                        $_SESSION['mensagemErro'] = "Já há um usuário com essa matrícula cadastrada!";}}
+                        $_SESSION['mensagemErro'] = "Já há um usuário com essa matrícula cadastrada!";
+                    }
+                }
+
                 if($administrador == 1){
                     $administrador = 0;
                 }
+
                 if($variavelControle){
-                    $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo)";
+                    $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo, Ativo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo,:Ativo)";
                     $insert = $conx->prepare($result);
                     $insert->bindParam(':Login',$login);
                     $insert->bindParam(':Senha',$senha);
@@ -124,7 +128,9 @@ if($send){
                     $insert->bindParam(':Administrador',$administrador);
                     $insert->bindParam(':Cpf',$cpf);
                     $insert->bindParam(':Tipo',$tipo);
+                    $insert->bindParam(':Ativo', $ativo);
                     $insert->execute();
+           
                     $usuario = $conx->lastInsertId();
                     $result = "INSERT INTO $db.$TB_ALUNO (Matricula,Usuario_idUsuario,Curso_idCurso) VALUES (:Matricula,:Usuario,:Curso)";
                     $insert = $conx->prepare($result);
@@ -137,7 +143,7 @@ if($send){
             header("Location: ../index.php");
         }
     catch(PDOException $e) {
-            $msgErr = "Erro na inclusão:<br />";
+            $msgErr = "Erro na inclusão: <br />";
             $_SESSION['mensagemErro'] = $msgErr;     			
     }
 }
