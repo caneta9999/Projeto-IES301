@@ -20,7 +20,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		$administrador = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
 		$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
 		$tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
-		$ativo = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
+		$ativo = filter_input(INPUT_POST,'ativo',FILTER_SANITIZE_STRING);
 		if($tipo != $_SESSION['tipoAlteracao']){
 			$tipo = $_SESSION['tipoAlteracao'];
 			unset($_SESSION['tipoAlteracao']);
@@ -128,7 +128,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 						if($administrador == 1){
 							$administrador = 0;
 						}
-						$result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf Where idUsuario=:Id";
+						$result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf, Ativo=:Ativo Where idUsuario=:Id";
 						$insert = $conx->prepare($result);
 						$insert->bindParam(':Login',$login);
 						$insert->bindParam(':Senha',$senha);
@@ -136,6 +136,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 						$insert->bindParam(':Administrador',$administrador);
 						$insert->bindParam(':Cpf',$cpf);          
 						$insert->bindParam(':Id',$id);
+						$insert->bindParam(':Ativo',$ativo);
 						$insert->execute();
 						$result = "UPDATE $db.$TB_ALUNO SET Matricula=:Matricula,Curso_idCurso=:Curso Where Usuario_idUsuario=:Usuario";
 						$insert = $conx->prepare($result);
