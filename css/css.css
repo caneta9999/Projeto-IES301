@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
 :root {
-    --color-background: #75eff1;
+    --color-background: #ffffff;
     --color-main: #BD1B28;
     --color-secondary: #37515E;
     --color-success: #2e933c;
@@ -7,12 +9,14 @@
     --color-error: #fa8334;
     --color-font-main: #000000;
     --color-font-secondary: #ffffff;
+    --font-main: 'Open Sans';
 }
 
 body{
     background: var(--color-background);
     margin: 0;
     text-align: center;
+    font-family: var(--font-main), sans-serif;
 }
 a{
     text-decoration: none;
@@ -25,6 +29,14 @@ header, footer{
 header{
     padding-top: 10px;
     padding-right: 5px;
+}
+footer {
+    background-color: var(--color-main);
+    color: var(--color-font-secondary);
+    width: 100%; 
+    bottom: 0;
+    padding-bottom: 0.5rem; 
+    position: fixed;
 }
 #formLogout{
     float: right;
@@ -102,6 +114,12 @@ input[type=submit]{
     margin-top: -10px;
     margin-bottom: 30px;
 }
+
+.logo {
+    width: 10rem;
+    margin-top: 1rem;
+}
+
 input, select{
     margin-bottom: 5px;
 }
@@ -191,4 +209,10 @@ li {
 #captchaText{
 	font-size: 30px;
 	font-family: cursive;
+}
+
+@media (max-width: 600px) {
+    .logo {
+        width: 50%;
+    }
 }
