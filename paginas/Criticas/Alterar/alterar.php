@@ -92,13 +92,14 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             }
             require '../../../camadaDados/conectar.php';
             require '../../../camadaDados/tabelas.php';      
-            $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina like :id";
+            $result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina like :id";
             $select = $conx->prepare($result);
             $select->bindParam(':id',$idProfessorDisciplina);
             $select->execute();
             echo '<form method="POST" action="php2.php">';
             echo '<label for="id">Id:</label> <input value='.$idCritica.' id="id" name="id" type="number" placeholder="Id do curso" min="1" max="99999999999" required readonly="readonly"/> <br/>';
-            $disciplina = '';
+            $codigo = '';
+			$disciplina = '';
             $professor = '';
             $id = '';
             $periodo = '';
@@ -108,7 +109,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $professor = $linha_array['ProfessorNome'];
                 $id = $linha_array['idProfessorDisciplina'];
                 $periodo = $linha_array['Periodo'];
-                $diaSemana = $linha_array['DiaSemana'];}
+                $diaSemana = $linha_array['DiaSemana'];
+				$codigo = $linha_array['Código'];}
             if($diaSemana == 2){
                     $diaSemana = 'Segunda-feira';
             }else if($diaSemana == 3){
@@ -129,8 +131,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             }else{
                     $periodo = 'Noite';
             }
-            $disciplina = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
-            echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina'"."/>";         
+            $disciplina = $codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
+            echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina' style='min-width:500px' "."/>";         
             echo '<br/>';
             echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>';
             echo '<label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" value='.$notaEvolucao.' type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>';

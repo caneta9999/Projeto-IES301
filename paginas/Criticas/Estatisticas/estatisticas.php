@@ -21,7 +21,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
             break;
         }
     }
-    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.Professor_idProfessor like :idProfessor order by D1.Nome";
+    $result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.Professor_idProfessor like :idProfessor order by D1.Nome";
     $select = $conx->prepare($result);
     $select->bindParam(':idProfessor',$idProfessor);
     $select->execute();
@@ -109,7 +109,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                 echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
                 $primeiroIdDisciplina = 0;
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
-                    $disciplina = $linha_array['DisciplinaNome'];
+                    $codigo = $linha_array['Código'];
+					$disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
                     $idDisciplina = $linha_array['idProfessorDisciplina'];
                     if($primeiroIdDisciplina ==0){
@@ -117,8 +118,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                     }
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    echo '<option value='."'$idDisciplina'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
-                    $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
+                    echo '<option value='."'$idDisciplina'".">".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
+                    $_SESSION['nomeDisciplinaProfessor'] = $codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
                 } 
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroIdDisciplina'"."/>";
@@ -283,7 +284,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         array_push($valoresMediaNotaDisciplinaGeral, $linha_array['MediaNotaDisciplina']);
                     }
                     $in = implode(',', array_fill(0, count($labelMediaNotaDisciplinaGeral ), '?'));
-                    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
+                    $result = "SELECT D1.Código,PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                     $select = $conx->prepare($result);
                     foreach ($labelMediaNotaDisciplinaGeral as $indice => $id){
                         $select->bindValue(($indice+1), $id);}
@@ -293,9 +294,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         $disciplina = $linha_array['DisciplinaNome'];
                         $professor = $linha_array['ProfessorNome'];
                         $id = $linha_array['idProfessorDisciplina'];
+						$codigo = $linha_array['Código'];
                         $periodo = periodo($linha_array['Periodo']);
                         $diaSemana = diaSemana($linha_array['DiaSemana']);
-                        array_push($labelExplicadoMediaNotaDisciplinaGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                        array_push($labelExplicadoMediaNotaDisciplinaGeral,"Código da associação professor e disciplina: ".$id." | "."(".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana.")");
                     }
 
                     $result = "Select AVG(NotaEvolucao) 'MediaNotaEvolucao',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaEvolucao) desc Limit 8;";
@@ -306,7 +308,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         array_push($valoresMediaNotaEvolucaoGeral, $linha_array['MediaNotaEvolucao']);
                     }
                     $in = implode(',', array_fill(0, count($labelMediaNotaEvolucaoGeral ), '?'));
-                    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
+                    $result = "SELECT D1.Código,PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                     $select = $conx->prepare($result);
                     foreach ($labelMediaNotaEvolucaoGeral as $indice => $id){
                         $select->bindValue(($indice+1), $id);}
@@ -316,9 +318,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         $disciplina = $linha_array['DisciplinaNome'];
                         $professor = $linha_array['ProfessorNome'];
                         $id = $linha_array['idProfessorDisciplina'];
+						$codigo = $linha_array['Código'];
                         $periodo = periodo($linha_array['Periodo']);
                         $diaSemana = diaSemana($linha_array['DiaSemana']);
-                        array_push($labelExplicadoMediaNotaEvolucaoGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                        array_push($labelExplicadoMediaNotaEvolucaoGeral,"Código da associação professor e disciplina: ".$id." | "."(".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana.")");
                     }
 
                     $result = "Select AVG(NotaAluno) 'MediaNotaAluno',ProfessorDisciplina_idProfessorDisciplina from $db.$TB_CRITICA group by ProfessorDisciplina_idProfessorDisciplina order by AVG(NotaAluno) desc Limit 8;";
@@ -329,7 +332,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         array_push($valoresMediaNotaAlunoGeral, $linha_array['MediaNotaAluno']);
                     }
                     $in = implode(',', array_fill(0, count($labelMediaNotaAlunoGeral ), '?'));
-                    $result = "SELECT PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
+                    $result = "SELECT D1.Código,PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina IN(".$in.") order by PD1.idProfessorDisciplina";
                     $select = $conx->prepare($result);
                     foreach ($labelMediaNotaAlunoGeral as $indice => $id){
                         $select->bindValue(($indice+1), $id);}
@@ -339,9 +342,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                         $disciplina = $linha_array['DisciplinaNome'];
                         $professor = $linha_array['ProfessorNome'];
                         $id = $linha_array['idProfessorDisciplina'];
+						$codigo = $linha_array['Código'];
                         $periodo = periodo($linha_array['Periodo']);
                         $diaSemana = diaSemana($linha_array['DiaSemana']);
-                        array_push($labelExplicadoMediaNotaAlunoGeral,$id." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana);
+                        array_push($labelExplicadoMediaNotaAlunoGeral,"Código da associação professor e disciplina: ".$id." | "."(".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana.")");
                 }}
                 else{
                     echo "<p class='mensagemErro'>"."Não há críticas cadastradas!"."</p>";                    

@@ -6,7 +6,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 }
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
-$result = "SELECT idDisciplina,Nome FROM $db.$TB_DISCIPLINA order by Nome";
+$result = "SELECT idDisciplina,Nome,Código FROM $db.$TB_DISCIPLINA order by Nome";
 $select = $conx->prepare($result);
 $select->execute();
 $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
@@ -50,7 +50,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 				if($idSelect1 == ''){
 					$idSelect1 = $linha_array['idDisciplina'];
 				}
-                echo '<option value='."'$idDisciplina'".">".$linha_array['Nome']."</option>";
+                echo '<option value='."'$idDisciplina'".">".$linha_array['Código']." - ".$linha_array['Nome']."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas2'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idSelect1'"."/>";

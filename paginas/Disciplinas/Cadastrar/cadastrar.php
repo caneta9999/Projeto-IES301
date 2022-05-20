@@ -4,6 +4,14 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 {
   header('location:../../Login/index.php');
 }?>
+<?php
+    require '../../../camadaDados/conectar.php';
+    require '../../../camadaDados/tabelas.php';
+    $result = "SELECT nome,idCurso FROM $db.$TB_CURSO";
+    $select = $conx->prepare($result);
+    $select->execute();
+    $_SESSION['queryDisciplinasCursos1'] = $select->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -26,8 +34,42 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Digite a descrição da matéria" required maxlength="500" ></textarea> <br/>
         <label for="codigo">Código: </label><input id="codigo" name="codigo" placeholder="Código da disciplina" type="number" min="1" max="9999" required> <br/>
         <label for="sigla">Sigla: </label><input id="sigla" name="sigla" placeholder="AAA000" type="text" maxlength="6" required> <br/>                     
-        <input type="submit" name="submit" value="Enviar">
+        <label for="tipoSelect"> Tipo: </label>
+        <select id="tipoSelect" onchange="mudaTipo()">
+            <option value="0" selected> Obrigatória </option>
+            <option value="1"> Eletiva </option>
+            <option value="2"> Escolha </option>
+        </select><br/>
+        <input id="tipo" name="tipo" type="hidden" placeholder="" value="0">
+        <input type="checkbox" id="ativa" name="ativa" checked> <label for="ativa">Ativa</label> <br/>
+		 <?php
+            echo '<label id="labelCurso" for="cursoSelect"> Curso: </label>';
+            echo '<select id="cursoSelect" onchange="mudaCurso()">';
+			$idSelect1 = '';
+            foreach($_SESSION['queryDisciplinasCursos1'] as $linha_array) {
+				$idCurso = $linha_array['idCurso'];
+                if($idSelect1 == ''){
+					$idSelect1 = $linha_array['idCurso'];}	
+				$nome = $linha_array['nome'];
+                echo '<option value='."'$idCurso'".">".$nome."</option>";
+            } 
+            foreach($_SESSION['queryDisciplinasCursos1'] as $linha_array) {
+                echo '<input type="hidden" id="curso" name="curso" value='."'$idSelect1'"."/>";
+                break;
+            }            
+            echo '</select>';
+            echo '<br/>';
+        ?>
+		<input type="submit" name="submit" value="Enviar">
     </form>
+    <script>
+        function mudaCurso(){
+            document.getElementById('curso').value = document.getElementById('cursoSelect').value;
+        }
+        function mudaTipo(){
+            document.getElementById('tipo').value = document.getElementById('tipoSelect').value;
+        }
+    </script>
     <div id="footer"></div>    
 </body>
 </html>

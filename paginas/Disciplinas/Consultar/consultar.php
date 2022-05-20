@@ -50,6 +50,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th> Descrição</th>";
                 echo"<th> Código </th>";
                 echo"<th> Sigla </th>";
+				echo"<th> Tipo </th>";
+				echo"<th> Ativa </th>";
+				echo"<th> Curso </th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -59,7 +62,17 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo "<td>". $linha_array['Nome'] ."</td>";	
                 echo "<td>". $linha_array['Descrição'] ."</td>";	
                 echo "<td>". $linha_array['Código'] ."</td>";	
-                echo "<td>". $linha_array['Sigla'] ."</td>";	 
+                echo "<td>". $linha_array['Sigla'] ."</td>";	
+				if($linha_array['Tipo'] == 2){
+				  $linha_array['Tipo'] = 'Escolha';
+				}else if($linha_array['Tipo'] == 1){
+				  $linha_array['Tipo'] = 'Eletiva';
+				}else{
+				  $linha_array['Tipo']='Obrigatória';
+				}      
+				echo "<td>". $linha_array['Tipo'] ."</td>";	
+				echo "<td>".($linha_array['Ativa']?"Sim":"Não")."</td>";
+				echo "<td>".$linha_array['NomeCurso']."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";

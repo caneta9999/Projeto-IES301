@@ -27,7 +27,7 @@ $disciplina = filter_input(INPUT_POST,'disciplina',FILTER_SANITIZE_NUMBER_INT);
 if(!is_numeric($disciplina) || $disciplina > 99999999999 || $disciplina < 1){
     $disciplina = -1;
 }
-$idCurso = "";
+$idCurso = "%%";
 if($_SESSION['tipoLogin'] == 2){
     $result = "SELECT A1.Curso_idCurso FROM $db.$TB_ALUNO A1 where A1.Usuario_idUsuario=:id";
     $select = $conx->prepare($result);
@@ -37,10 +37,7 @@ if($_SESSION['tipoLogin'] == 2){
         $idCurso = $linha_array['Curso_idCurso'];
     }
 }
-else{
-    $idCurso = "%%";
-}
-$result = "SELECT PD1.idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
+$result = "SELECT PD1.idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina where D1.Curso_idCurso like :id";
 $select = $conx->prepare($result);
 $select->bindParam(':id',$idCurso);
 $select->execute();

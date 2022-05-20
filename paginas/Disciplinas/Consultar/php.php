@@ -40,13 +40,13 @@ if($send){
         }
         if($variavelControle){
             if($variavelControle == 1){//nome
-                $result = "SELECT * FROM $db.$TB_DISCIPLINA WHERE Nome like :nome";
+                $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE D1.Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();
             }
             else{//sigla
-                $result = "SELECT * FROM $db.$TB_DISCIPLINA WHERE Sigla like :sigla";
+                $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE D1.Sigla like :sigla";
                 $select = $conx->prepare($result);
                 $select->execute(['sigla' => $sigla]);
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();
@@ -54,7 +54,7 @@ if($send){
             $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
         else{
             if($nome=="%%" && $sigla=="%%"){
-                $result = "SELECT * FROM $db.$TB_DISCIPLINA";
+                $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso";
                 $select = $conx->prepare($result);
                 $select->execute();
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();
@@ -67,7 +67,7 @@ if($send){
         header("Location: ./consultar.php");	
     }
     catch(PDOException $e) {
-            $msgErr = "Erro na consulta:<br />";
+            $msgErr = "Erro na consulta:<br />".$e->getMessage();
             $_SESSION['mensagemErro'] = $msgErr;     
 			header("Location: ../index.php");			
     }

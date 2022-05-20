@@ -21,31 +21,29 @@ if($send){
     if(!is_numeric($codigo) || $codigo < 1 || $codigo > 9999){
         $codigo = rand(0,1000);
     }
-    $regexSigla = '/[a-zA-Z][a-zA-Z][a-zA-Z]\d\d\d/';
     $sigla = filter_input(INPUT_POST,'sigla',FILTER_SANITIZE_STRING);
-    if(!preg_match($regexSigla, $sigla) || strlen($sigla)>6){
+    if(strlen($sigla)>6 || strlen($sigla)<1){
         $sigla = "AAA000";
     }
+    $tipo = filter_input(INPUT_POST,'tipo',FILTER_SANITIZE_NUMBER_INT);
+    if(!is_numeric($tipo) || $tipo < 0 || $tipo > 2){
+        $tipo = 0;
+    }
+    $ativa = filter_input(INPUT_POST,'ativa',FILTER_SANITIZE_STRING);
+    if($ativa != true && $ativa != false){
+        $ativa = 1;
+    }
+    if($ativa){
+        $ativa = 1;
+    }else{
+        $ativa = 0;
+    }
+	$curso = filter_input(INPUT_POST,'curso',FILTER_SANITIZE_NUMBER_INT);
+	if(!is_numeric($curso) || $curso < 1 || $curso > 99999999999){
+		$curso = 1;
+	}
+	$variavelControle = 1;
     try{
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Nome=:nome";
-		$select = $conx->prepare($result);
-		$select->bindParam(':nome',$nome);
-		$select->execute();
-        $variavelControle = 1;
-		foreach($select->fetchAll() as $linha_array){
-			if($linha_array['quantidade'] != 0){
-                $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse nome!";}}
-            
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Sigla=:sigla";
-		$select = $conx->prepare($result);
-		$select->bindParam(':sigla',$sigla);
-		$select->execute();
-		foreach($select->fetchAll() as $linha_array){
-			if($linha_array['quantidade'] != 0){
-                $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Já há uma disciplina com essa sigla cadastrada!";}}
-
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Código=:codigo";
 		$select = $conx->prepare($result);
 		$select->bindParam(':codigo',$codigo);
@@ -54,13 +52,24 @@ if($send){
 			if($linha_array['quantidade'] != 0){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Já há uma disciplina com esse código cadastrada!";}}
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CURSO WHERE idCurso=:curso";
+		$select = $conx->prepare($result);
+		$select->bindParam(':curso',$curso);
+		$select->execute();
+		foreach($select->fetchAll() as $linha_array){
+			if($linha_array['quantidade'] != 1){
+                $variavelControle = 0;
+				$_SESSION['mensagemErro'] = "Não identificamos um curso com esse id!";}}
         if($variavelControle){    
-            $result = "INSERT INTO $db.$TB_DISCIPLINA (Nome,Descrição,Código,Sigla) VALUES (:nome,:descricao,:codigo,:sigla)";
+            $result = "INSERT INTO $db.$TB_DISCIPLINA (Nome,Descrição,Código,Sigla,Curso_idCurso,Tipo,Ativa) VALUES (:nome,:descricao,:codigo,:sigla,:idCurso,:tipo,:ativa)";
             $insert = $conx->prepare($result);
             $insert->bindParam(':nome',$nome);
             $insert->bindParam(':descricao',$descricao);
             $insert->bindParam(':codigo',$codigo);
             $insert->bindParam(':sigla',$sigla);
+			$insert->bindParam(':tipo',$tipo);
+            $insert->bindParam(':ativa',$ativa);
+			$insert->bindParam(':idCurso',$curso);
             $insert->execute();
             $_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
         header("Location: ../index.php");	

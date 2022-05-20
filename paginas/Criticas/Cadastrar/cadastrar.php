@@ -7,7 +7,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 <?php
     require '../../../camadaDados/conectar.php';
     require '../../../camadaDados/tabelas.php';
-    $idCurso = "";
+    $idCurso = "%%";
     if($_SESSION['tipoLogin'] == 2){
         $result = "SELECT A1.Curso_idCurso FROM $db.$TB_ALUNO A1 where A1.Usuario_idUsuario=:id";
         $select = $conx->prepare($result);
@@ -17,10 +17,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
             $idCurso = $linha_array['Curso_idCurso'];
         }
     }
-    else{
-        $idCurso = "%%";
-    }
-    $result = "SELECT distinct PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSODISCIPLINA CD1 ON CD1.Disciplina_idDisciplina = D1.idDisciplina where CD1.Curso_idCurso like :id";
+    $result = "SELECT distinct D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where D1.Curso_idCurso like :id";
     $select = $conx->prepare($result);
     $select->bindParam(':id',$idCurso);
     $select->execute();
@@ -77,7 +74,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
             $idPrimeiro = 0;
             foreach($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
-                $disciplina = $linha_array['DisciplinaNome'];
+                $codigo = $linha_array['Código'];
+				$disciplina = $linha_array['DisciplinaNome'];
                 $professor = $linha_array['ProfessorNome'];
                 $id = $linha_array['idProfessorDisciplina'];
                 if($idPrimeiro == 0){
@@ -105,7 +103,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 }else{
                     $periodo = 'Noite';
                 }
-                echo '<option value='."'$id'".">".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
+                echo '<option value='."'$id'".">".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
             } 
             echo '</select>';
             echo '<br/>';

@@ -24,7 +24,7 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não há disciplina com esse id!";}}
         if($variavelControle){    
-            $result = "SELECT * FROM $db.$TB_DISCIPLINA WHERE idDisciplina=:idDisciplina";
+            $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE idDisciplina=:idDisciplina";
             $select = $conx->prepare($result);
             $select->execute(['idDisciplina' => $id]);
             $_SESSION['queryDisciplina2'] = $select->fetchAll();

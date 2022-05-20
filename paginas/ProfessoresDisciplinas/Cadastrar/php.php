@@ -13,9 +13,9 @@ if($send){
     if(!is_numeric($professor) || $professor > 99999999999 || $professor < 1){
         $professor = -1;
     }
-    $disciplina = filter_input(INPUT_POST,'disciplina',FILTER_SANITIZE_STRING);
-    if(strlen($disciplina)>50){
-        $disciplina = "";
+    $disciplina = filter_input(INPUT_POST,'disciplina',FILTER_SANITIZE_NUMBER_INT);
+    if(!is_numeric($disciplina) || $disciplina > 99999999999 || $disciplina < 1){
+        $disciplina = -1;
     }
     $periodo = filter_input(INPUT_POST,'periodo',FILTER_SANITIZE_NUMBER_INT);
     if($periodo != 0 && $periodo != 1 && $periodo !=2){
@@ -45,23 +45,16 @@ if($send){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Esse professor não está cadastrado!";}}
 
-        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE nome = :nome";
+        $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE idDisciplina = :disciplina";
 		$select = $conx->prepare($result);
-		$select->bindParam(':nome',$disciplina);
+		$select->bindParam(':disciplina',$disciplina);
 		$select->execute();
 		foreach($select->fetchAll() as $linha_array){
 			if($linha_array['quantidade'] != 1){
                 $variavelControle = 0;
-				$_SESSION['mensagemErro'] = "Não há uma disciplina com esse nome cadastrado!";}}
+				$_SESSION['mensagemErro'] = "Essa disciplina não está cadastrada!";}}
 
         if($variavelControle){
-            $result = "SELECT idDisciplina FROM $db.$TB_DISCIPLINA WHERE nome = :nome";
-            $select = $conx->prepare($result);
-            $select->bindParam(':nome',$disciplina);
-            $select->execute();
-            $idDisciplina = 0;
-            foreach($select->fetchAll() as $linha_array){
-                $idDisciplina = $linha_array['idDisciplina'];}  
             $result = "SELECT idProfessor FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario = :professor";
             $select = $conx->prepare($result);
             $select->bindParam(':professor',$professor);
@@ -71,7 +64,7 @@ if($send){
             $result = "INSERT INTO $db.$TB_PROFESSORDISCIPLINA (Professor_idProfessor, Disciplina_idDisciplina, Periodo, DataInicial,DataFinal, DiaSemana) VALUES (:idProfessor, :idDisciplina, :periodo, :dataInicial, :dataFinal, :diaSemana)";
             $insert = $conx->prepare($result);
             $insert->bindParam(':idProfessor',$professor);
-            $insert->bindParam(':idDisciplina',$idDisciplina);
+            $insert->bindParam(':idDisciplina',$disciplina);
             $insert->bindParam(':periodo',$periodo);
             $insert->bindParam(':dataInicial',$dataInicial);
             $insert->bindParam(':dataFinal',$dataFinal);

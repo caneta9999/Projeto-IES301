@@ -13,7 +13,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     $_SESSION['queryProfessoresDisciplinasProfessores1'] = $select->fetchAll();
 ?>
 <?php
-    $result = "SELECT Nome FROM $db.$TB_DISCIPLINA";
+    $result = "SELECT idDisciplina,Código,Nome FROM $db.$TB_DISCIPLINA";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessoresDisciplinasDisciplinas1'] = $select->fetchAll();
@@ -57,16 +57,15 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
             echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
-			$nomeSelect2 = '';
+			$idSelect2 = '';
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
-				if($nomeSelect2 == ''){
-					$nomeSelect2 = $linha_array['Nome'];
+				if($idSelect2 == ''){
+					$idSelect2 = $linha_array['idDisciplina'];
 				}
-				$nome = $linha_array['Nome'];
-                echo '<option value='."'$nome'".">".$nome."</option>";
+                echo '<option value='.$linha_array['idDisciplina']." >".$linha_array['Código']." - ".$linha_array['Nome']."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
-                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$nomeSelect2'"."/>";
+                echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idSelect2'"."/>";
                 break;
             }            
             echo '</select>';

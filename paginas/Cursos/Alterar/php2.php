@@ -50,7 +50,12 @@ else if($send == 'Excluir'){
     $select->bindParam(':idCurso', $id);
     $select->execute();
     $usuarios = $select->fetchAll();
-	if(count($usuarios) == 0){//caso não haja usuários cadastrados no curso
+	$result= "Select idDiscplina FROM $db.$TB_DISCIPLINA WHERE Curso_idCurso=:idCurso";
+    $select = $conx->prepare($result);
+    $select->bindParam(':idCurso', $id);
+    $select->execute();
+    $disciplinas = $select->fetchAll();
+	if(count($usuarios) == 0 && count($disciplinas) == 0){
 		$result= "DELETE FROM $db.$TB_ALUNO WHERE Curso_idCurso=:idCurso";
 		$delete = $conx->prepare($result);
 		$delete->bindParam(':idCurso', $id);
@@ -74,8 +79,12 @@ else if($send == 'Excluir'){
 		$delete->bindParam(':idCurso', $id);
 		$delete->execute();
 		$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
-	else{//caso haja usuários cadastrados no curso
-		$_SESSION['mensagemErro'] = 'Há usuários cadastrados no curso!';
+	else{
+		if(count($usuarios) == 0){
+			$_SESSION['mensagemErro'] = 'Há usuários cadastrados no curso!';}
+		else{
+			$_SESSION['mensagemErro'] = 'Há disciplinas cadastradas no curso!';
+		}
 	}
     header("Location: ../index.php");
 }

@@ -16,7 +16,6 @@ body{
 }
 a{
     text-decoration: none;
-    color: black;
     color: var(--color-font-main);
 }
 header, footer{
@@ -162,7 +161,7 @@ th:hover {
     grid-template-columns: 1fr 1fr;
 }
 #graficoMediaDisciplinaGeral, #graficoMediaEvolucaoGeral,#graficoMediaAlunoGeral{
-	grid-template-columns: 1.5fr 1fr;
+	grid-template-columns: 1fr 2fr;
 }
 #ultimasCriticas{
     margin-left: 2px;
@@ -170,7 +169,7 @@ th:hover {
 canvas{
 	background: white;
 	border: 2px solid black;
-	margin-left: 6px;
+	margin-left: 30px;
 }
 li {
   list-style-type: none;
