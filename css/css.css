@@ -120,6 +120,9 @@ table {
     min-width:1000px;
     table-layout:fixed;
 }
+.contagemElogiosCriticas{
+	min-width: 500px;
+}
 th, td {
     padding: 4px;
 	background: white;
