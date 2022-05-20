@@ -1,7 +1,8 @@
 export function footer() {
     const footer = document.getElementById("footer");
-    footer.innerHTML = "<footer style='background-color: #3dbdbe; width: 100%; bottom: 0; position: fixed;'>"
-        + "<h2>Projeto IES301</h2>"
+    footer.innerHTML = "<footer>"
+        + "<p style='margin-bottom: 0px;'>2022 - Projeto de Laboratório de Engenharia de Software (IES301) </p>"
+        + "<a href='http://www.fatecsp.br' target=_blank rel='noopener' style='color: white; text-decoration: underline'>Fatec São Paulo</a>"
          + "</footer>"
     return footer;
 }
