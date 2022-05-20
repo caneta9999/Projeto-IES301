@@ -188,7 +188,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 						}
 					}
 					echo "<ul>";
-					echo "<table class='sortable contagemElogiosCriticas'>";
+					echo "<table class='sortable tableContagemElogiosCriticas'>";
 					echo "<thead>";
 						echo"<tr>";
 						echo"<th >Elogio</th>";
@@ -222,7 +222,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 									$criticasContagem[$critica] += 1;}}
 						}
 					}
-					echo "<table class='sortable contagemElogiosCriticas'>";
+					echo "<table class='sortable tableContagemElogiosCriticas'>";
 					echo "<thead>";
 						echo"<tr>";
 						echo"<th >Pontos a melhorar</th>";
