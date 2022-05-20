@@ -54,7 +54,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				if($_SESSION['administradorLogin']){
 					echo"<th >Id</th>";}
                 echo"<th >Nome</th>";
-				echo"<th> </th>";
+				if($_SESSION['administradorLogin']){
+					echo"<th> </th>";}
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";

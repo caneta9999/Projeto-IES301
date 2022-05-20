@@ -86,7 +86,8 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					echo"<th >Data Inicial</th>";
 					echo"<th >Data Final</th>";
 					echo"<th >Dia da Semana</th>";
-					echo"<th ></th>";
+					if($_SESSION['administradorLogin']){
+						echo"<th ></th>";}
 					echo"</tr>";
 				echo "</thead>";
 				echo "<tbody>";

@@ -7,18 +7,17 @@ if(!isset($_SESSION['idUsuarioLogin']))
 <?php
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
-echo var_dump($_POST);
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
 $send2 = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);//usuário vindo alterar a partir da tela de consulta
-if($send || $send2 || isset($_SESSION['consultarUsuarioAlterar'])){
+if($send || $send2 || isset($_SESSION['alterarProprioUsuario'])){
 	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($id) || $id < 1 || $id > 99999999999){
         $id = -1;
     }
 	if($id == -1){
-		if(isset($_POST['alterarProprioUsuario'])){
-			$id = $_POST['alterarProprioUsuario'];
-			unset($_POST['alterarProprioUsuario']);			
+		if(isset($_SESSION['alterarProprioUsuario'])){
+			$id = $_SESSION['alterarProprioUsuario'];
+			unset($_SESSION['alterarProprioUsuario']);			
 		}
 	}
     try{

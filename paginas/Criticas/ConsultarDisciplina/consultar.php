@@ -106,7 +106,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th >Ano e Semestre</th>";
                 echo"<th>Elogios</th>";
                 echo"<th >Críticas</th>";
-				echo"<th> </th>";
+				if($_SESSION['administradorLogin']){
+					echo"<th> </th>";}
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";

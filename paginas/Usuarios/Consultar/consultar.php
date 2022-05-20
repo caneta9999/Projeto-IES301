@@ -53,7 +53,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<th >Cpf</th>";
                 echo "<th >Tipo</th>";
 				echo "<th >Ativo</th>";
-				echo "<th></th>";
+				if($_SESSION['administradorLogin']){
+					echo "<th></th>";}
                 echo "</tr>";
             echo "</thead>";	
             echo "<tbody>";
