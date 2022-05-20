@@ -86,6 +86,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					echo"<th >Data Inicial</th>";
 					echo"<th >Data Final</th>";
 					echo"<th >Dia da Semana</th>";
+					echo"<th ></th>";
 					echo"</tr>";
 				echo "</thead>";
 				echo "<tbody>";
@@ -120,6 +121,9 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					  $diaSemana = 'Sabado';
 					}
 					echo "<td>".$diaSemana."</td>";
+					if($_SESSION['administradorLogin']){
+						echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idProfessorDisciplina'].')" class="button-go-update">Alterar</button>' ."</td>";
+					}
 					echo "</tr>";}
 				echo  "</tbody>";
 				echo "</table>";}
@@ -128,8 +132,19 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 			}
             unset($_SESSION['queryProfessorDisciplina1']);
 		}
+		echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+		echo '<input type="hidden" id="id" name="id" value="" />';
+		echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+		echo "</form>";
 		?>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div> 
+	<script>
+		function editar(id){
+			var hiddenId = document.getElementById('id')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
+	</script>	
 </body>
 </html>

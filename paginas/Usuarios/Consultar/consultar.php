@@ -36,13 +36,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100"> <br/>
-        <label for="matricula">Matricula: </label><input matricula="matricula" name="matricula" type="number" placeholder="Digite a matricula" min="1" max="99999999999"> <br/>
+        <label for="matricula">Matricula: </label><input id="matricula" name="matricula" type="number" placeholder="Digite a matricula" min="1" max="99999999999"> <br/>
         <input type="submit" name="submit" value="Enviar">
     </form>
     <?php
-        
 		if(isset($_SESSION['queryUsuario1'])){
-            echo "<h1>Usuarios</h1>";
+            echo "<script>var consultar = 0</script>";
+			echo "<h1>Usuarios</h1>";
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo "<tr>";
@@ -53,8 +53,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<th >Cpf</th>";
                 echo "<th >Tipo</th>";
 				echo "<th >Ativo</th>";
+				echo "<th></th>";
                 echo "</tr>";
-            echo "</thead>";
+            echo "</thead>";	
             echo "<tbody>";
             foreach($_SESSION['queryUsuario1'] as $linha_array) {
                 echo "<tr>";
@@ -71,9 +72,17 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                     echo "<td>". 'Aluno' ."</td>";
                 }
 				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
+				if($_SESSION['administradorLogin']){
+						echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idUsuario'].')" class="button-go-update">Alterar</button>' ."</td>";
+				}
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
+			if($_SESSION['administradorLogin']){
+				echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+					echo '<input type="hidden" id="id" name="id" value="" />';
+					echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+				echo "</form>";}
             unset($_SESSION['queryUsuario1']);
 		}
         if(isset($_SESSION['queryUsuario2'])){
@@ -115,6 +124,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 		}
 		?>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div>  
+	<script>
+		function editar(id){
+			var hiddenId = document.getElementById('id')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
+	</script>
 </body>
 </html>

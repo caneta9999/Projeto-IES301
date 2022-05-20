@@ -51,22 +51,40 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo"<tr>";
-                echo"<th >Id</th>";
+				if($_SESSION['administradorLogin']){
+					echo"<th >Id</th>";}
                 echo"<th >Nome</th>";
+				echo"<th> </th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
             foreach($_SESSION['queryCurso1'] as $linha_array) {
                 echo "<tr>";
-                echo "<td>". $linha_array['idCurso'] ."</td>";        
-                echo "<td>". $linha_array['Nome'] ."</td>";	
+				if($_SESSION['administradorLogin']){
+					echo "<td>". $linha_array['idCurso'] ."</td>";}        
+                echo "<td>". $linha_array['Nome'] ."</td>";
+				if($_SESSION['administradorLogin']){
+					echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCurso'].')" class="button-go-update">Alterar</button>' ."</td>";
+				}				
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
             unset($_SESSION['queryCurso1']);
 		}
+		if($_SESSION['administradorLogin']){
+			echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+				echo '<input type="hidden" id="id2" name="id2" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form>";}
 		?>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div> 
+	<script>
+		function editar(id){
+			var hiddenId = document.getElementById('id2')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
+	</script>	
 </body>
 </html>

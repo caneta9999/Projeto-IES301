@@ -106,6 +106,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th >Ano e Semestre</th>";
                 echo"<th>Elogios</th>";
                 echo"<th >Críticas</th>";
+				echo"<th> </th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -135,18 +136,32 @@ if(!isset($_SESSION['idUsuarioLogin']))
                     $criticasFinal = $criticas."<br/>".$criticasFinal;
                   }
                 }
-                echo "<td>".$criticasFinal."</td>";                	 	 
-                echo "</tr>";}
+                echo "<td>".$criticasFinal."</td>";    
+				if($_SESSION['administradorLogin']){
+					echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCritica'].')" class="button-go-update">Alterar</button>' ."</td>";
+				}						
+                echo "</tr>";
+				}
             echo  "</tbody>";
             echo "</table>";
 			echo "<script>$('#tableCriticasDisciplina').paginate({ limit: 10 });</script>";//pagination
             unset($_SESSION['queryCritica2']);
 		}
+		if($_SESSION['administradorLogin']){
+			echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+				echo '<input type="hidden" id="id" name="id" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form>";}
 		?>
     <script>
         function mudaDisciplina(){
             document.getElementById('disciplina').value = document.getElementById('disciplinaSelect').value;
         }
+		function editar(id){
+			var hiddenId = document.getElementById('id')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
     </script>
     <div id="push"></div>
     <div id="footer"></div>    

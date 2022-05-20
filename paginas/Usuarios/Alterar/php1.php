@@ -7,15 +7,19 @@ if(!isset($_SESSION['idUsuarioLogin']))
 <?php
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
+echo var_dump($_POST);
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
-if($send || $_SESSION['alterarProprioUsuario']){
+$send2 = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);//usuário vindo alterar a partir da tela de consulta
+if($send || $send2 || isset($_SESSION['consultarUsuarioAlterar'])){
 	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($id) || $id < 1 || $id > 99999999999){
         $id = -1;
     }
-	if($id==-1 && $_SESSION['alterarProprioUsuario']){
-		$id = $_SESSION['alterarProprioUsuario'];
-		unset($_SESSION['alterarProprioUsuario']);
+	if($id == -1){
+		if(isset($_POST['alterarProprioUsuario'])){
+			$id = $_POST['alterarProprioUsuario'];
+			unset($_POST['alterarProprioUsuario']);			
+		}
 	}
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";

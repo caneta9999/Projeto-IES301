@@ -67,6 +67,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo"<th >Ano e Semestre</th>";
                 echo"<th>Elogios</th>";
                 echo"<th >Críticas</th>";
+				echo"<th> </th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -133,13 +134,25 @@ if(!isset($_SESSION['idUsuarioLogin']))
                   }
                 }
                 echo "<td>".$criticasFinal."</td>";
+				echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCritica'].')" class="button-go-update">Alterar</button>' ."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
             unset($_SESSION['queryCritica1']);
+			echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+				echo '<input type="hidden" id="id2" name="id2" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form>";
 		}
 		?>
     <div id="push"></div>
     <div id="footer"></div>    
+	<script>
+		function editar(id){
+			var hiddenId = document.getElementById('id2')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
+	</script>
 </body>
 </html>

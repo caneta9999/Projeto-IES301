@@ -45,7 +45,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo"<tr>";
-                echo"<th >Id</th>";
+				if($_SESSION['administradorLogin']){
+					echo"<th >Id</th>";}
                 echo"<th >Nome</th>";
                 echo"<th> Descrição</th>";
                 echo"<th> Código </th>";
@@ -53,12 +54,14 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo"<th> Tipo </th>";
 				echo"<th> Ativa </th>";
 				echo"<th> Curso </th>";
+				echo"<th> </th>";
                 echo"</tr>";
             echo "</thead>";
             echo "<tbody>";
             foreach($_SESSION['queryDisciplina1'] as $linha_array) {
                 echo "<tr>";
-                echo "<td>". $linha_array['idDisciplina'] ."</td>";        
+				if($_SESSION['administradorLogin']){
+					echo "<td>". $linha_array['idDisciplina'] ."</td>";}        
                 echo "<td>". $linha_array['Nome'] ."</td>";	
                 echo "<td>". $linha_array['Descrição'] ."</td>";	
                 echo "<td>". $linha_array['Código'] ."</td>";	
@@ -73,13 +76,28 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo "<td>". $linha_array['Tipo'] ."</td>";	
 				echo "<td>".($linha_array['Ativa']?"Sim":"Não")."</td>";
 				echo "<td>".$linha_array['NomeCurso']."</td>";
+				if($_SESSION['administradorLogin']){
+					echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idDisciplina'].')" class="button-go-update">Alterar</button>' ."</td>";
+				}
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
             unset($_SESSION['queryDisciplina1']);
 		}
+		if($_SESSION['administradorLogin']){
+			echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+				echo '<input type="hidden" id="id" name="id" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form>";}
 		?>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div> 
+	<script>
+		function editar(id){
+			var hiddenId = document.getElementById('id')
+			hiddenId.value = id
+			form = document.getElementById('formConsultarAlterar').submit();
+		}
+	</script>	
 </body>
 </html>

@@ -8,9 +8,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
-if($send){
+$send2 = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);//usuário vindo alterar a partir da tela de consulta de disciplina
+$send3 = filter_input(INPUT_POST,'id2',FILTER_SANITIZE_NUMBER_INT);//usuário vindo alterar a partir da tela de critica de usuário
+if($send || $send2 || $send3){
     $variavelControle = 1;
-	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
+	$id = 0;
+	if($send || $send2){
+		$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);}
+	else{
+		$id = filter_input(INPUT_POST,'id2',FILTER_SANITIZE_NUMBER_INT);
+	}
     if(!is_numeric($id) || $id < 1 || $id > 99999999999){
         $id = -1;
     }
