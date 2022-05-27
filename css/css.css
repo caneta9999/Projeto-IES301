@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 :root {
     --color-background: #ffffff;
@@ -29,6 +30,9 @@ header, footer{
 header{
     padding-top: 10px;
     padding-right: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 footer {
     background-color: var(--color-main);
@@ -115,9 +119,20 @@ input[type=submit]{
     margin-bottom: 30px;
 }
 
+@keyframes hide-menu {
+    0% {
+        transform:translateX(15rem)
+    }
+    100% {
+        transform:translateX(-15rem)
+    }
+}
+
+
 .logo {
     width: 10rem;
     margin-top: 1rem;
+    align-self: center;
 }
 
 input, select{
@@ -132,6 +147,60 @@ input, select{
 .mensagemErro{
     color: red;
 }
+#menu {
+    background-color: var(--color-main);
+    border-top-right-radius: 1rem;
+    position: absolute;
+    text-align: left;
+    width: 15rem;
+    height: 100vh;
+    left: -15rem;
+    font-size: 1.5rem;
+    user-select: none;
+}
+
+#menu a {
+    color: var(--color-font-secondary);
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.menu-button {
+    color: var(--color-font-secondary);
+    vertical-align: text-bottom;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+    font-size: 2.5rem;
+}
+
+#menu-hide {
+    cursor: pointer;
+    font-size: 4rem;
+    user-select: none;
+    color: white;
+}
+
+.menu-hide-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#menu-show {
+    cursor: pointer;
+    margin-left: 1rem;
+    font-size: 4rem;
+    user-select: none;
+    color: black;
+}
+
+@keyframes show-menu {
+    100% {
+        transform:translateX(15rem);
+    }
+}
+
 table {
     margin-left: auto;
     margin-right: auto;

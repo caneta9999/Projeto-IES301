@@ -18,6 +18,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <title>Projeto IES301</title>
 </head>
 <body>
+    <?php 
+      if($_SESSION['administradorLogin']) {
+        echo "<div id='menu' class='menu-adm'></div>";
+      } else {
+        echo "<div id='menu'></div>";
+      }
+    ?>
     <div id="navbar"></div>
     <h1>Cadastrar curso</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>

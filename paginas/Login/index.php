@@ -12,7 +12,7 @@
     <title>Projeto IES301</title>
 </head>
 <body>
-    <a href='/projeto-ies301/paginas/index.php'><img class="logo" src='../../imgs/logo-sistema.png' alt=''></a>
+    <a href='/projeto-ies301/paginas/index.php'><img class="logo" src='/projeto-ies301/imgs/logo-sistema.png' alt=''></a>
 	<?php
 		session_start();
         if(isset($_SESSION['mensagemErro'])){

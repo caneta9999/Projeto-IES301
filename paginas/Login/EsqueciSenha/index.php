@@ -7,11 +7,11 @@
 
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
-    <script type="module" src="../../../js/componentes.js"></script>
+    <script type="module" src="../../../js/componentes-inicial.js"></script>
     <title>Projeto IES301</title>
 </head>
 <body>
-    <div id="navbar"></div>   
+    <a href='/projeto-ies301/paginas/index.php'><img class="logo" src='/projeto-ies301/imgs/logo-sistema.png' alt=''></a>
     <h1>Esqueci a senha</h1>
     <form id="formEsqueciSenha" method="POST" action="php.php">
 		<label for="login">Login: </label><input id="login" name="login" type="text" placeholder="Login" maxlength="100" required /> <br/>
