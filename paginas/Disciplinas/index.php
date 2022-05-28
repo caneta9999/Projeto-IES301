@@ -43,7 +43,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
         echo '<button class="button btnCadastrar" id="btnCadastrarDisciplinas"><a href="./Cadastrar/cadastrar.php">Cadastrar</a></button> <br/>';
         echo '<button class="button btnAlterar" id="btnAlterarDisciplinas"><a href="./Alterar/alterar.php">Alterar</a></button> <br/>';}
     ?>
-    <button class="button btnConsultar" id="btnConsultarDisciplinas"><a href="./Consultar/consultar.php">Consultar</a></button>
+    <button class="button btnConsultar" id="btnConsultarDisciplinas"><a href="./Consultar/consultar.php">Consultar</a></button> <br/>
+    <button class="button btnVisualizar" id="btnVisualizarDisciplinas"><a href="./Visualizar/visualizar.php">Visualizar</a></button>
     <div id="footer"></div>    
 </body>
 </html>

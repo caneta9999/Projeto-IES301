@@ -107,6 +107,11 @@ input[type=submit]{
     background-color: gold;
     border-color: gold;
 }
+.btnVisualizar{
+    min-width: 250px;
+    background-color: goldenrod;
+    border-color: goldenrod;
+}
 .btnEstatisticas{
     min-width: 250px;
     background-color:darkorange;
@@ -195,6 +200,10 @@ input, select{
     color: black;
 }
 
+.p-bold {
+    font-weight: bold;
+}
+
 @keyframes show-menu {
     100% {
         transform:translateX(15rem);
@@ -210,6 +219,22 @@ table {
 .tableContagemElogiosCriticas{
 	min-width: 500px;
 }
+
+#text-visualizar-disciplina {
+    text-align: left;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+#text-visualizar-disciplina h1 {
+    text-align: center;
+}
+
+#text-visualizar-disciplina section p {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 th, td {
     padding: 4px;
 	background: white;
