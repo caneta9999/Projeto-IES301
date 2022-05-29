@@ -41,13 +41,11 @@ if($send || $send2){
             $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE idDisciplina=:idDisciplina";
             $select = $conx->prepare($result);
             $select->execute(['idDisciplina' => $id]);
-            $_SESSION['queryDisciplina2'] = $select->fetchAll();
-
+            $_SESSION['queryVisualizarDisciplina1'] = $select->fetchAll();
             $result = "SELECT U1.Nome, PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_PROFESSOR P1 on PD1.Professor_idProfessor = P1.idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_DISCIPLINA D1 on PD1.Disciplina_idDisciplina = D1.idDisciplina where idDisciplina=:idDisciplina order by PD1.Periodo";
             $select = $conx->prepare($result);
             $select->execute(['idDisciplina' => $id]);
-            $_SESSION['queryDisciplina3'] = $select->fetchAll();
-
+            $_SESSION['queryVisualizarDisciplina2'] = $select->fetchAll();
             $_SESSION['mensagemFinalizacao'] =  'Operação finalizada com sucesso!';}
         header("Location: ./visualizar.php");	
         }

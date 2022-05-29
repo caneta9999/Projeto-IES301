@@ -37,9 +37,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		}
     ?>
 	<?php 
-    if($_SESSION['administradorLogin']) {
-    echo '<h2>Visualizar disciplina</h2>';
+	echo '<h2>Visualizar disciplina</h2>';
     echo '<button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>';
+    if($_SESSION['administradorLogin']) {
     echo '<form action="php.php" method="POST">';
         echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
         echo '<input type="submit" name="submit" value="Enviar">';
@@ -48,7 +48,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	}
 	?>
 	<?php
-        if(isset($_SESSION['queryDisciplina2']) && isset($_SESSION['queryDisciplina3'])){
+        if(isset($_SESSION['queryVisualizarDisciplina1']) && isset($_SESSION['queryVisualizarDisciplina2'])){
             $nome = 'Disciplina';
             $id = -1;
             $sigla = 'AAA000';
@@ -58,7 +58,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			$tipo = 0;
             $ativa = 0;
 			$curso = 0;
-            foreach($_SESSION['queryDisciplina2'] as $linha_array){
+            foreach($_SESSION['queryVisualizarDisciplina1'] as $linha_array){
                 $nome = $linha_array['Nome'];
                 $id = $linha_array['idDisciplina'];
                 $sigla = $linha_array['Sigla'];
@@ -69,7 +69,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				$curso = $linha_array['NomeCurso'];
                 $_SESSION['idAlteracao3'] = $id;
             }
-            foreach($_SESSION['queryDisciplina3'] as $linha_array) {
+            foreach($_SESSION['queryVisualizarDisciplina2'] as $linha_array) {
                 $professor_nome = $linha_array['Nome'];
                 
                 $professor_periodo = '';
@@ -163,8 +163,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '<input name="submit" type="submit" value="Alterar" />';
             echo '</form>';
             */
-            unset($_SESSION['queryDisciplina2']);
-            unset($_SESSION['queryDisciplina3']);
+            unset($_SESSION['queryVisualizarDisciplina1']);
+            unset($_SESSION['queryVisualizarDisciplina2']);
         }
     ?>
 	<script>
