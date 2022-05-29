@@ -44,7 +44,13 @@ if(!isset($_SESSION['idUsuarioLogin']))
         echo '<button class="button btnAlterar" id="btnAlterarDisciplinas"><a href="./Alterar/alterar.php">Alterar</a></button> <br/>';}
     ?>
     <button class="button btnConsultar" id="btnConsultarDisciplinas"><a href="./Consultar/consultar.php">Consultar</a></button> <br/>
-    <button class="button btnVisualizar" id="btnVisualizarDisciplinas"><a href="./Visualizar/visualizar.php">Visualizar</a></button>
+    <button class="button btnVisualizar" id="btnVisualizarDisciplinas"><a href="./Visualizar/visualizar.php">Visualizar</a></button><br/>
+	<?php
+	if($_SESSION['administradorLogin']){
+        echo '<button class="button btnCadastrar" id="btnCadastrarProfessoresDisciplinas"><a href="../ProfessoresDisciplinas/Cadastrar/cadastrar.php">Cadastrar professor em disciplina</a></button> <br/>';
+        echo '<button class="button btnAlterar" id="btnAlterarProfessoresDisciplinas"><a href="../ProfessoresDisciplinas/Alterar/alterar.php">Alterar disciplina e professor</a></button> <br/>';}
+    ?>
+    <button class="button btnConsultar" id="btnConsultarProfessoresDisciplinas"><a href="../ProfessoresDisciplinas/Consultar/consultar.php">Consultar disciplina e seus professores</a></button>
     <div id="footer"></div>    
 </body>
 </html>

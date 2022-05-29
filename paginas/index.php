@@ -64,7 +64,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				unset($_SESSION['mensagemErro']);
 			}
 	?>
-    <h1>Acessar</h1>	
+    <h1>Bem vindo(a)!</h1>
+	<h2>Buscar disciplina</h2>	
 	<form><input type="text" name="searchDisciplina" id="searchDisciplina" onKeyUp="showResults(this.value)" />
 	<div id="result"></div>
 	</form>
@@ -87,7 +88,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	
     <button class="button btnCursos btnEntidades"><a href="./Cursos/index.php">Cursos</a></button> <br/>
     <button class="button btnDisciplinas btnEntidades"><a href="./Disciplinas/index.php">Disciplinas</a></button><br/>
-    <button class="button btnProfessoresDisciplinas btnEntidades"><a href="./ProfessoresDisciplinas/index.php">Disciplinas e seus professores</a></button> <br/>
     <button class="button btnCriticas btnEntidades"><a href="./Criticas/index.php">Críticas sobre disciplinas</a></button> <br/>
     <div id="footer"></div>   
 	<script>

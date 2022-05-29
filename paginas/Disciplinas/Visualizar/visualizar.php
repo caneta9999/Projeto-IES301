@@ -36,14 +36,18 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			unset($_SESSION['mensagemErro']);
 		}
     ?>
-    <h2>Visualizar disciplina</h2>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
-    <form action="php.php" method="POST">
-        <label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>
-        <input type="submit" name="submit" value="Enviar">
-    </form>
-    <hr/>
-    <?php
+	<?php 
+    if($_SESSION['administradorLogin']) {
+    echo '<h2>Visualizar disciplina</h2>';
+    echo '<button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>';
+    echo '<form action="php.php" method="POST">';
+        echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
+        echo '<input type="submit" name="submit" value="Enviar">';
+    echo '</form>';
+    echo '<hr/>';
+	}
+	?>
+	<?php
         if(isset($_SESSION['queryDisciplina2']) && isset($_SESSION['queryDisciplina3'])){
             $nome = 'Disciplina';
             $id = -1;
