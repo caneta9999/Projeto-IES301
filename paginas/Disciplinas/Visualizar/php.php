@@ -8,12 +8,25 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 $send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
-$send2 = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);//usuário vindo visualizar a partir da tela de consulta
+$send2 = filter_input(INPUT_POST,'codigo',FILTER_SANITIZE_NUMBER_INT);//usuário vindo visualizar a partir da tela inicial
 if($send || $send2){
-	$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
-    if(!is_numeric($id) || $id < 1 || $id > 99999999999){
-        $id = -1;
-    }
+	$id = '';
+	if($send2){
+        $result = "SELECT idDisciplina FROM $db.$TB_DISCIPLINA WHERE Código=:codigo";
+		$select = $conx->prepare($result);
+		$select->bindParam(':codigo',$send2);
+		$select->execute();	
+		foreach($select->fetchAll() as $linha_array){
+			$id = $linha_array['idDisciplina'];
+			break;
+		}	
+	}
+	else{
+		$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
+		if(!is_numeric($id) || $id < 1 || $id > 99999999999){
+			$id = -1;
+		}
+	}
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE idDisciplina=:idDisciplina";
 		$select = $conx->prepare($result);

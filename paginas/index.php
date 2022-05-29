@@ -24,6 +24,16 @@ if(!isset($_SESSION['idUsuarioLogin']))
       } else {
         echo "<div id='menu'></div>";
       }
+	  require '../camadaDados/conectar.php';
+	  require '../camadaDados/tabelas.php';
+	  $result = "SELECT D1.Código,D1.Sigla,D1.Nome FROM $db.$TB_DISCIPLINA D1 order by D1.Nome";
+      $select = $conx->prepare($result);
+      $select->execute();
+	  echo "<script>var search_terms = []</script>" ;
+	  foreach($select->fetchAll() as $linha_array){
+		echo "<script>search_terms.push(\"".$linha_array['Código']." - ".$linha_array['Sigla']." - ".$linha_array['Nome']."\")</script>" ;
+	  }
+   
   ?>
     <div id="navbar"></div>
     <?php
@@ -36,7 +46,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				unset($_SESSION['mensagemErro']);
 			}
 	?>
-    <h1>Acessar</h1>
+    <h1>Acessar</h1>	
+	<form><input type="text" name="searchDisciplina" id="searchDisciplina" onKeyUp="showResults(this.value)" />
+	<div id="result"></div>
+	</form>
     <?php
       if($_SESSION['administradorLogin']){
         echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuários</a></button> <br/>';
@@ -45,11 +58,44 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		$_SESSION['alterarProprioUsuario'] = $_SESSION['idUsuarioLogin'];
 		echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/Alterar/php1.php">Alterar seu usuário</a></button> <br/>';
 	  }
+	  echo "<form id='formVisualizar' method='POST' action='./Disciplinas/Visualizar/php.php'>";
+		echo '<input type="hidden" id="codigo" name="codigo" value="" />';
+		echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+	  echo "</form>";
     ?>
+	
     <button class="button btnCursos btnEntidades"><a href="./Cursos/index.php">Cursos</a></button> <br/>
     <button class="button btnDisciplinas btnEntidades"><a href="./Disciplinas/index.php">Disciplinas</a></button><br/>
     <button class="button btnProfessoresDisciplinas btnEntidades"><a href="./ProfessoresDisciplinas/index.php">Disciplinas e seus professores</a></button> <br/>
     <button class="button btnCriticas btnEntidades"><a href="./Criticas/index.php">Críticas sobre disciplinas</a></button> <br/>
-    <div id="footer"></div>    
+    <div id="footer"></div>   
+	<script>
+	function autocompleteMatch(input) {
+	  if (input == '') {
+		return [];
+	  }
+	  var reg = new RegExp(input)
+	  return search_terms.filter(function(term) {
+		  if (term.match(reg)) {
+		  return term;
+		  }
+	  });
+	} 
+	function showResults(val) {
+	  res = document.getElementById("result");
+	  res.innerHTML = '';
+	  let list = '';
+	  let terms = autocompleteMatch(val);
+	  for (i=0; i<terms.length; i++) {
+		list += '<li onclick="visualizar(' + terms[i].substr(0,4) + ')">' + terms[i] + '</li>';
+	  }
+	  res.innerHTML = '<ul>' + list + '</ul>';
+	}
+	function visualizar(codigo){
+		var hiddenCodigo = document.getElementById('codigo')
+		hiddenCodigo.value = codigo
+		form = document.getElementById('formVisualizar').submit();
+	}	
+	</script>
 </body>
 </html>
