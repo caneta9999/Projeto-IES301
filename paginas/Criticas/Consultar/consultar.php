@@ -141,7 +141,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                   }
                 }
                 echo "<td>".$criticasFinal."</td>";
-				echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCritica'].')" class="button-go-update">Alterar</button>' ."</td>";
+				echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCritica'].')" class="button-go-update"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";

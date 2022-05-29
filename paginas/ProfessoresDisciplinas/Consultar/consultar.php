@@ -130,7 +130,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					}
 					echo "<td>".$diaSemana."</td>";
 					if($_SESSION['administradorLogin']){
-						echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idProfessorDisciplina'].')" class="button-go-update">Alterar</button>' ."</td>";
+						echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idProfessorDisciplina'].')" class="button-go-update"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
 					}
 					echo "</tr>";}
 				echo  "</tbody>";

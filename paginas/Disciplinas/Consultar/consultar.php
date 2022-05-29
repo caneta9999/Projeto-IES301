@@ -85,7 +85,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo "<td>".($linha_array['Ativa']?"Sim":"Não")."</td>";
 				echo "<td>".$linha_array['NomeCurso']."</td>";
 				if($_SESSION['administradorLogin']){
-					echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idDisciplina'].')" class="button-go-update">Alterar</button>' ."</td>";
+					echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idDisciplina'].')" class="button-go-update"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
 				}
                 echo "</tr>";}
             echo  "</tbody>";

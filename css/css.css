@@ -55,67 +55,27 @@ footer {
 }
 .button:hover, input[type=submit]:hover{
     transition: 1.5s;
-    background-color:azure;
+    background-color: #ccc;
 }
 input[type=submit]{
     margin: 5px;
 }
 .btnEntidades{
     min-width: 220px;
+	background-color:var(--color-main);
+    border-color: var(--color-main);
 }
-.btnUsuarios{
-    background-color: lightblue;
-    border-color: lightblue;
+.btnEntidades a{
+	color: var(--color-font-secondary);
 }
-.btnCursos{
-    background-color:rgb(37, 210, 223);
-    border-color: rgb(37, 210, 223);
-}
-.btnDisciplinas{
-    background-color:chartreuse;
-    border-color: chartreuse;
-}
-.btnCursosDisciplinas{
-    background-color: green;
-    border-color: green;
-}
-.btnProfessoresDisciplinas{
-    background-color:darksalmon;
-    border-color: darksalmon;
-}
-.btnCriticas{
-    background-color:crimson;
-    border-color: crimson;
-}
-.btnCadastrar{
+.btnCadastrar,.btnAlterar,.btnConsultar,.btnConsultar2,.btnVisualizar,.btnEstatisticas{
     min-width: 250px;
-    background-color:mediumorchid;
-    border-color: mediumorchid;
+    background-color:var(--color-main);
+    border-color: var(--color-main);
+	color: var(--color-font-secondary);
 }
-.btnAlterar{
-    min-width: 250px;
-    background-color: cyan;
-    border-color: cyan;
-}
-.btnConsultar{
-    min-width: 250px;
-    background-color: yellow;
-    border-color: yellow;
-}
-.btnConsultar2{
-    min-width: 250px;
-    background-color: gold;
-    border-color: gold;
-}
-.btnVisualizar{
-    min-width: 250px;
-    background-color: goldenrod;
-    border-color: goldenrod;
-}
-.btnEstatisticas{
-    min-width: 250px;
-    background-color:darkorange;
-    border-color: darkorange;
+.btnCadastrar a,.btnAlterar a,.btnConsultar a,.btnConsultar2 a,.btnVisualizar a,.btnEstatisticas a{
+	color: var(--color-font-secondary);
 }
 .btnVoltar{
     min-width: 80px;
@@ -123,7 +83,10 @@ input[type=submit]{
     margin-top: -10px;
     margin-bottom: 30px;
 }
-
+.button-go-update{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);
+}
 @keyframes hide-menu {
     0% {
         transform:translateX(15rem)

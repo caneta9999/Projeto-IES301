@@ -14,7 +14,8 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <link rel ="stylesheet" href="../css/css.css"/>
 
     <script type="module" src="../js/componentes.js"></script>
-
+	
+	<script src="../js/sorttable.js"></script>
     <title>Projeto IES301</title>
 </head>
 <body>
@@ -65,33 +66,134 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			}
 	?>
     <h1>Bem vindo(a)!</h1>
-	<h2>Buscar disciplina</h2>	
-	<form><input type="text" name="searchDisciplina" id="searchDisciplina" onKeyUp="showResults(this.value)" />
-	<div id="result"></div>
-	</form>
 	<?php
-	 if($_SESSION['tipoLogin'] == 2){
+	if($_SESSION['tipoLogin'] == 2){
+		echo '<h2>Buscar disciplina</h2>';	
+		echo '<form><input type="text" name="searchDisciplina" id="searchDisciplina" placeholder="Digite alguma informação da disciplina" onKeyUp="showResults(this.value)" />';
+		echo '<div id="result"></div>';
+		echo '</form>';
 		echo '<input type="checkbox" id="checkDisciplinasCurso" name="checkDisciplinasCurso" checked> <label for="checkDisciplinasCurso">Buscar apenas disciplinas no meu curso</label> <br/><br/>';
-	 }
-	 echo "	<br/><br/><br/>";
-      if($_SESSION['administradorLogin']){
-        echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuários</a></button> <br/>';
-      }
-	  else{
-		$_SESSION['alterarProprioUsuario'] = $_SESSION['idUsuarioLogin'];
-		echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/Alterar/php1.php">Alterar seu usuário</a></button> <br/>';
-	  }
+		echo "	<br/><br/><br/>";}
 	  echo "<form id='formVisualizar' method='POST' action='./Disciplinas/Visualizar/php.php'>";
 		echo '<input type="hidden" id="codigo" name="codigo" value="" />';
 		echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
 	  echo "</form>";
-    ?>
+    if($_SESSION['tipoLogin'] == 2){
+			$result = "SELECT C1.idCritica,C1.Data,D1.Sigla,U2.Nome,C1.NotaDisciplina,C1.Descrição FROM $db.$TB_CRITICA C1 inner join $db.$TB_PROFESSORDISCIPLINA PD1 on PD1.idProfessorDisciplina = C1.ProfessorDisciplina_idProfessorDisciplina inner join $db.$TB_DISCIPLINA D1 on PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 on P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U2 on U2.idUsuario = P1.Usuario_idUsuario inner join $db.$TB_ALUNO A1 on A1.idAluno = C1.Aluno_idAluno inner join $db.$TB_USUARIO U1 on A1.Usuario_idUsuario = U1.idUsuario where U1.idUsuario = :id LIMIT 9";
+			$select = $conx->prepare($result);
+			$select->execute([':id'=>$_SESSION['idUsuarioLogin']]);
+            echo "<h2>Suas últimas críticas</h2>";
+			echo "<table class='sortable'>";
+            echo "<thead>";
+                echo"<tr>";
+				echo"<th>Data</th>";
+                echo"<th>Disciplina</th>";
+				echo"<th>Professor</th>";
+                echo"<th>Nota da disciplina</th>";
+                echo"<th>Comentário</th>";
+				echo"<th></th>";
+                echo"</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            foreach($select->fetchAll() as $linha_array) {
+                echo "<tr>";
+				echo "<td>".$linha_array['Data']."</td>";
+				echo "<td>".$linha_array['Sigla']."</td>";
+				echo "<td>".$linha_array['Nome']."</td>";
+				echo "<td>".$linha_array['NotaDisciplina']."</td>";
+				echo "<td>".$linha_array['Descrição']."</td>";
+				echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idCritica'].')" class="button-go-update"><span class="material-icons button-go-update">edit</span></button>' ."</td>";
+                echo "</tr>";}
+            echo  "</tbody>";
+            echo "</table>";
+			echo "<form id='formConsultarAlterar' method='POST' action='./Criticas/Alterar/php1.php'>";
+				echo '<input type="hidden" id="id2" name="id2" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form><br/>";	
+			echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Criticas/Consultar/consultar.php">Ver mais críticas</a></button> <br/>';
+	}else if($_SESSION['tipoLogin'] == 1){
+			$result = "SELECT C1.Data,D1.Sigla,C1.NotaDisciplina, C1.Elogios,C1.Criticas,C1.Descrição FROM $db.$TB_CRITICA C1 inner join $db.$TB_PROFESSORDISCIPLINA PD1 on C1.ProfessorDisciplina_idProfessorDisciplina = PD1.idProfessorDisciplina inner join $db.$TB_DISCIPLINA D1 on D1.idDisciplina = PD1.Disciplina_idDisciplina inner join $db.$TB_PROFESSOR P1 on PD1.Professor_idProfessor = P1.idProfessor inner join $db.$TB_USUARIO U1 on U1.idUsuario = P1.Usuario_idUsuario where U1.idUsuario = :id LIMIT 9";
+			$select = $conx->prepare($result);
+			$select->execute([':id'=>$_SESSION['idUsuarioLogin']]);
+            echo "<h2>Últimas críticas recebidas</h2>";
+			echo "<table class='sortable'>";
+            echo "<thead>";
+                echo"<tr>";
+				echo"<th>Data</th>";
+                echo"<th>Disciplina</th>";
+                echo"<th>Nota da disciplina</th>";
+				echo"<th>Elogios</th>";
+				echo"<th>Críticas</th>";
+                echo"<th>Comentário</th>";
+                echo"</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            foreach($select->fetchAll() as $linha_array) {
+                echo "<tr>";
+				echo "<td>".$linha_array['Data']."</td>";
+				echo "<td>".$linha_array['Sigla']."</td>";
+				echo "<td>".$linha_array['NotaDisciplina']."</td>";
+				$elogios = explode('-', $linha_array['Elogios']);
+                $elogiosFinal = "";
+                foreach($elogios as $elogio){
+                  if($elogio != "Nenhum"){
+                    $elogiosFinal = $elogio."<br/>".$elogiosFinal;
+                  }
+                }
+                echo "<td>".$elogiosFinal."</td>";
+                $criticas = explode('-', $linha_array['Criticas']);
+                $criticasFinal = "";
+                foreach($criticas as $criticas){
+                  if($criticas != "Nenhum"){
+                    $criticasFinal = $criticas."<br/>".$criticasFinal;
+                  }
+                }
+                echo "<td>".$criticasFinal."</td>";
+				echo "<td>".$linha_array['Descrição']."</td>";
+                echo "</tr>";}
+            echo  "</tbody>";
+            echo "</table> <br/>";	
+			echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Criticas/ConsultarDisciplina/consultar.php">Ver mais críticas</a></button> <br/>';			
+	}
+	else if($_SESSION['administradorLogin']){
+			$result = "SELECT C1.Data,U1.Nome 'NomeAluno', D1.Sigla,U2.Nome 'NomeProfessor',C1.NotaDisciplina,C1.Descrição FROM $db.$TB_CRITICA C1 inner join $db.$TB_PROFESSORDISCIPLINA PD1 on PD1.idProfessorDisciplina = C1.ProfessorDisciplina_idProfessorDisciplina inner join $db.$TB_DISCIPLINA D1 on PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 on P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U2 on U2.idUsuario = P1.Usuario_idUsuario inner join $db.$TB_ALUNO A1 on A1.idAluno = C1.Aluno_idAluno inner join $db.$TB_USUARIO U1 on A1.Usuario_idUsuario = U1.idUsuario order by C1.Data DESC LIMIT 9";
+			$select = $conx->prepare($result);
+			$select->execute();
+            echo "<h2>Últimas críticas cadastradas no sistema</h2>";
+			echo "<table class='sortable'>";
+            echo "<thead>";
+                echo"<tr>";
+				echo"<th>Data</th>";
+				echo"<th>Aluno</th>";
+                echo"<th>Disciplina</th>";
+				echo"<th>Professor</th>";
+                echo"<th>Nota da disciplina</th>";
+                echo"<th>Comentário</th>";
+                echo"</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            foreach($select->fetchAll() as $linha_array) {
+                echo "<tr>";
+				echo "<td>".$linha_array['Data']."</td>";
+				echo "<td>".$linha_array['NomeAluno']."</td>";
+				echo "<td>".$linha_array['Sigla']."</td>";
+				echo "<td>".$linha_array['NomeProfessor']."</td>";
+				echo "<td>".$linha_array['NotaDisciplina']."</td>";
+				echo "<td>".$linha_array['Descrição']."</td>";
+                echo "</tr>";}
+            echo  "</tbody>";
+            echo "</table> <br/>";		
+		echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Criticas/ConsultarDisciplina/consultar.php">Ver mais críticas</a></button> <br/>';	
+	}
+	?>
 	
-    <button class="button btnCursos btnEntidades"><a href="./Cursos/index.php">Cursos</a></button> <br/>
-    <button class="button btnDisciplinas btnEntidades"><a href="./Disciplinas/index.php">Disciplinas</a></button><br/>
-    <button class="button btnCriticas btnEntidades"><a href="./Criticas/index.php">Críticas sobre disciplinas</a></button> <br/>
     <div id="footer"></div>   
 	<script>
+	function editar(id){
+		var hiddenId = document.getElementById('id2')
+		hiddenId.value = id
+		form = document.getElementById('formConsultarAlterar').submit();
+	}
 	function autocompleteMatch(input) {
 	  if (input == '') {
 		return [];

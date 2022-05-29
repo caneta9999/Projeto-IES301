@@ -81,7 +81,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 }
 				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
 				if($_SESSION['administradorLogin']){
-						echo "<td>".'<button value="Alterar" onclick="editar('.$linha_array['idUsuario'].')" class="button-go-update">Alterar</button>' ."</td>";
+						echo "<td>".'<button type="button" value="Alterar" class="button-go-update" onclick="editar('.$linha_array['idUsuario'].')"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
 				}
                 echo "</tr>";}
             echo  "</tbody>";
