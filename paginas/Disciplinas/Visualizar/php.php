@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
+if(!isset($_SESSION['idUsuarioLogin']))
 {
   header('location:../../Login/index.php');
 }?>

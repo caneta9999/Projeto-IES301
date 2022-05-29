@@ -33,7 +33,25 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	  foreach($select->fetchAll() as $linha_array){
 		echo "<script>search_terms.push(\"".$linha_array['Código']." - ".$linha_array['Sigla']." - ".$linha_array['Nome']."\")</script>" ;
 	  }
-   
+	  echo "<script>aluno = 0</script>";
+	  if($_SESSION['tipoLogin'] == 2){
+		  echo "<script>aluno = 1</script>";
+		  $result = "SELECT A1.Curso_idCurso from $db.$TB_ALUNO A1 where A1.Usuario_idUsuario = :id";
+		  $select = $conx->prepare($result);
+		  $select->execute([':id'=>$_SESSION['idUsuarioLogin']]);
+		  $curso = '';
+		  foreach($select->fetchAll() as $linha_array){
+			$curso = $linha_array['Curso_idCurso'];
+			break;
+		  }	  
+		  $result = "SELECT D1.Código,D1.Sigla,D1.Nome FROM $db.$TB_DISCIPLINA D1 where D1.Curso_idCurso = :curso order by D1.Nome";
+		  $select = $conx->prepare($result);
+		  $select->execute([':curso'=>$curso]);
+		  echo "<script>var search_terms2 = []</script>" ;
+		  foreach($select->fetchAll() as $linha_array){
+			echo "<script>search_terms2.push(\"".$linha_array['Código']." - ".$linha_array['Sigla']." - ".$linha_array['Nome']."\")</script>" ;
+		  }
+		}   
   ?>
     <div id="navbar"></div>
     <?php
@@ -50,7 +68,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	<form><input type="text" name="searchDisciplina" id="searchDisciplina" onKeyUp="showResults(this.value)" />
 	<div id="result"></div>
 	</form>
-    <?php
+	<?php
+	 if($_SESSION['tipoLogin'] == 2){
+		echo '<input type="checkbox" id="checkDisciplinasCurso" name="checkDisciplinasCurso" checked> <label for="checkDisciplinasCurso">Buscar apenas disciplinas no meu curso</label> <br/><br/>';
+	 }
       if($_SESSION['administradorLogin']){
         echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuários</a></button> <br/>';
       }
@@ -75,6 +96,14 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		return [];
 	  }
 	  var reg = new RegExp(input)
+	  if(aluno){
+		if(document.getElementById('checkDisciplinasCurso').checked){
+		  return search_terms2.filter(function(term) {
+			  if (term.match(reg)) {
+			  return term;
+			  }
+		  })}
+	  }
 	  return search_terms.filter(function(term) {
 		  if (term.match(reg)) {
 		  return term;
