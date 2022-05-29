@@ -73,6 +73,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	 if($_SESSION['tipoLogin'] == 2){
 		echo '<input type="checkbox" id="checkDisciplinasCurso" name="checkDisciplinasCurso" checked> <label for="checkDisciplinasCurso">Buscar apenas disciplinas no meu curso</label> <br/><br/>';
 	 }
+	 echo "	<br/><br/><br/>";
       if($_SESSION['administradorLogin']){
         echo '<button class="button btnUsuarios btnEntidades"><a href="./Usuarios/index.php">Usuários</a></button> <br/>';
       }
