@@ -20,7 +20,6 @@ body{
     font-family: var(--font-main), sans-serif;
 }
 a{
-    text-decoration: none;
     color: var(--color-font-main);
 }
 header, footer{
