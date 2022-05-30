@@ -40,7 +40,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Digite o email" minlength="1" maxlength="100" required> <br/>
         <label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Digite a senha" minlength="8" maxlength="50" required> <br/>
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100" required> <br/>
-        <input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>
+        <input type="checkbox" id="administrador" name="administrador"> <label for="administrador">Administrador</label> <br/>
         <label for="cpf">CPF: </label><input id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>
         <label for="tipoSelect"> Tipo de usuário: </label>
         <select id="tipoSelect" onchange="mudaTipo()">
