@@ -119,6 +119,11 @@ input[type=submit]{
 	color: var(--color-font-secondary);	
 	margin-right: 10px;
 }
+.button-go-my-profile{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+}
 @keyframes hide-menu {
     0% {
         transform:translateX(15rem)
