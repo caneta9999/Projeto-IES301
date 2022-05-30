@@ -20,7 +20,7 @@
         <p id="captchaText"></p>
         <input id="captcha" type="text" placeholder="Insira a palavra"/>
         <p id="captchaMensagem"></p>
-        <input name="submit" type="submit" value="Enviar" />
+        <input class="inputLogin" name="submit" type="submit" value="Enviar" />
     </form>
     <script>
         window.onload = function () {

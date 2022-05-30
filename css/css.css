@@ -75,6 +75,13 @@ input[type=submit]{
     border-color: var(--color-main);
 	color: var(--color-font-secondary);
 }
+.inputLogin{
+    min-width: 150px;
+    background-color:var(--color-main);
+    border-color: var(--color-main);
+	color: var(--color-font-secondary);
+	font-size: 18px;
+}
 .btnCadastrar a,.btnAlterar a,.btnConsultar a,.btnConsultar2 a,.btnVisualizar a,.btnEstatisticas a{
 	color: var(--color-font-secondary);
 	font-size: 18px;
