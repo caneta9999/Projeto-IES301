@@ -58,7 +58,11 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				$matricula = 1;
 		}
 	}
-	if($send == 'Alterar'){
+	if($send == 'Cancelar'){
+		$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	
+		header("Location: ../index.php");
+	}
+	else if($send == 'Alterar'){
 		try{
 			if($_SESSION['administradorLogin']){ 
 				$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id and Ativo = 1";

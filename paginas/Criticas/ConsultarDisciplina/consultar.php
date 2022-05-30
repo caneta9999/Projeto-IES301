@@ -112,7 +112,7 @@
             echo '</select>';
             echo '<br/>';
         ?>
-        <input type="submit" name="submit" value="Enviar">
+		<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
     <?php
 		if(isset($_SESSION['queryCritica2'])){

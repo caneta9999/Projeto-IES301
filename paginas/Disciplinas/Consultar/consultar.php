@@ -45,7 +45,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <form action="php.php" method="POST">
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
         <label for="sigla">Sigla: </label><input id="sigla" name="sigla" type="text" placeholder="Digite a sigla" maxlength="6"> <br/>
-        <input type="submit" name="submit" value="Enviar">
+        <button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
     <?php
 		if(isset($_SESSION['queryDisciplina1'])){

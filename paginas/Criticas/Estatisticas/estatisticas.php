@@ -135,9 +135,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                 }            
                 echo '</select>';
                 echo '<br/>';
-                echo '<input type="submit" name="submit" value="Consultar disciplina"><br/>';
+				echo '<button type="submit" name="submit" class="button-search" value="Consultar disciplina"><span class="material-icons button-search">search</span>Consultar disciplina</button><br/><br/>';
                 if($_SESSION['administradorLogin']){
-                    echo '<input type="submit" name="submit" value="Consultar dados gerais">';}
+					echo '<button type="submit" name="submit" class="button-search" value="Consultar dados gerais"><span class="material-icons button-search">search</span>Consultar dados gerais</button>';}
             }
             else if($_SESSION['estatisticasId'] != 0){//consulta de disciplina
                 $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";

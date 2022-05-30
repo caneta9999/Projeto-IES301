@@ -20,6 +20,7 @@ body{
     font-family: var(--font-main), sans-serif;
 }
 a{
+	text-decoration: none;
     color: var(--color-font-main);
 }
 header, footer{
@@ -81,14 +82,42 @@ input[type=submit]{
 .button-go-update{
 	background-color: var(--color-main);
 	color: var(--color-font-secondary);
+	margin-right: 10px;
 }
 .button-go-logout{
 	background-color: var(--color-secondary);
 	color: var(--color-font-secondary);
+	margin-right: 10px;
 }
 .button-go-return{
 	background-color: var(--color-secondary);
 	color: var(--color-font-secondary);
+	margin-right: 10px;
+}
+.button-create{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);
+	margin-right: 10px;	
+}
+.button-confirm{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+}
+.button-delete{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+}
+.button-cancel{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+}
+.button-search{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
 }
 @keyframes hide-menu {
     0% {

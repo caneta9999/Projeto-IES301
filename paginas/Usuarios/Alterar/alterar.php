@@ -50,7 +50,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
 			echo '<form action="php1.php" method="POST">';
 			echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
-			echo '<input type="submit" name="submit" value="Enviar">';
+			echo '<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>';
 			echo '</form>';
 			echo '<hr/>';
 		}
@@ -140,8 +140,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 					echo '<script>document.getElementById("matricula").style.visibility= "hidden"</script>';
 					echo '<script>document.getElementById("labelMatricula").style.visibility= "hidden"</script>';
 				}
-				echo '<input name="submit" type="submit" value="Excluir" />';}
-            echo '<input name="submit" type="submit" value="Alterar" />';
+				echo '<button name="submit" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
+				echo '<button name="submit" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';}
+            echo '<button name="submit" type="submit" class="button-confirm" value="Alterar" /><span class="material-icons button-confirm">done</span>Confirmar</button>';
             echo '</form>';
             unset($_SESSION['queryUsuario3']);}
     ?>

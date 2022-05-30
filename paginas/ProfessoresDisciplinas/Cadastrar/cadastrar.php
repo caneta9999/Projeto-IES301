@@ -88,7 +88,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" name="dataInicial" checked required> <br/>
         <label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" name="dataFinal" checked> <br/>
         <label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" name="diaSemana" type="number" min="2" max="7" placeholder="2-7" required > <br/>
-        <input type="submit" name="submit" value="Enviar">
+        <button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
     </form>
     <script>
         function mudaProfessor(){

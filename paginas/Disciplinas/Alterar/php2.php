@@ -44,7 +44,11 @@
 		$ativa = 0;
 	}
 	$variavelControle = 1;
-	if($send == 'Alterar'){
+	if($send == 'Cancelar'){
+		$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	
+		header("Location: ../index.php");
+	}
+	else if($send == 'Alterar'){
 		try{
 
 			$result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Código=:codigo and idDisciplina!=:id";

@@ -30,7 +30,11 @@ $diaSemana = filter_input(INPUT_POST,'diaSemana', FILTER_SANITIZE_NUMBER_INT);
 if(!is_numeric($diaSemana) || $diaSemana < 2 || $diaSemana > 7 ){
     $diaSemana = 2;
 }
-if($send == 'Alterar'){
+if($send == 'Cancelar'){
+	$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	
+	header("Location: ../index.php");
+}
+else if($send == 'Alterar'){
     try{   
         $result = "UPDATE $db.$TB_PROFESSORDISCIPLINA SET Periodo=:periodo,DataInicial=:dataInicial, DataFinal=:dataFinal, DiaSemana=:diaSemana WHERE idProfessorDisciplina = :id";
         $insert = $conx->prepare($result);

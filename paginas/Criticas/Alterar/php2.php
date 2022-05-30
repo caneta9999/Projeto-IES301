@@ -131,7 +131,11 @@ foreach($select->fetchAll() as $linha_array){
             $_SESSION['mensagemErro'] = 'Data inválida para a disciplina!';}
         break;
 }
-if($send == 'Alterar'){
+if($send == 'Cancelar'){
+	$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	
+	header("Location: ../index.php");
+}
+else if($send == 'Alterar'){
     try{     
         if($aluno != '' && $variavelControle){
             $result = "UPDATE $db.$TB_CRITICA SET NotaAluno=:notaAluno,NotaEvolucao=:notaEvolucao,NotaDisciplina=:notaDisciplina,Descrição=:descricao,Data=now(),AnoSemestre=:anoSemestre,Elogios=:elogios,Criticas=:criticas WHERE idCritica = :idCritica and Aluno_idAluno = :idAluno";

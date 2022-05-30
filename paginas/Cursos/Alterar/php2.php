@@ -13,7 +13,11 @@ if($id != $_SESSION['idAlteracao']){
     $id = $_SESSION['idAlteracao'];
     unset($_SESSION['idAlteracao']);
 }
-if($send == 'Alterar'){
+if($send == 'Cancelar'){
+	$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	
+	header("Location: ../index.php");
+}
+else if($send == 'Alterar'){
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
     if(strlen($nome)<1 || strlen($nome) > 50){
         $nome = "CursoSemNome".rand(0,1000);

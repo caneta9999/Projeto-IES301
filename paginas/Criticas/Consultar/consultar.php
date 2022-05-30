@@ -49,9 +49,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
         <?php
         if($_SESSION['administradorLogin']){
           echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id do aluno" min="1" max="99999999999"/> <br/>';
-          echo '<input type="submit" name="submit" value="Ver as críticas do aluno">';}
+          echo '<button type="submit" name="submit" class="button-search" value="Ver as críticas do aluno"><span class="material-icons button-search">search</span>Ver as críticas do aluno</button>';}
         else if($_SESSION['tipoLogin'] == 2){
-          echo '<input type="submit" name="submit" value="Ver suas críticas">';}
+          echo '<button type="submit" name="submit" class="button-search" value="Ver suas críticas"><span class="material-icons button-search">search</span>Ver suas críticas</button>';}
         ?>
     </form>
     <?php

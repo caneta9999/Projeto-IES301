@@ -35,7 +35,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     ?>
     <div id="navbar"></div>
     <h1>Cadastrar usuário</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Digite o email" minlength="1" maxlength="100" required> <br/>
         <label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Digite a senha" minlength="8" maxlength="50" required> <br/>
@@ -68,7 +68,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<br/>';
             echo '<label id="labelMatricula" for="matricula">Matricula: </label><input id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>'
         ?>
-        <input type="submit" name="submit" value="Enviar">
+        <button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
     </form>
     <script>
         function mudaTipo(){

@@ -137,7 +137,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
             selectCritica(3);
         ?>
         <label for="descricao"> Comentário mais detalhado: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Comentário..." required maxlength="500" ></textarea> <br/>
-        <input type="submit" name="submit" value="Enviar">
+		<button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
     </form>
     <div id="push"></div>
     <script>

@@ -42,7 +42,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     if($_SESSION['administradorLogin']) {
     echo '<form action="php.php" method="POST">';
         echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
-        echo '<input type="submit" name="submit" value="Enviar">';
+        echo '<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>';
     echo '</form>';
     echo '<hr/>';
 	}
