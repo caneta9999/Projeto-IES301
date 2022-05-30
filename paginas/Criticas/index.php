@@ -39,18 +39,15 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h1>Críticas</h1>
     <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
     <?php
-    	echo '<button class="button btnCadastrar" id="btnCadastrarCriticas"><a href="./Cadastrar/cadastrar.php">Cadastrar crítica</a></button> <br/>';
-    	echo '<button class="button btnAlterar" id="btnAlterarCriticas"><a href="./Alterar/alterar.php">Alterar crítica</a></button> <br/>';
-    ?>
-	<?php
 		if($_SESSION['tipoLogin'] == 2 || $_SESSION['administradorLogin']){
-		echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Consultar/consultar.php">Consultar críticas realizadas por alunos</a></button> <br/>';
+			echo '<button class="button btnCadastrar" id="btnCadastrarCriticas"><a href="./Cadastrar/cadastrar.php">Cadastrar crítica</a></button> <br/>';
+			echo '<button class="button btnAlterar" id="btnAlterarCriticas"><a href="./Alterar/alterar.php">Alterar crítica</a></button> <br/>';
+			echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Consultar/consultar.php">Consultar críticas realizadas por alunos</a></button> <br/>';
 		}
-	?>
-	<button class="button btnConsultar2" id="btnConsultarCriticas2"><a href="./ConsultarDisciplina/consultar.php">Consultar críticas sobre disciplina</a></button> <br/>
-    <?php
-	  if($_SESSION['administradorLogin'] || $_SESSION['tipoLogin']==1){
-		  echo '<button class="button btnEstatisticas" id="btnEstatisticas"><a href="./Estatisticas/estatisticas.php">Estatísticas</a></button> <br/>';}
+		if($_SESSION['tipoLogin']==1 || $_SESSION['administradorLogin']){
+			echo '<button class="button btnConsultar2" id="btnConsultarCriticas2"><a href="./ConsultarDisciplina/consultar.php">Consultar críticas sobre disciplina</a></button> <br/>';}
+		if($_SESSION['administradorLogin'] || $_SESSION['tipoLogin']==1){
+			echo '<button class="button btnEstatisticas" id="btnEstatisticas"><a href="./Estatisticas/estatisticas.php">Estatísticas</a></button> <br/>';}
     ?>
     <div id="footer"></div>    
 </body>

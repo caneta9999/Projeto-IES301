@@ -13,6 +13,19 @@ if($send){
     if(!is_numeric($id) || $id < 1 || $id > 99999999999){
         $id = "";
     }
+	//verificar se a disciplina é do professor mesmo (caso seja o professor que esteja solicitando)
+    if($_SESSION['idProfessorLogin']){
+            $result = "SELECT Count(*) 'Quantidade' from $db.$TB_PROFESSORDISCIPLINA Where Professor_idProfessor = :idProfessor and idProfessorDisciplina = :idDisciplina";
+            $select= $conx->prepare($result);
+            $select->bindParam(':idProfessor',$_SESSION['idProfessorLogin']);
+            $select->bindParam(':idDisciplina',$id);
+            $select->execute();
+            foreach($select->fetchAll() as $linha_array){
+                if($linha_array['Quantidade']!=1){
+                    $id = -1;}
+                break;}
+            unset($_SESSION['idProfessorLogin']);
+    }
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina =:id";
 		$select = $conx->prepare($result);
