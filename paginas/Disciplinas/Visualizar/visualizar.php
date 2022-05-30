@@ -38,7 +38,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     ?>
 	<?php 
 	echo '<h2>Visualizar disciplina</h2>';
-    echo '<button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>';
+    echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
     if($_SESSION['administradorLogin']) {
     echo '<form action="php.php" method="POST">';
         echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';

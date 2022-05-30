@@ -47,7 +47,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h1>Alterar usuário</h1>
 	<?php
 		if($_SESSION['administradorLogin']){
-			echo '<button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>';
+			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
 			echo '<form action="php1.php" method="POST">';
 			echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
 			echo '<input type="submit" name="submit" value="Enviar">';

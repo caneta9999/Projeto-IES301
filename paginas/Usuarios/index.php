@@ -41,7 +41,7 @@ else if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=
 			}
 	?>
     <h1>Usuários</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <button class="button btnCadastrar" id="btnCadastrarUsuarios"><a href="./Cadastrar/cadastrar.php">Cadastrar</a></button> <br/>
     <button class="button btnAlterar" id="btnAlterarUsuarios"><a href="./Alterar/alterar.php">Alterar</a></button> <br/>
     <button class="button btnConsultar" id="btnConsultarUsuarios"><a href="./Consultar/consultar.php">Consultar</a></button>

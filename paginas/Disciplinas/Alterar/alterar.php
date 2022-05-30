@@ -37,7 +37,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 		}
     ?>
     <h1>Alterar disciplina</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php1.php" method="POST">
         <label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>
         <input type="submit" name="submit" value="Enviar">

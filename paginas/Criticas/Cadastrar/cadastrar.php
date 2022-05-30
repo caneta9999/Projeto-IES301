@@ -46,7 +46,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     ?>
     <div id="navbar"></div>
     <h1>Cadastrar crítica</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <?php
             function selectElogio($numeroSelect){

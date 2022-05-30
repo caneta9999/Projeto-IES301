@@ -53,10 +53,6 @@ footer {
     border-radius: 5px;
     margin-bottom: 10px;
 }
-.button:hover, input[type=submit]:hover{
-    transition: 1.5s;
-    background-color: #ccc;
-}
 input[type=submit]{
     margin: 5px;
 }
@@ -88,6 +84,10 @@ input[type=submit]{
 	color: var(--color-font-secondary);
 }
 .button-go-logout{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);
+}
+.button-go-return{
 	background-color: var(--color-secondary);
 	color: var(--color-font-secondary);
 }

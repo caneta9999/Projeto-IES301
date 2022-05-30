@@ -44,7 +44,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
       echo '<h2>Consulta por nome possui prioridade</h2>';
       echo '<h2>Para listar todos os cursos, deixe os dois campos em branco</h2>';}
     ?>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100"> <br/>
         <?php

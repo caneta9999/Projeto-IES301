@@ -63,10 +63,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
     <h1>Estatísticas</h1>
     <?php
         if(!isset($_SESSION['estatisticasId'])){
-            echo "<button class='button btnVoltar'><a href='../index.php'>Voltar</a></button><br/>";//voltar para a tela anterior na hierarquia
+			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
         }
         else{
-            echo "<button class='button btnVoltar'><a href='./estatisticas.php'>Voltar</a></button><br/>";//dar reload na página de estatísticas
+			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="./estatisticas.php">Voltar</a></button><br/>';
         }
     ?>
     

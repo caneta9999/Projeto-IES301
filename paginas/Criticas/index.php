@@ -37,7 +37,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			}
 	?>
     <h1>Críticas</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <?php
 		if($_SESSION['tipoLogin'] == 2 || $_SESSION['administradorLogin']){
 			echo '<button class="button btnCadastrar" id="btnCadastrarCriticas"><a href="./Cadastrar/cadastrar.php">Cadastrar crítica</a></button> <br/>';

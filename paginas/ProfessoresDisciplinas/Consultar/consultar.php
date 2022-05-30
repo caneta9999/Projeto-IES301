@@ -46,7 +46,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 		}
     ?>
     <h1>Consultar disciplina e seus professores</h1>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
             <?php
 			echo '<label id="labelDisciplina" for="disciplinaSelect"> Selecione a disciplina: </label>';

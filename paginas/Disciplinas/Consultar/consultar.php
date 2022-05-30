@@ -41,7 +41,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <h1>Consultar disciplina</h1>
     <h2>Consulta por nome possui prioridade</h2>
     <h2>Para listar todas as disciplinas, deixe os dois campos em branco</h2>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="50"> <br/>
         <label for="sigla">Sigla: </label><input id="sigla" name="sigla" type="text" placeholder="Digite a sigla" maxlength="6"> <br/>

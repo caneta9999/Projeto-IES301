@@ -40,7 +40,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     ?>
     <h1>Consultar usuário</h1>
     <h2>Consulta por nome possui prioridade</h2>
-    <button class="button btnVoltar"><a href="../index.php">Voltar</a></button><br/>
+    <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100"> <br/>
         <label for="matricula">Matricula: </label><input id="matricula" name="matricula" type="number" placeholder="Digite a matricula" min="1" max="99999999999"> <br/>
