@@ -7,7 +7,7 @@ export function navbar() {
         + "<span class='material-icons' id='menu-show' onclick='" + showMenu + "'>menu</span>"
         + "<a href='/projeto-ies301/paginas/index.php'><img class='logo' src='/projeto-ies301/imgs/logo-sistema.png' alt=''></a>"
         + "<form id='formLogout' method='POST' action='/projeto-ies301/paginas/Login/logout.php'>"
-        + "<input id='inputSubmit' name='sairSubmit' type='submit' value='Sair da conta'>"
+        + "<button class='button-go-logout' id='inputSubmit' name='sairSubmit' type='submit'><span class='material-icons button-go-logout'>logout</span>Sair</button>"
         + "</form>"
         + "</header>"
     return navbar;

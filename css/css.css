@@ -87,6 +87,10 @@ input[type=submit]{
 	background-color: var(--color-main);
 	color: var(--color-font-secondary);
 }
+.button-go-logout{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);
+}
 @keyframes hide-menu {
     0% {
         transform:translateX(15rem)
