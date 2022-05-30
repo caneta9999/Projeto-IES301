@@ -13,7 +13,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     $_SESSION['queryProfessoresDisciplinasProfessores1'] = $select->fetchAll();
 ?>
 <?php
-    $result = "SELECT idDisciplina,Código,Nome FROM $db.$TB_DISCIPLINA";
+    $result = "SELECT C1.Nome 'CursoNome',D1.idDisciplina,D1.Código,D1.Nome FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessoresDisciplinasDisciplinas1'] = $select->fetchAll();
@@ -69,7 +69,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 				if($idSelect2 == ''){
 					$idSelect2 = $linha_array['idDisciplina'];
 				}
-                echo '<option value='.$linha_array['idDisciplina']." >".$linha_array['Código']." - ".$linha_array['Nome']."</option>";
+                echo '<option value='.$linha_array['idDisciplina']." >".$linha_array['Código']." - ".$linha_array['Nome']." - ".$linha_array['CursoNome']."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idSelect2'"."/>";

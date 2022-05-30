@@ -30,9 +30,14 @@ header, footer{
 header{
     padding-top: 10px;
     padding-right: 5px;
-    display: flex;
+    display: grid;
+	grid-template-columns: 1fr 5fr 1fr;
     justify-content: space-between;
     align-items: center;
+}
+#divProfileLogout{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 footer {
     background-color: var(--color-main);
@@ -65,64 +70,75 @@ input[type=submit]{
 	color: var(--color-font-secondary);
 }
 .btnCadastrar,.btnAlterar,.btnConsultar,.btnConsultar2,.btnVisualizar,.btnEstatisticas{
-    min-width: 250px;
+    min-width: 350px;
     background-color:var(--color-main);
     border-color: var(--color-main);
 	color: var(--color-font-secondary);
 }
 .btnCadastrar a,.btnAlterar a,.btnConsultar a,.btnConsultar2 a,.btnVisualizar a,.btnEstatisticas a{
 	color: var(--color-font-secondary);
+	font-size: 18px;
 }
 .btnVoltar{
     min-width: 80px;
     min-height: 23px;
     margin-top: -10px;
     margin-bottom: 30px;
+	font-size: 21px;
 }
 .button-go-update{
 	background-color: var(--color-main);
 	color: var(--color-font-secondary);
 	margin-right: 10px;
+	font-size: 21px;
 }
 .button-go-logout{
 	background-color: var(--color-secondary);
 	color: var(--color-font-secondary);
 	margin-right: 10px;
-}
-.button-go-return{
-	background-color: var(--color-secondary);
-	color: var(--color-font-secondary);
-	margin-right: 10px;
-}
-.button-create{
-	background-color: var(--color-main);
-	color: var(--color-font-secondary);
-	margin-right: 10px;	
-}
-.button-confirm{
-	background-color: var(--color-main);
-	color: var(--color-font-secondary);	
-	margin-right: 10px;
-}
-.button-delete{
-	background-color: var(--color-secondary);
-	color: var(--color-font-secondary);	
-	margin-right: 10px;
-}
-.button-cancel{
-	background-color: var(--color-secondary);
-	color: var(--color-font-secondary);	
-	margin-right: 10px;
-}
-.button-search{
-	background-color: var(--color-main);
-	color: var(--color-font-secondary);	
-	margin-right: 10px;
+	font-size: 17px;
 }
 .button-go-my-profile{
 	background-color: var(--color-main);
 	color: var(--color-font-secondary);	
 	margin-right: 10px;
+	font-size: 17px;
+}
+.button-go-return{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);
+	margin-right: 10px;
+	font-size: 21px;
+}
+.button-create{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);
+	margin-right: 10px;
+	font-size: 21px;	
+}
+.button-confirm{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+	font-size: 21px;
+}
+.button-delete{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+	font-size: 21px;
+}
+.button-cancel{
+	background-color: var(--color-secondary);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+	font-size: 21px;
+}
+.button-search{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+	font-size: 21px;
 }
 @keyframes hide-menu {
     0% {
@@ -244,7 +260,7 @@ th {
     cursor: pointer;
 }
 th:hover {
-	transition: 2s;
+	transition: 0.5s;
     background: lightgray;
 }
 .page-navigation a {

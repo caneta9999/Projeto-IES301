@@ -21,7 +21,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
             break;
         }
     }
-    $result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.Professor_idProfessor like :idProfessor order by D1.Código";
+    $result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso where PD1.Professor_idProfessor like :idProfessor order by D1.Código";
     $select = $conx->prepare($result);
     $select->bindParam(':idProfessor',$idProfessor);
     $select->execute();
@@ -118,6 +118,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                 $primeiroIdDisciplina = 0;
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     $codigo = $linha_array['Código'];
+					$curso = $linha_array['CursoNome'];
 					$disciplina = $linha_array['DisciplinaNome'];
                     $professor = $linha_array['ProfessorNome'];
                     $idDisciplina = $linha_array['idProfessorDisciplina'];
@@ -126,8 +127,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                     }
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    echo '<option value='."'$idDisciplina'".">".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
-                    $_SESSION['nomeDisciplinaProfessor'] = $codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
+                    echo '<option value='."'$idDisciplina'".">".$codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
+                    $_SESSION['nomeDisciplinaProfessor'] = $codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana;
                 } 
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroIdDisciplina'"."/>";

@@ -20,11 +20,11 @@
         }
     }
 	if(!$_SESSION['administradorLogin']){
-		$result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where Usuario_idUsuario =:id order by D1.Nome";
+		$result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where Usuario_idUsuario =:id order by D1.Nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':id',$_SESSION['idUsuarioLogin']);}
 	else{
-		$result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario order by D1.Nome";
+		$result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario order by D1.Nome";
 		$select = $conx->prepare($result);
 	}
     $select->execute();
@@ -74,6 +74,7 @@
             $primeiroId = 0;
             foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
 				$codigo = $linha_array['Código'];
+				$curso = $linha_array['CursoNome'];
                 $disciplina = $linha_array['DisciplinaNome'];
                 $professor = $linha_array['ProfessorNome'];
                 $id = $linha_array['idProfessorDisciplina'];
@@ -102,8 +103,8 @@
                 }else{
                     $periodo = 'Noite';
                 }
-                echo '<option value='."'$id'".">".$codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
-                $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
+                echo '<option value='."'$id'".">".$codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
+                $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana;
             } 
             foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroId'"."/>";
