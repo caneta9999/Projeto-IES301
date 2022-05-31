@@ -29,7 +29,7 @@
         $_SESSION['estatisticasId'] = $id;
         header('location: estatisticas.php');
     }
-    else if($send == 'Consultar dados gerais' && $_SESSION['administradorLogin']){
+    else if($send == 'Consultar estatisticas gerais' && $_SESSION['administradorLogin']){
         $_SESSION['estatisticasId'] = 0;
         header('location: estatisticas.php');
     }

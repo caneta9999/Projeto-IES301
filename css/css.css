@@ -23,10 +23,15 @@ a{
 	text-decoration: none;
     color: var(--color-font-main);
 }
+a:hover{
+	text-decoration: none;
+	color: var(--color-font-secondary);
+}
 header, footer{
     text-align: center;
     min-height: 50px;
 }
+
 header{
     padding-top: 10px;
     padding-right: 5px;
@@ -37,7 +42,7 @@ header{
 }
 #divProfileLogout{
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1.2fr 1fr;
 }
 footer {
     background-color: var(--color-main);
@@ -146,6 +151,16 @@ input[type=submit]{
 	color: var(--color-font-secondary);	
 	margin-right: 10px;
 	font-size: 21px;
+}
+.button-go-statics{
+	background-color: var(--color-main);
+	color: var(--color-font-secondary);	
+	margin-right: 10px;
+	font-size: 21px;
+}
+#divHomepageAdministradorTituloEstatistica{
+	display: grid;
+	grid-template-columns: 2fr 1fr;
 }
 @keyframes hide-menu {
     0% {

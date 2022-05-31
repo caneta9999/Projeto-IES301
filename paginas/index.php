@@ -12,7 +12,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel ="stylesheet" href="../css/css.css"/>
-
+	
     <script type="module" src="../js/componentes.js"></script>
 	
 	<script src="../js/sorttable.js"></script>
@@ -27,12 +27,12 @@ if(!isset($_SESSION['idUsuarioLogin']))
       }
 	  require '../camadaDados/conectar.php';
 	  require '../camadaDados/tabelas.php';
-	  $result = "SELECT D1.Código,D1.Sigla,D1.Nome FROM $db.$TB_DISCIPLINA D1 order by D1.Nome";
+	  $result = "SELECT D1.Código,D1.Sigla,D1.Nome,C1.Nome 'CursoNome' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso order by D1.Nome";
       $select = $conx->prepare($result);
       $select->execute();
 	  echo "<script>var search_terms = []</script>" ;
 	  foreach($select->fetchAll() as $linha_array){
-		echo "<script>search_terms.push(\"".$linha_array['Código']." - ".$linha_array['Sigla']." - ".$linha_array['Nome']."\")</script>" ;
+		echo "<script>search_terms.push(\"".$linha_array['Nome']." (".$linha_array['Sigla']." : ".$linha_array['Código'].") - ".$linha_array['CursoNome']."\")</script>" ;
 	  }
 	  echo "<script>aluno = 0</script>";
 	  if($_SESSION['tipoLogin'] == 2){
@@ -50,7 +50,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		  $select->execute([':curso'=>$curso]);
 		  echo "<script>var search_terms2 = []</script>" ;
 		  foreach($select->fetchAll() as $linha_array){
-			echo "<script>search_terms2.push(\"".$linha_array['Código']." - ".$linha_array['Sigla']." - ".$linha_array['Nome']."\")</script>" ;
+			echo "<script>search_terms2.push(\"".$linha_array['Nome']." (".$linha_array['Sigla']." : ".$linha_array['Código'].")\")</script>" ;
 		  }
 		}   
   ?>
@@ -69,10 +69,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	<?php
 	if($_SESSION['tipoLogin'] == 2){
 		echo '<h2>Buscar disciplina</h2>';	
-		echo '<form><input type="text" name="searchDisciplina" id="searchDisciplina" placeholder="Digite alguma informação da disciplina" onKeyUp="showResults(this.value)" />';
-		echo '<div id="result"></div>';
-		echo '</form>';
+		echo '<form><input class="search-discipline" type="text" name="searchDisciplina" id="searchDisciplina" placeholder="Pesquisar..." onKeyUp="showResults(this.value)" />';
+		echo '<div class="search-result" id="result"></div>';
 		echo '<input type="checkbox" id="checkDisciplinasCurso" name="checkDisciplinasCurso" checked> <label for="checkDisciplinasCurso">Buscar apenas disciplinas no meu curso</label> <br/><br/>';
+		echo '</form>';
 		echo "	<br/><br/><br/>";}
 	  echo "<form id='formVisualizar' method='POST' action='./Disciplinas/Visualizar/php.php'>";
 		echo '<input type="hidden" id="codigo" name="codigo" value="" />';
@@ -159,7 +159,12 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			$result = "SELECT C1.Data,U1.Nome 'NomeAluno', D1.Sigla,U2.Nome 'NomeProfessor',C1.NotaDisciplina,C1.Descrição FROM $db.$TB_CRITICA C1 inner join $db.$TB_PROFESSORDISCIPLINA PD1 on PD1.idProfessorDisciplina = C1.ProfessorDisciplina_idProfessorDisciplina inner join $db.$TB_DISCIPLINA D1 on PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 on P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U2 on U2.idUsuario = P1.Usuario_idUsuario inner join $db.$TB_ALUNO A1 on A1.idAluno = C1.Aluno_idAluno inner join $db.$TB_USUARIO U1 on A1.Usuario_idUsuario = U1.idUsuario order by C1.Data DESC LIMIT 9";
 			$select = $conx->prepare($result);
 			$select->execute();
+			echo '<div id="divHomepageAdministradorTituloEstatistica">';
             echo "<h2>Últimas críticas cadastradas no sistema</h2>";
+			echo '<form action="./Criticas/Estatisticas/php.php" method="POST">';
+			echo '<button type="submit" name="submit" class="button-go-statics" value="Consultar estatisticas gerais"><span class="material-icons button-go-statics">bar_chart</span>Consultar Estatísticas Gerais</button>';
+			echo '</form>';
+			echo '</div>';
 			echo "<table class='sortable'>";
             echo "<thead>";
                 echo"<tr>";
@@ -219,7 +224,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	  let list = '';
 	  let terms = autocompleteMatch(val);
 	  for (i=0; i<terms.length; i++) {
-		list += '<li onclick="visualizar(' + terms[i].substr(0,4) + ')">' + terms[i] + '</li>';
+		list += '<li onclick="visualizar(' + terms[i].split(" : ")[1].substr(0,4) + ')"><b>' + terms[i] + '</b></li>';
 	  }
 	  res.innerHTML = '<ul>' + list + '</ul>';
 	}

@@ -21,7 +21,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
             break;
         }
     }
-    $result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso where PD1.Professor_idProfessor like :idProfessor order by D1.Código";
+    $result = "SELECT C1.Nome 'CursoNome',D1.Sigla, D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso where PD1.Professor_idProfessor like :idProfessor order by D1.Nome";
     $select = $conx->prepare($result);
     $select->bindParam(':idProfessor',$idProfessor);
     $select->execute();
@@ -33,12 +33,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
 
-    <link rel ="stylesheet" href="../../../css/css.css"/>
-
+	<link rel ="stylesheet" href="../../../css/css.css"/>
+	
     <script type="module" src="../../../js/componentes.js"></script>
-
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
 	<script src="../../../js/sorttable.js"></script>
+	
     <title>Projeto IES301</title>
 </head>
 <body>
@@ -69,8 +73,6 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="./estatisticas.php">Voltar</a></button><br/>';
         }
     ?>
-    
-    <form action="php.php" method="POST">
       <?php
        function diaSemana($diaSemana){
         if($diaSemana == 2){
@@ -112,14 +114,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
             $valoresMediaEvolucaoAnoSemestreDisciplina = [];
             $valoresMediaAlunoAnoSemestreDisciplina = [];
             $labelsAnoSemestreMediasDisciplina = [];
+			echo '<form action="php.php" method="POST">';
             if(!isset($_SESSION['estatisticasId'])){
                 echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-                echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+                echo '<select id="disciplinaSelect" class="selectpicker" data-size="4" data-live-search="true" onchange="mudaDisciplina()">';
                 $primeiroIdDisciplina = 0;
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     $codigo = $linha_array['Código'];
 					$curso = $linha_array['CursoNome'];
 					$disciplina = $linha_array['DisciplinaNome'];
+					$sigla = $linha_array['Sigla'];
                     $professor = $linha_array['ProfessorNome'];
                     $idDisciplina = $linha_array['idProfessorDisciplina'];
                     if($primeiroIdDisciplina ==0){
@@ -127,18 +131,19 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
                     }
                     $periodo = periodo($linha_array['Periodo']);
                     $diaSemana = diaSemana($linha_array['DiaSemana']);
-                    echo '<option value='."'$idDisciplina'".">".$codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
-                    $_SESSION['nomeDisciplinaProfessor'] = $codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana;
+					echo '<option value='."'$idDisciplina'".">"."{$disciplina} ({$sigla} : {$codigo}) - {$curso} - {$professor} ({$periodo})"."</option>";
+                    $_SESSION['nomeDisciplinaProfessor'] = "{$disciplina} ({$sigla} : {$codigo}) - {$curso} - {$professor}({$periodo})";
                 } 
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroIdDisciplina'"."/>";
                     break;
                 }            
                 echo '</select>';
-                echo '<br/>';
-				echo '<button type="submit" name="submit" class="button-search" value="Consultar disciplina"><span class="material-icons button-search">search</span>Consultar disciplina</button><br/><br/>';
+                echo '<br/> <br/>';
+				echo '<button type="submit" name="submit" class="button-go-statics" value="Consultar disciplina"><span class="material-icons button-go-statics">bar_chart</span>Consultar disciplina</button><br/><br/>';
                 if($_SESSION['administradorLogin']){
-					echo '<button type="submit" name="submit" class="button-search" value="Consultar dados gerais"><span class="material-icons button-search">search</span>Consultar dados gerais</button>';}
+					echo '<button type="submit" name="submit" class="button-go-statics" value="Consultar estatisticas gerais"><span class="material-icons button-go-statics">bar_chart</span>Consultar Estatísticas Gerais</button>';}
+				echo '</form>';
             }
             else if($_SESSION['estatisticasId'] != 0){//consulta de disciplina
                 $result="SELECT AVG(NotaDisciplina) 'MediaDisciplina',AVG(NotaEvolucao) 'MediaEvolucao',AVG(NotaAluno) 'MediaAluno' FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina = :id";
@@ -582,6 +587,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
         }
     </script>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
 </body>
 </html>
