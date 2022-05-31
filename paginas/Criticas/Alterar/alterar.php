@@ -10,9 +10,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
-
     <script type="module" src="../../../js/componentes.js"></script>
 
     <title>Projeto IES301</title>
@@ -46,7 +47,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
     <?php
         function selectElogio($numeroSelect, $item){
             echo '<label id=labelElogio'.$numeroSelect.' for=elogioSelect'.$numeroSelect.' > Elogio: </label>';
-            echo '<select id=elogioSelect'.$numeroSelect.' onchange=mudaElogio'.$numeroSelect.'() >';
+            echo '<select class="selectpicker" data-size="10" data-live-search="true" id=elogioSelect'.$numeroSelect.' onchange=mudaElogio'.$numeroSelect.'() >';
                 echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
                 echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
                 echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
@@ -54,12 +55,12 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
                 echo '<option value="Prestativo" '.($item=='Prestativo'?"selected":"").'>Prestativo</option>';
                 echo '<option value="Carismático" '.($item=='Carismático'?"selected":"").'>Carismático</option>';
-                echo '</select><br/>';
+                echo '</select><br/><br/>';
             echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value='."'$item'".'/>';
         }
         function selectCritica($numeroSelect, $item){
             echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Possível melhoria: </label>';
-            echo '<select id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
+            echo '<select class="selectpicker" data-size="10" data-live-search="true" id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
             echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
             echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
             echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
@@ -67,7 +68,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
                 echo '<option value="Comunicação"'.($item=='Comunicação'?"selected":"").'>Comunicação</option>';
                 echo '<option value="Método de avaliação"'.($item=='Método de avaliação'?"selected":"").'>Método de avaliação</option>';
-                echo '</select><br/>';
+                echo '</select><br/><br/>';
             echo '<input type="hidden" id=critica'.$numeroSelect.' name=critica'.$numeroSelect.' value='."'$item'".'/>';
         }
     ?>
@@ -96,10 +97,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $criticas = explode('-', $linha_array['Criticas']);
                 $idProfessorDisciplina = $linha_array['ProfessorDisciplina_idProfessorDisciplina'];
                 $_SESSION['idAlteracao6'] = $idCritica;
+				break;
             }
             require '../../../camadaDados/conectar.php';
             require '../../../camadaDados/tabelas.php';      
-            $result = "SELECT D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina like :id";
+            $result = "SELECT D1.Sigla, D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina like :id";
             $select = $conx->prepare($result);
             $select->bindParam(':id',$idProfessorDisciplina);
             $select->execute();
@@ -110,14 +112,15 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             $professor = '';
             $id = '';
             $periodo = '';
-            $diaSemana = '';            
+			$sigla = '';
             foreach($select->fetchAll() as $linha_array) {
                 $disciplina = $linha_array['DisciplinaNome'];
                 $professor = $linha_array['ProfessorNome'];
                 $id = $linha_array['idProfessorDisciplina'];
                 $periodo = $linha_array['Periodo'];
                 $diaSemana = $linha_array['DiaSemana'];
-				$codigo = $linha_array['Código'];}
+				$codigo = $linha_array['Código'];
+				$sigla = $linha_array['Sigla'];}
             if($diaSemana == 2){
                     $diaSemana = 'Segunda-feira';
             }else if($diaSemana == 3){
@@ -138,7 +141,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             }else{
                     $periodo = 'Noite';
             }
-            $disciplina = $codigo." - ".$disciplina." - ".$professor." - ".$periodo." - ".$diaSemana;
+            $disciplina = "{$disciplina} ({$sigla} : {$codigo}) - {$professor} ({$periodo})";
             echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina' style='min-width:500px' "."/>";         
             echo '<br/>';
             echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>';
@@ -185,6 +188,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
         }      
     </script>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div> 
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>		
 </body>
 </html>

@@ -10,7 +10,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
@@ -71,7 +73,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<label for="codigo">Código: </label><input value='."'$codigo'".'id="codigo" name="codigo" placeholder="AAA000" type="number" min="1" max="9999" required> <br/>';
             echo '<label for="sigla">Sigla: </label><input value='."'$sigla'".'id="sigla" name="sigla" placeholder="Sigla da disciplina" type="text" maxlength="6" required> <br/>';        
             echo '<label for="tipoSelect"> Tipo: </label>';
-            echo '<select id="tipoSelect" onchange="mudaTipo()">';
+            echo '<select class="selectpicker" data-size="10" data-live-search="true" id="cursoSelect" id="tipoSelect" onchange="mudaTipo()">';
             if($tipo == 0){
                 echo '<option value="0" selected> Obrigatória </option>';
                 echo '<option value="1"> Eletiva </option>';
@@ -86,7 +88,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo '<option value="2" selected> Escolha </option>';                 
             }
 			echo '<input id="tipo" name="tipo" type="hidden" placeholder="" value='."'$tipo'".'>';
-			echo '<br/>';
+			echo '<br/><br/>';
 			echo '<label for="curso">Curso:</label><input type="text" id="curso" readonly="readonly" name="curso" value='."'$curso'"."/>";
 			echo '<br/>';
 			echo '<button name="submit" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
@@ -100,6 +102,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         document.getElementById('tipo').value = document.getElementById('tipoSelect').value;
     }
     </script>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
     <div id="footer"></div>    
 </body>
 </html>

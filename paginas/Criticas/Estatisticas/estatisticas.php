@@ -36,11 +36,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 	
 	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
 	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
-
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
 	<link rel ="stylesheet" href="../../../css/css.css"/>
 	
-    <script type="module" src="../../../js/componentes.js"></script>
-	<script src="../../../js/jquery-3.6.0.min.js"></script>
+	<script type="module" src="../../../js/componentes.js"></script>
 	<script src="../../../js/sorttable.js"></script>
 	
     <title>Projeto IES301</title>
@@ -117,7 +116,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || (!$_SESSION['administradorLogin'] && $
 			echo '<form action="php.php" method="POST">';
             if(!isset($_SESSION['estatisticasId'])){
                 echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-                echo '<select id="disciplinaSelect" class="selectpicker" data-size="4" data-live-search="true" onchange="mudaDisciplina()">';
+                echo '<select id="disciplinaSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaDisciplina()">';
                 $primeiroIdDisciplina = 0;
                 foreach($_SESSION['queryProfessorDisciplinaCriticas3'] as $linha_array) {
                     $codigo = $linha_array['Código'];

@@ -12,7 +12,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel ="stylesheet" href="../../../css/css.css"/>
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <script type="module" src="../../../js/componentes.js"></script>
 
     <title>Projeto IES301</title>
@@ -68,7 +70,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<label for="professor">Professor:</label><input type="text" id="professor" readonly="readonly" name="professor" value='."'$professor'"."/>";         
             echo '<br/>';
             echo '<label for="periodoSelect"> Período: </label>';
-            echo '<select id="periodoSelect" onchange="mudaPeriodo()">';
+            echo '<select id="periodoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaPeriodo()">';
             if($periodo == 0){
                 echo '<option value="0" selected> Manhã </option>';
                 echo '<option value="1"> Tarde </option>';
@@ -99,6 +101,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             document.getElementById('periodo').value = document.getElementById('periodoSelect').value;
         }
     </script>
-    <div id="footer"></div>    
+    <div id="footer"></div>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>	    
 </body>
 </html>

@@ -20,11 +20,11 @@
         }
     }
 	if(!$_SESSION['administradorLogin']){
-		$result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where Usuario_idUsuario =:id order by D1.Nome";
+		$result = "SELECT D1.Sigla, C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where Usuario_idUsuario =:id order by D1.Nome";
 		$select = $conx->prepare($result);
 		$select->bindParam(':id',$_SESSION['idUsuarioLogin']);}
 	else{
-		$result = "SELECT C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario order by D1.Nome";
+		$result = "SELECT D1.Sigla, C1.Nome 'CursoNome',D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario order by D1.Nome";
 		$select = $conx->prepare($result);
 	}
     $select->execute();
@@ -36,9 +36,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel ="stylesheet" href="../../../css/css.css"/>
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+	<link rel ="stylesheet" href="../../../css/css.css"/>
     <script type="module" src="../../../js/componentes.js"></script>
 	
 	<script src="../../../js/jquery-3.6.0.min.js"></script>
@@ -70,7 +71,7 @@
     <form action="php.php" method="POST">
       <?php
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-            echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+            echo '<select class="selectpicker" data-size="10" data-live-search="true" id="disciplinaSelect" onchange="mudaDisciplina()">';
             $primeiroId = 0;
             foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
 				$codigo = $linha_array['Código'];
@@ -78,6 +79,7 @@
                 $disciplina = $linha_array['DisciplinaNome'];
                 $professor = $linha_array['ProfessorNome'];
                 $id = $linha_array['idProfessorDisciplina'];
+				$sigla = $linha_array['Sigla'];
                 if($primeiroId == 0){
                   $primeiroId = $id;
                 }
@@ -103,15 +105,15 @@
                 }else{
                     $periodo = 'Noite';
                 }
-                echo '<option value='."'$id'".">".$codigo." - ".$disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana."</option>";
-                $_SESSION['nomeDisciplinaProfessor'] = $disciplina." - ".$curso." - ".$professor." - ".$periodo." - ".$diaSemana;
+                echo '<option value='."'$id'".">"."{$disciplina} ({$sigla} : {$codigo}) - {$curso} - {$professor} ({$periodo})"."</option>";
+                $_SESSION['nomeDisciplinaProfessor'] = "{$disciplina} ({$sigla} : {$codigo}) - {$curso} - {$professor} ({$periodo})";
             } 
             foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$primeiroId'"."/>";
                 break;
             }            
             echo '</select>';
-            echo '<br/>';
+            echo '<br/><br/>';
         ?>
 		<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
@@ -190,6 +192,9 @@
 		}
     </script>
     <div id="push"></div>
-    <div id="footer"></div>    
+    <div id="footer"></div>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>    
 </body>
 </html>

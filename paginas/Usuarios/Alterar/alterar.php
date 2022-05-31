@@ -18,7 +18,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
@@ -100,7 +102,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo '<label for="cpf">Cpf:</label> <input value='."'$cpf'".' id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>';
 				if($administrador){
 					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
-				}else{
+				}else if($tipo != 2){
 					echo '<input type="checkbox" id="administrador" name="administrador"> <label for="administrador">Administrador</label> <br/>';
 				}
 				if($ativo){
@@ -118,7 +120,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo '<label for="tipo">Tipo:</label> <input id="tipo" name="tipo" type="text" placeholder="" value='."'$tipoString'".' maxlength="10" readonly="readonly">';
 				echo ' <br/>';
 				echo '<label id="labelCurso" for="cursoSelect"> Curso do usuário: </label>';
-				echo '<select id="cursoSelect" onchange="mudaCurso()">';
+				echo '<select id="cursoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaCurso()">';
 				foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
 					$nomeCurso = $linha_array['Nome'];
 					if($nomeCurso == $nomeCursoSelecionado){
@@ -132,7 +134,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 					break;
 				}  
 				echo '</select>';
-				echo '<br/>';
+				echo '<br/><br/>';
 				echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
 				if($tipo != 2){
 					echo '<script>document.getElementById("cursoSelect").style.visibility= "hidden"</script>'; 
@@ -151,6 +153,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
             document.getElementById('curso').value = document.getElementById('cursoSelect').value;
         }
     </script>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
     <div id="footer"></div>    
 </body>
 </html>

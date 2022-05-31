@@ -13,7 +13,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     $_SESSION['queryProfessoresDisciplinasProfessores1'] = $select->fetchAll();
 ?>
 <?php
-    $result = "SELECT C1.Nome 'CursoNome',D1.idDisciplina,D1.Código,D1.Nome FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso";
+    $result = "SELECT C1.Nome 'NomeCurso',D1.idDisciplina,D1.Código,D1.Nome 'NomeDisciplina',D1.Sigla FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on C1.idCurso = D1.Curso_idCurso";
     $select = $conx->prepare($result);
     $select->execute();
     $_SESSION['queryProfessoresDisciplinasDisciplinas1'] = $select->fetchAll();
@@ -24,7 +24,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
@@ -45,7 +47,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <form action="php.php" method="POST">
         <?php
             echo '<label id="labelProfessor" for="professorSelect"> Professor: </label>';
-            echo '<select id="professorSelect" onchange="mudaProfessor()">';
+            echo '<select id="professorSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaProfessor()">';
 			$idSelect1 = '';
             foreach($_SESSION['queryProfessoresDisciplinasProfessores1'] as $linha_array) {
                 $nome = $linha_array['Nome'];
@@ -60,30 +62,30 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 break;
             }            
             echo '</select>';
-            echo '<br/>';
+            echo '<br/><br/>';
 
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-            echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+            echo '<select id="disciplinaSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaDisciplina()">';
 			$idSelect2 = '';
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
 				if($idSelect2 == ''){
 					$idSelect2 = $linha_array['idDisciplina'];
 				}
-                echo '<option value='.$linha_array['idDisciplina']." >".$linha_array['Código']." - ".$linha_array['Nome']." - ".$linha_array['CursoNome']."</option>";
+                echo '<option value='.$linha_array['idDisciplina']." >"."{$linha_array['NomeDisciplina']} ({$linha_array['Sigla']} : {$linha_array['Código']}) - {$linha_array['NomeCurso']}"."</option>";
             } 
             foreach($_SESSION['queryProfessoresDisciplinasDisciplinas1'] as $linha_array) {
                 echo '<input type="hidden" id="disciplina" name="disciplina" value='."'$idSelect2'"."/>";
                 break;
             }            
             echo '</select>';
-            echo '<br/>';
+            echo '<br/><br/>';
         ?>
         <label for="periodoSelect"> Período: </label>
-        <select id="periodoSelect" onchange="mudaPeriodo()">
+        <select id="periodoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaPeriodo()">
             <option value="0" selected> Manhã </option>
             <option value="1"> Tarde </option>
             <option value="2"> Noite </option>
-        </select><br/>
+        </select><br/><br/>
         <input id="periodo" name="periodo" type="hidden" placeholder="" value=0 maxlength="15"><br/> 
         <label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" name="dataInicial" checked required> <br/>
         <label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" name="dataFinal" checked> <br/>
@@ -101,6 +103,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             document.getElementById('periodo').value = document.getElementById('periodoSelect').value;
         }
     </script>
-    <div id="footer"></div>    
+    <div id="footer"></div> 
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>	
 </body>
 </html>

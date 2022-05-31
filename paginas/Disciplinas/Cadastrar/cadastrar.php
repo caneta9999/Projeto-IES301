@@ -20,7 +20,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel ="stylesheet" href="../../../css/css.css"/>
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <script type="module" src="../../../js/componentes.js"></script>
 
     <title>Projeto IES301</title>
@@ -42,16 +44,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <label for="codigo">Código: </label><input id="codigo" name="codigo" placeholder="Código da disciplina" type="number" min="1" max="9999" required> <br/>
         <label for="sigla">Sigla: </label><input id="sigla" name="sigla" placeholder="AAA000" type="text" maxlength="6" required> <br/>                     
         <label for="tipoSelect"> Tipo: </label>
-        <select id="tipoSelect" onchange="mudaTipo()">
+        <select id="tipoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaTipo()">
             <option value="0" selected> Obrigatória </option>
             <option value="1"> Eletiva </option>
             <option value="2"> Escolha </option>
-        </select><br/>
+        </select><br/><br/>
         <input id="tipo" name="tipo" type="hidden" placeholder="" value="0">
         <input type="checkbox" id="ativa" name="ativa" checked> <label for="ativa">Ativa</label> <br/>
 		 <?php
             echo '<label id="labelCurso" for="cursoSelect"> Curso: </label>';
-            echo '<select id="cursoSelect" onchange="mudaCurso()">';
+            echo '<select class="selectpicker" data-size="10" data-live-search="true" id="cursoSelect" onchange="mudaCurso()">';
 			$idSelect1 = '';
             foreach($_SESSION['queryDisciplinasCursos1'] as $linha_array) {
 				$idCurso = $linha_array['idCurso'];
@@ -65,7 +67,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 break;
             }            
             echo '</select>';
-            echo '<br/>';
+            echo '<br/><br/>';
         ?>
 		<button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
     </form>
@@ -77,6 +79,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             document.getElementById('tipo').value = document.getElementById('tipoSelect').value;
         }
     </script>
+	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
     <div id="footer"></div>    
 </body>
 </html>
