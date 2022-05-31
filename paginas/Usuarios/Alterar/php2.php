@@ -5,6 +5,11 @@ if(!isset($_SESSION['idUsuarioLogin']))
   header('location:../../Login/index.php');
 }?>
 <?php
+	function validaCPF($cpf){
+		require_once('../validarcpf-master/validarcpf-master/class.CPF.php');
+		$cpf = new CPF(); 
+		return $cpf->validate($_POST['cpf']);
+	}
 	require '../../../camadaDados/conectar.php';
 	require '../../../camadaDados/tabelas.php';
 	$send=filter_input(INPUT_POST,'submit',FILTER_SANITIZE_STRING);
@@ -36,8 +41,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			$nome = 'Paulo';
 	}
 	if($_SESSION['administradorLogin']){ 
-		if(!is_numeric($cpf) || $cpf < 1 || $cpf>99999999999){
-				$cpf = 1;
+		if(!validaCPF($cpf)){
+			$cpf = -10;
+			$variavelControle = 0;
 		}
 		if(strlen($login) > 100 || !filter_var($login, FILTER_VALIDATE_EMAIL)){
 				$login = 'email@gmail.com';
@@ -65,6 +71,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	else if($send == 'Alterar'){
 		try{
 			if($_SESSION['administradorLogin']){ 
+				if($cpf == -10){
+					$_SESSION['mensagemErro'] = 'CPF inválido!';
+				}
 				$result = "SELECT count(*) 'quantidade' FROM $db.$TB_USUARIO WHERE Cpf like :Cpf and idUsuario != :Id and Ativo = 1";
 				$select = $conx->prepare($result);
 				$select->bindParam(':Cpf',$cpf);

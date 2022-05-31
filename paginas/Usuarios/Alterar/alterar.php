@@ -21,6 +21,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
 	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
 	<script src="../../../js/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes.js"></script>
@@ -99,7 +100,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '<label for="senha">Senha:</label> <input value='."'$senha'".' id="senha" name="senha" type="text" placeholder="Senha do usuário" maxlength="100" required /> <br/>';
             echo '<label for="nome">Nome:</label> <input value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome do usuário" maxlength="100" required /> <br/>';
 			if($_SESSION['administradorLogin']){
-				echo '<label for="cpf">Cpf:</label> <input value='."'$cpf'".' id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>';
+				$mask = '000.000.000-00';
+				echo '<label for="cpf">Cpf:</label> <input onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="Digite o cpf" required> <br/>';
+				echo '<script>$(document.getElementById("cpf")).val(\''.$cpf.'\').mask(\''.$mask.'\')</script>';
 				if($administrador){
 					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
 				}else if($tipo != 2){
@@ -119,28 +122,24 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				}
 				echo '<label for="tipo">Tipo:</label> <input id="tipo" name="tipo" type="text" placeholder="" value='."'$tipoString'".' maxlength="10" readonly="readonly">';
 				echo ' <br/>';
-				echo '<label id="labelCurso" for="cursoSelect"> Curso do usuário: </label>';
-				echo '<select id="cursoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaCurso()">';
-				foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
-					$nomeCurso = $linha_array['Nome'];
-					if($nomeCurso == $nomeCursoSelecionado){
-						echo '<option value='."'$nomeCurso'"." selected>".$nomeCurso."</option>";
-					}else{
-						echo '<option value='."'$nomeCurso'".">".$nomeCurso."</option>";                    
-					}
-				} 
-				foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
-					echo '<input type="hidden" id="curso" name="curso" value='."'$nomeCursoSelecionado'"."/>";
-					break;
-				}  
-				echo '</select>';
-				echo '<br/><br/>';
-				echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
-				if($tipo != 2){
-					echo '<script>document.getElementById("cursoSelect").style.visibility= "hidden"</script>'; 
-					echo '<script>document.getElementById("labelCurso").style.visibility= "hidden"</script>';
-					echo '<script>document.getElementById("matricula").style.visibility= "hidden"</script>';
-					echo '<script>document.getElementById("labelMatricula").style.visibility= "hidden"</script>';
+				if($tipo ==2){
+					echo '<label id="labelCurso" for="cursoSelect"> Curso do usuário: </label>';
+					echo '<select id="cursoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaCurso()">';
+					foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
+						$nomeCurso = $linha_array['Nome'];
+						if($nomeCurso == $nomeCursoSelecionado){
+							echo '<option value='."'$nomeCurso'"." selected>".$nomeCurso."</option>";
+						}else{
+							echo '<option value='."'$nomeCurso'".">".$nomeCurso."</option>";                    
+						}
+					} 
+					foreach($_SESSION['queryPessoaCursos1'] as $linha_array) {
+						echo '<input type="hidden" id="curso" name="curso" value='."'$nomeCursoSelecionado'"."/>";
+						break;
+					}  
+					echo '</select>';
+					echo '<br/><br/>';
+					echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
 				}
 				echo '<button name="submit" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
 				echo '<button name="submit" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';}

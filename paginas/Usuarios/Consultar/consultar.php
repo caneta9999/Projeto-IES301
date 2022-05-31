@@ -71,7 +71,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<td>". $linha_array['Login'] ."</td>";	
                 echo "<td>". $linha_array['Nome'] ."</td>";
 				echo "<td>".($linha_array['Administrador']?"Sim":"Não")."</td>";    	
-                echo "<td>". $linha_array['Cpf'] ."</td>";        
+                echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";      
                 if($linha_array['Tipo'] == 0){
                     echo "<td>". 'Nenhum' ."</td>";
                 }else if($linha_array['Tipo'] == 1){
@@ -102,7 +102,6 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<th >Login</th>";
                 echo "<th >Nome</th>";
                 echo "<th >Cpf</th>";
-                echo "<th >Tipo</th>";
                 echo "<th>Matricula</th>";
                 echo "<th>Curso</th>";
 				echo "<th>Ativo</th>";
@@ -114,14 +113,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 echo "<td>". $linha_array['idUsuario'] ."</td>";        
                 echo "<td>". $linha_array['Login'] ."</td>";	
                 echo "<td>". $linha_array['Nome'] ."</td>";        	
-                echo "<td>". $linha_array['Cpf'] ."</td>";
-                if($linha_array['Tipo'] == 0){
-                    echo "<td>". 'Nenhum' ."</td>";
-                }else if($linha_array['Tipo'] == 1){
-                    echo "<td>". 'Professor' ."</td>";
-                }else{
-                    echo "<td>". 'Aluno' ."</td>";
-                }
+                echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";
                 echo "<td>". $linha_array['Matricula'] ."</td>";
                 echo "<td>". $linha_array['CursoNome'] ."</td>";
 				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
