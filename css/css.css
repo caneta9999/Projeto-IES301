@@ -31,6 +31,7 @@ header, footer{
     text-align: center;
     min-height: 50px;
 }
+
 header{
     padding-top: 10px;
     padding-right: 5px;
@@ -161,6 +162,22 @@ input[type=submit]{
 	display: grid;
 	grid-template-columns: 2fr 1fr;
 }
+
+.gradeElogiosCriticas {
+    width: 30vw;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: start;
+    grid-template-rows: repeat(3, 1.5rem);
+    text-align: left;
+    justify-content: space-around;
+}
+
+.gradeElogiosCriticasContainer {
+    display: flex;
+    justify-content: center;
+}
+
 @keyframes hide-menu {
     0% {
         transform:translateX(15rem)
@@ -189,6 +206,11 @@ input, select{
 .mensagemErro{
     color: red;
 }
+
+#mensagemErroElogios, #mensagemErroCriticas {
+    color: red;
+}
+
 #menu {
     background-color: var(--color-main);
     border-top-right-radius: 1rem;
@@ -346,7 +368,12 @@ li {
     .logo {
         width: 50%;
     }
+    .gradeElogiosCriticas {
+        grid-column-gap: 2rem;
+        width: 100%;
+    }
 }
+
 #result {
   padding: 3px;
   margin-left: auto;
