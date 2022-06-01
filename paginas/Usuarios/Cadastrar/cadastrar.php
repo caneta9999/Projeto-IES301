@@ -22,7 +22,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
 	<script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
-
+	<script src="../../../js/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <script type="module" src="../../../js/componentes.js"></script>
     <title>Projeto IES301</title>
 </head>
@@ -101,7 +101,6 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
 	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
 	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <div id="footer"></div>    
 </body>
 </html>
