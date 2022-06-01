@@ -49,16 +49,16 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     <?php
 		if(isset($_SESSION['queryUsuario1'])){
             echo "<script>var consultar = 0</script>";
-			echo "<h1>Usuarios</h1>";
+			echo "<h1>Profissionais</h1>";
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo "<tr>";
-                echo "<th >Id</th>";
+                echo "<th >Id de Usuário</th>";
                 echo "<th >Login</th>";
                 echo "<th >Nome</th>";
+				echo "<th >Tipo</th>";
                 echo "<th >Administrador</th>";
                 echo "<th >Cpf</th>";
-                echo "<th >Tipo</th>";
 				echo "<th >Ativo</th>";
 				if($_SESSION['administradorLogin']){
 					echo "<th></th>";}
@@ -66,24 +66,24 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo "</thead>";	
             echo "<tbody>";
             foreach($_SESSION['queryUsuario1'] as $linha_array) {
-                echo "<tr>";
-                echo "<td>". $linha_array['idUsuario'] ."</td>";        
-                echo "<td>". $linha_array['Login'] ."</td>";	
-                echo "<td>". $linha_array['Nome'] ."</td>";
-				echo "<td>".($linha_array['Administrador']?"Sim":"Não")."</td>";    	
-                echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";      
-                if($linha_array['Tipo'] == 0){
-                    echo "<td>". 'Nenhum' ."</td>";
-                }else if($linha_array['Tipo'] == 1){
-                    echo "<td>". 'Professor' ."</td>";
-                }else{
-                    echo "<td>". 'Aluno' ."</td>";
-                }
-				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
-				if($_SESSION['administradorLogin']){
-						echo "<td>".'<button type="button" value="Alterar" class="button-go-update" onclick="editar('.$linha_array['idUsuario'].')"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
+				if($linha_array['Tipo'] != 2){
+					echo "<tr>";
+					echo "<td>". $linha_array['idUsuario'] ."</td>";        
+					echo "<td>". $linha_array['Login'] ."</td>";					
+					echo "<td>". $linha_array['Nome'] ."</td>";
+					if($linha_array['Tipo'] == 0){
+						echo "<td>". 'Nenhum' ."</td>";
+					}else if($linha_array['Tipo'] == 1){
+						echo "<td>". 'Professor' ."</td>";
+					}
+					echo "<td>".($linha_array['Administrador']?"Sim":"Não")."</td>";    	
+					echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";      
+					echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
+					if($_SESSION['administradorLogin']){
+							echo "<td>".'<button type="button" value="Alterar" class="button-go-update" onclick="editar('.$linha_array['idUsuario'].')"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
+					}
+					echo "</tr>";}
 				}
-                echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";
 			if($_SESSION['administradorLogin']){
@@ -98,25 +98,32 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo "<table class='sortable'>";
             echo "<thead>";
                 echo "<tr>";
-                echo "<th >Id</th>";
+                echo "<th >Id de Usuário</th>";
+				echo "<th >Id de Aluno</th>";
                 echo "<th >Login</th>";
                 echo "<th >Nome</th>";
                 echo "<th >Cpf</th>";
-                echo "<th>Matricula</th>";
+                echo "<th>Matrícula</th>";
                 echo "<th>Curso</th>";
 				echo "<th>Ativo</th>";
+				if($_SESSION['administradorLogin']){
+					echo "<th></th>";}
                 echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
             foreach($_SESSION['queryUsuario2'] as $linha_array) {
                 echo "<tr>";
-                echo "<td>". $linha_array['idUsuario'] ."</td>";        
+                echo "<td>". $linha_array['idUsuario']."</td>";
+				echo "<td>". $linha_array['idAluno']."</td>";   				
                 echo "<td>". $linha_array['Login'] ."</td>";	
                 echo "<td>". $linha_array['Nome'] ."</td>";        	
                 echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";
                 echo "<td>". $linha_array['Matricula'] ."</td>";
                 echo "<td>". $linha_array['CursoNome'] ."</td>";
 				echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
+				if($_SESSION['administradorLogin']){
+					echo "<td>".'<button type="button" value="Alterar" class="button-go-update" onclick="editar('.$linha_array['idUsuario'].')"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
+				}
                 echo "</tr>";}
             echo  "</tbody>";
             echo "</table>";

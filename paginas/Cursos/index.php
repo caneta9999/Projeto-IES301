@@ -40,10 +40,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
     <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <?php
     if($_SESSION['administradorLogin']){
-        echo '<button class="button btnCadastrar" id="btnCadastrarCursos"><a href="./Cadastrar/cadastrar.php">Cadastrar</a></button> <br/>';
-        echo '<button class="button btnAlterar" id="btnAlterarCursos"><a href="./Alterar/alterar.php">Alterar</a></button> <br/>';}
+        echo '<button class="button btnCadastrar" id="btnCadastrarCursos"><a href="./Cadastrar/cadastrar.php">Cadastrar cursos</a></button> <br/>';
+        echo '<button class="button btnAlterar" id="btnAlterarCursos"><a href="./Alterar/alterar.php">Alterar cursos</a></button> <br/>';}
     ?>
-    <button class="button btnConsultar" id="btnConsultarCursos"><a href="./Consultar/consultar.php">Consultar</a></button>
+    <button class="button btnConsultar" id="btnConsultarCursos"><a href="./Consultar/consultar.php">Consultar cursos</a></button>
     <div id="footer"></div>    
 </body>
 </html>

@@ -43,13 +43,13 @@ if($send){
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryUsuario1'] = $select->fetchAll();
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome',U1.Ativo FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE U1.Nome like :nome";
+                $result = "SELECT U1.idUsuario,A1.idAluno,".'U1.Login'.",U1.Nome,U1.Administrador,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome',U1.Ativo FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE U1.Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryUsuario2'] = $select->fetchAll();
             }
             else{//matricula
-                $result = "SELECT U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome',U1.Ativo  FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Matricula=:Matricula";
+                $result = "SELECT A1.idAluno,U1.idUsuario,".'U1.Login'.",U1.Nome,U1.Cpf,U1.Tipo,A1.Matricula,C1.Nome 'CursoNome',U1.Ativo  FROM $db.$TB_USUARIO U1 inner join $db.$TB_ALUNO A1 On U1.idUsuario = A1.Usuario_idUsuario inner join $db.$TB_CURSO C1 On A1.Curso_idCurso = C1.idCurso WHERE A1.Matricula=:Matricula";
                 $select = $conx->prepare($result);
                 $select->execute(['Matricula' => $matricula]);
                 $_SESSION['queryUsuario2'] = $select->fetchAll();

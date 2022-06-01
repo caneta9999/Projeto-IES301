@@ -52,7 +52,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		if($_SESSION['administradorLogin']){
 			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
 			echo '<form action="php1.php" method="POST">';
-			echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id" min="1" max="99999999999" required> <br/>';
+			echo '<label for="id">Id: </label><input id="id" name="id" type="number" placeholder="Digite o id de usuário" min="1" max="99999999999" required> <br/>';
 			echo '<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>';
 			echo '</form>';
 			echo '<hr/>';
@@ -101,7 +101,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '<label for="nome">Nome:</label> <input value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome do usuário" maxlength="100" required /> <br/>';
 			if($_SESSION['administradorLogin']){
 				$mask = '000.000.000-00';
-				echo '<label for="cpf">Cpf:</label> <input onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="Digite o cpf" required> <br/>';
+				echo '<label for="cpf">Cpf:</label> <input onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required> <br/>';
 				echo '<script>$(document.getElementById("cpf")).val(\''.$cpf.'\').mask(\''.$mask.'\')</script>';
 				if($administrador){
 					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
