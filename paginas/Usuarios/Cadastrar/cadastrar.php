@@ -21,9 +21,9 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
 	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
 	<script src="../../../js/jquery-3.6.0.min.js"></script>
-    <link rel ="stylesheet" href="../../../css/css.css"/>
 	<script src="../../../js/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <script type="module" src="../../../js/componentes.js"></script>
+	<link rel ="stylesheet" href="../../../css/css.css"/>
     <title>Projeto IES301</title>
 </head>
 <body>
@@ -36,12 +36,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
     ?>
     <div id="navbar"></div>
     <h1>Cadastrar usuário</h1>
-<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
+	<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>
     <form action="php.php" method="POST">
         <label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Digite o email" minlength="1" maxlength="100" required> <br/>
         <label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Digite a senha" minlength="8" maxlength="50" required> <br/>
         <label for="nome">Nome: </label><input id="nome" name="nome" type="text" placeholder="Digite o nome" maxlength="100" required> <br/>
-        <input type="checkbox" style="opacity:0;" id="administrador" name="administrador"> <label for="administrador" style="opacity:0;">Administrador</label> <br/>
         <label for="cpf">CPF: </label><input onkeypress="$(this).mask('000.000.000-00');" id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required> <br/>
         <label for="tipoSelect"> Tipo de usuário: </label>
         <select id="tipoSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaTipo()">
@@ -49,6 +48,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             <option value="Professor"> Professor </option>
             <option value="Aluno" selected> Aluno </option>
         </select><br/><br/>
+		<input type="checkbox" style="opacity:0;" id="administrador" name="administrador"> <label for="administrador" style="opacity:0;">Administrador</label> <br/>
         <input id="tipo" name="tipo" type="hidden" placeholder="" value="Aluno" maxlength="10">
         <?php
             echo '<label id="labelCurso" for="cursoSelect"> Curso do usuário: </label>';
@@ -70,7 +70,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<label id="labelMatricula" for="matricula">Matricula: </label><input id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>'
         ?>
         <button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
-    </form>
+	</form>
     <script>
         function mudaTipo(){
            var select = document.getElementById('tipoSelect').value;

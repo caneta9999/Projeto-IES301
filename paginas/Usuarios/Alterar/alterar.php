@@ -103,11 +103,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				$mask = '000.000.000-00';
 				echo '<label for="cpf">Cpf:</label> <input onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required> <br/>';
 				echo '<script>$(document.getElementById("cpf")).val(\''.$cpf.'\').mask(\''.$mask.'\')</script>';
-				if($administrador){
-					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
-				}else if($tipo != 2){
-					echo '<input type="checkbox" id="administrador" name="administrador"> <label for="administrador">Administrador</label> <br/>';
-				}
 				if($ativo){
 					echo '<input type="checkbox" id="ativo" name="ativo" checked> <label for="ativo">Ativo</label> <br/>';
 				}else{
@@ -119,6 +114,11 @@ if(!isset($_SESSION['idUsuarioLogin']))
 					$tipoString = 'Professor';
 				}else{
 					$tipoString = 'Aluno';
+				}
+				if($administrador){
+					echo '<input type="checkbox" id="administrador" name="administrador" checked> <label for="administrador">Administrador</label> <br/>';
+				}else if($tipo != 2){
+					echo '<input type="checkbox" id="administrador" name="administrador"> <label for="administrador">Administrador</label> <br/>';
 				}
 				echo '<label for="tipo">Tipo:</label> <input id="tipo" name="tipo" type="text" placeholder="" value='."'$tipoString'".' maxlength="10" readonly="readonly">';
 				echo ' <br/>';
