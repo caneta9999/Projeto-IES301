@@ -16,7 +16,7 @@ if ($_SESSION['tipoLogin'] == 2) {
         $idCurso = $linha_array['Curso_idCurso'];
     }
 }
-$result = "SELECT distinct D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where D1.Curso_idCurso like :id";
+$result = "SELECT distinct D1.Código, D1.Sigla, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA  D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR  P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where D1.Curso_idCurso like :id";
 $select = $conx->prepare($result);
 $select->bindParam(':id', $idCurso);
 $select->execute();
@@ -29,7 +29,9 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
+	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../../../css/css.css" />
 
     <script type="module" src="../../../js/componentes.js"></script>
@@ -51,13 +53,14 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
     <form action="php.php" method="POST">
         <?php
         echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-        echo '<select id="disciplinaSelect" onchange="mudaDisciplina()">';
+        echo '<select id="disciplinaSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaDisciplina()">';
         $idPrimeiro = 0;
         foreach ($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
             $codigo = $linha_array['Código'];
             $disciplina = $linha_array['DisciplinaNome'];
             $professor = $linha_array['ProfessorNome'];
             $id = $linha_array['idProfessorDisciplina'];
+			$sigla = $linha_array['Sigla'];
             if ($idPrimeiro == 0) {
                 $idPrimeiro = $id;
             }
@@ -83,10 +86,10 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
             } else {
                 $periodo = 'Noite';
             }
-            echo '<option value=' . "'$id'" . ">" . $codigo . " - " . $disciplina . " - " . $professor . " - " . $periodo . " - " . $diaSemana . "</option>";
+            echo '<option value='."'$id'".">"."{$disciplina} ({$sigla} : {$codigo}) - {$professor} ({$periodo})"."</option>";
         }
         echo '</select>';
-        echo '<br/>';
+        echo '<br/><br/>';
         foreach ($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
             echo '<input type="hidden" id="disciplina" name="disciplina" value=' . "'$idPrimeiro'" . "/>";
             break;
@@ -202,6 +205,8 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
         }
     </script>
     <div id="footer"></div>
-</body>
-
+<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
+<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>	
+</body>	
 </html>
