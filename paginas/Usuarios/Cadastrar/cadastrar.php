@@ -67,7 +67,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             }            
             echo '</select>';
             echo '<br/><br/>';
-            echo '<label id="labelMatricula" for="matricula">Matricula: </label><input id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>'
+            echo '<label id="labelMatricula" for="matricula">Matricula: </label><input id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/><br/>'
         ?>
         <button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
 	</form>
