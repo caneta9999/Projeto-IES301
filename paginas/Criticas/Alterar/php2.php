@@ -5,10 +5,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
 {
   header('location:../../Login/index.php');
 }
-if($_SESSION['tipoLogin'] != 2){
-    $_SESSION['mensagemErro'] = 'Precisa ser aluno para alterar a crítica!';
-    $variavelControle = 0;
-}
 require '../../../camadaDados/conectar.php';
 require '../../../camadaDados/tabelas.php';
 //função para validar elogio
@@ -130,6 +126,10 @@ foreach($select->fetchAll() as $linha_array){
             $variavelControle = 0;
             $_SESSION['mensagemErro'] = 'Data inválida para a disciplina!';}
         break;
+}
+if($_SESSION['tipoLogin'] != 2 and $send == 'Alterar'){
+    $_SESSION['mensagemErro'] = 'Precisa ser aluno para alterar a crítica!';
+    $variavelControle = 0;
 }
 if($send == 'Cancelar'){
 	$_SESSION['mensagemFinalizacao'] = 'Operação cancelada com sucesso!';	

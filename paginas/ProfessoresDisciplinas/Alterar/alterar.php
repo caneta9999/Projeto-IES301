@@ -90,8 +90,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '<label for="dataInicial">Data Inicial: </label> <input type="date" id="dataInicial" value='."'$dataInicial'".' name="dataInicial" checked required> <br/>';
             echo '<label for="dataFinal">Data Final: </label> <input type="date" id="dataFinal" value='."'$dataFinal'".' name="dataFinal" checked> <br/>';
             echo '<label for="diaSemana">Dia da Semana: </label> <input type="number" id="diaSemana" value='."'$diaSemana'".' name="diaSemana" type="number" min="2" max="7" required > <br/>';
-            echo '<button name="submit" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
-			echo '<button name="submit" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';
+            echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja excluir esse registro? Não será possível reverter sua ação!'".')" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
+			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja cancelar a alteração? Não será possível reverter sua ação!'".')" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';
 			echo '<button name="submit" type="submit" class="button-confirm" value="Alterar" /><span class="material-icons button-confirm">done</span>Confirmar</button>';
             echo '</form>';
             unset($_SESSION['queryProfessorDisciplina2']);}
@@ -100,6 +100,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         function mudaPeriodo(){
             document.getElementById('periodo').value = document.getElementById('periodoSelect').value;
         }
+		function confirmarSubmit(mensagem){
+			var confirmar=confirm(mensagem);
+			return confirmar? true:false
+		}
     </script>
     <div id="footer"></div>
 	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>

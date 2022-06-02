@@ -30,7 +30,7 @@
 		<label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Senha" minlength="8" maxlength="50" required /> <br/>         
     <input class="inputLogin" name="submit" type="submit" value="Entrar" />
     </form>
-    <a href="./EsqueciSenha/index.php">Esqueceu a senha?</a>
+    <a id="aEsqueciSenha" href="./EsqueciSenha/index.php">Esqueceu a senha?</a>
     <div id="footer"></div>    
 </body>
 </html>
