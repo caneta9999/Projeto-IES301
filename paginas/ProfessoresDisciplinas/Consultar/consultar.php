@@ -75,6 +75,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 			</script>
         <button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
+	<br/>
     <?php
 		if(isset($_SESSION['queryProfessorDisciplina1'])){
             $disciplina = '';

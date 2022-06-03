@@ -46,6 +46,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
         <label for="matricula">Matrícula: </label><input id="matricula" name="matricula" type="number" placeholder="Digite a matricula" min="1" max="99999999999"> <br/>
 		<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
+	<br/>
     <?php
 		if(isset($_SESSION['queryUsuario1'])){
             echo "<script>var consultar = 0</script>";

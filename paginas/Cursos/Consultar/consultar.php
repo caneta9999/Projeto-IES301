@@ -56,6 +56,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
         ?>
         <button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
+	<br/>
     <?php
 		if(isset($_SESSION['queryCurso1'])){
             echo "<table class='sortable'>";

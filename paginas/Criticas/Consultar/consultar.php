@@ -54,6 +54,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
           echo '<button type="submit" name="submit" class="button-search" value="Ver suas críticas"><span class="material-icons button-search">search</span>Ver suas críticas</button>';}
         ?>
     </form>
+	<br/>
     <?php
 		if(isset($_SESSION['queryCritica1'])){
             $aluno = '';

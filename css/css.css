@@ -12,7 +12,13 @@
     --color-font-secondary: #ffffff;
     --font-main: 'Open Sans';
 }
-
+body::-webkit-scrollbar {
+  width: 8px;           
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-secondary);
+  border: 3px solid white;
+}
 body{
     background: var(--color-background);
     margin: 0;

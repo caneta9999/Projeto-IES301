@@ -47,6 +47,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
         <label for="sigla">Sigla: </label><input id="sigla" name="sigla" type="text" placeholder="Digite a sigla" maxlength="6"> <br/>
         <button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
+	<br/>
     <?php
 		if(isset($_SESSION['queryDisciplina1'])){
             echo "<table class='sortable'>";
