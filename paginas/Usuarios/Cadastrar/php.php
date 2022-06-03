@@ -18,7 +18,9 @@ if($send){
 	$senha = filter_input(INPUT_POST,'senha',FILTER_SANITIZE_STRING);
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
     $administrador = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
-    $cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_NUMBER_INT);
+    $cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_STRING);
+	$cpf = str_replace(".","",$cpf);
+	$cpf = str_replace("-","",$cpf);
     $tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
     $curso = filter_input(INPUT_POST,'curso',FILTER_SANITIZE_STRING);
     $matricula = filter_input(INPUT_POST,'matricula',FILTER_SANITIZE_NUMBER_INT);
@@ -31,9 +33,9 @@ if($send){
     }
 
     if(strlen($senha) > 50 || strlen($senha) < 8){
-        $senha = '01234567';
+        $senha = '12345678';
     }
-    if(strlen($nome)<1 || strlen($nome) >100){
+    if(strlen($nome)<1 || strlen($nome) >100 || filter_var($nome, FILTER_SANITIZE_NUMBER_INT) != ''){
         $nome = 'Paulo';
     }
     if($administrador != true && $administrador != false){
@@ -113,7 +115,7 @@ if($send){
                     $_SESSION['mensagemErro'] = 'Curso inexistente!';
                     $variavelControle = 0;
                 }             
-                $result = "SELECT count(*) 'quantidade' FROM $db.$TB_ALUNO WHERE Matricula like :Matricula";
+                $result = "SELECT count(*) 'quantidade' FROM $db.$TB_ALUNO WHERE Matricula = :Matricula";
                 $select = $conx->prepare($result);
                 $select->bindParam(':Matricula',$matricula);
                 $select->execute();
@@ -123,11 +125,7 @@ if($send){
                         $_SESSION['mensagemErro'] = "Já há um usuário com essa matrícula cadastrada!";
                     }
                 }
-
-                if($administrador == 1){
-                    $administrador = 0;
-                }
-
+                $administrador = 0;
                 if($variavelControle){
                     $result = "INSERT INTO $db.$TB_USUARIO ".'(Login'.",Senha,Nome,Administrador,Cpf, Tipo, Ativo) VALUES (:Login,:Senha,:Nome,:Administrador,:Cpf,:Tipo,:Ativo)";
                     $insert = $conx->prepare($result);

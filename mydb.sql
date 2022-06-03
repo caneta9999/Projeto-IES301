@@ -154,7 +154,7 @@ CREATE TABLE `usuario` (
   `Senha` varchar(50) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Administrador` decimal(1,0) NOT NULL,
-  `Cpf` decimal(11,0) NOT NULL,
+  `Cpf` varchar(11) NOT NULL,
   `Tipo` decimal(1,0) NOT NULL,
   `Ativo` decimal(1,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

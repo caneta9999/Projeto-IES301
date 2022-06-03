@@ -21,7 +21,9 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	$senha = filter_input(INPUT_POST,'senha',FILTER_SANITIZE_STRING);
 	$nome = filter_input(INPUT_POST,'nome',FILTER_SANITIZE_STRING);
 	if($_SESSION['administradorLogin']){
-		$cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_NUMBER_INT);
+		$cpf = filter_input(INPUT_POST,'cpf',FILTER_SANITIZE_STRING);
+		$cpf = str_replace(".","",$cpf);
+		$cpf = str_replace("-","",$cpf);
 		$administrador = filter_input(INPUT_POST,'administrador',FILTER_SANITIZE_STRING);
 		$login = filter_input(INPUT_POST,'login',FILTER_SANITIZE_STRING);
 		$tipo = filter_input(INPUT_POST,'tipo', FILTER_SANITIZE_STRING);
@@ -37,7 +39,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	if(strlen($senha) > 50 || strlen($senha) < 8){
 			$senha = '01234567';
 	}
-	if(strlen($nome)<1 || strlen($nome) >100){
+	if(strlen($nome)<1 || strlen($nome) >100 || filter_var($nome, FILTER_SANITIZE_NUMBER_INT) != ''){
 			$nome = 'Paulo';
 	}
 	if($_SESSION['administradorLogin']){ 
@@ -138,26 +140,25 @@ if(!isset($_SESSION['idUsuarioLogin']))
 							if($linha_array['quantidade'] != 0){
 								$variavelControle = 0;
 								$_SESSION['mensagemErro'] = "Já há um usuário com essa matrícula cadastrada!";}}
-						if($administrador == 1){
-							$administrador = 0;
-						}
-						$result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf, Ativo=:Ativo Where idUsuario=:Id";
-						$insert = $conx->prepare($result);
-						$insert->bindParam(':Login',$login);
-						$insert->bindParam(':Senha',$senha);
-						$insert->bindParam(':Nome',$nome);
-						$insert->bindParam(':Administrador',$administrador);
-						$insert->bindParam(':Cpf',$cpf);          
-						$insert->bindParam(':Id',$id);
-						$insert->bindParam(':Ativo',$ativo);
-						$insert->execute();
-						$result = "UPDATE $db.$TB_ALUNO SET Matricula=:Matricula,Curso_idCurso=:Curso Where Usuario_idUsuario=:Usuario";
-						$insert = $conx->prepare($result);
-						$insert->bindParam(':Matricula',$matricula);
-						$insert->bindParam(':Usuario',$id);
-						$insert->bindParam(':Curso',$idCurso);
-						$insert->execute();
-						$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
+						$administrador = 0;
+						if($variavelControle){
+							$result = "UPDATE $db.$TB_USUARIO SET".' Login=:Login'.",Senha=:Senha,Nome=:Nome,Administrador=:Administrador,Cpf=:Cpf, Ativo=:Ativo Where idUsuario=:Id";
+							$insert = $conx->prepare($result);
+							$insert->bindParam(':Login',$login);
+							$insert->bindParam(':Senha',$senha);
+							$insert->bindParam(':Nome',$nome);
+							$insert->bindParam(':Administrador',$administrador);
+							$insert->bindParam(':Cpf',$cpf);          
+							$insert->bindParam(':Id',$id);
+							$insert->bindParam(':Ativo',$ativo);
+							$insert->execute();
+							$result = "UPDATE $db.$TB_ALUNO SET Matricula=:Matricula,Curso_idCurso=:Curso Where Usuario_idUsuario=:Usuario";
+							$insert = $conx->prepare($result);
+							$insert->bindParam(':Matricula',$matricula);
+							$insert->bindParam(':Usuario',$id);
+							$insert->bindParam(':Curso',$idCurso);
+							$insert->execute();
+							$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
 					}
 					else{
 						$result = "UPDATE $db.$TB_USUARIO SET Senha=:Senha,Nome=:Nome Where idUsuario=:Id";
@@ -222,7 +223,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			$select = $conx->prepare($result);
 			$select->bindParam(':idUsuario',$id);
 			$select->execute();
-			$variavelControle = 1;
 			$aluno = '';
 			foreach($select->fetchAll() as $linha_array){
 				$aluno = $linha_array['idAluno'];

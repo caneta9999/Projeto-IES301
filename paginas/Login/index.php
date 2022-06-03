@@ -26,7 +26,7 @@
 	?>    
     <h1>Login</h1>
     <form method="POST" action="php.php">
-		<label for="login">Login: </label><input id="login" name="login" type="text" placeholder="Login" maxlength="100" required /> <br/>
+		<label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Login" maxlength="100" required /> <br/>
 		<label for="senha">Senha: </label><input id="senha" name="senha" type="password" placeholder="Senha" minlength="8" maxlength="50" required /> <br/>         
     <input class="inputLogin" name="submit" type="submit" value="Entrar" />
     </form>

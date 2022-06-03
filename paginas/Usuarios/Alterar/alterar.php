@@ -58,7 +58,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			echo '<hr/>';
 		}
 		else{
-			echo '<button class="button btnVoltar"><a href="../../index.php">Voltar</a></button><br/>';
+			echo '<button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br/>';
 		}
         if(isset($_SESSION['queryUsuario3'])){
             $nome = 'André';
@@ -98,10 +98,10 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				echo '<label for="login">Login:</label> <input value='."'$login'".' id="login" name="login" type="text" placeholder="Login do usuário" maxlength="100" required /> <br/>';
 			}
             echo '<label for="senha">Senha:</label> <input value='."'$senha'".' id="senha" name="senha" type="text" placeholder="Senha do usuário" maxlength="100" required /> <br/>';
-            echo '<label for="nome">Nome:</label> <input value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome do usuário" maxlength="100" required /> <br/>';
+            echo '<label for="nome">Nome:</label> <input pattern="[^0-9]*" value='."'$nome'".' id="nome" name="nome" type="text" placeholder="Nome do usuário" maxlength="100" required /> <br/>';
 			if($_SESSION['administradorLogin']){
 				$mask = '000.000.000-00';
-				echo '<label for="cpf">Cpf:</label> <input onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required> <br/>';
+				echo '<label for="cpf">Cpf:</label> <input onchange="digitarCpf()" onkeypress="$(this).mask(\''.$mask.'\');"  id="cpf" name="cpf" type="text" placeholder="000.000.000-00" required> <br/>';
 				echo '<script>$(document.getElementById("cpf")).val(\''.$cpf.'\').mask(\''.$mask.'\')</script>';
 				if($ativo){
 					echo '<input type="checkbox" id="ativo" name="ativo" checked> <label for="ativo">Ativo</label> <br/>';
@@ -139,15 +139,18 @@ if(!isset($_SESSION['idUsuarioLogin']))
 					}  
 					echo '</select>';
 					echo '<br/><br/>';
-					echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="text" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
-				}
-				echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja excluir esse registro? Não será possível reverter sua ação!'".')" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
-				echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja cancelar a alteração? Não será possível reverter sua ação!'".')" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';}
-            echo '<button name="submit" type="submit" class="button-confirm" value="Alterar" /><span class="material-icons button-confirm">done</span>Confirmar</button>';
+					echo '<label id="labelMatricula" for="matricula">Matricula: </label><input value='."'$matricula'".' id="matricula" name="matricula" type="number" placeholder="Digite a matricula" min="1" max="99999999"> <br/>';
+					echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja excluir esse registro? Não será possível reverter sua ação!'".')" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';
+				}}				
+			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja cancelar a alteração? Não será possível reverter sua ação!'".')" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';
+			echo '<button name="submit" type="submit" class="button-confirm" value="Alterar" /><span class="material-icons button-confirm">done</span>Confirmar</button>';
             echo '</form>';
             unset($_SESSION['queryUsuario3']);}
     ?>
     <script>
+		function digitarCpf(){
+			$(document.getElementById("cpf")).val(document.getElementById("cpf").value).mask('000.000.000-00');
+		}
         function mudaCurso(){
             document.getElementById('curso').value = document.getElementById('cursoSelect').value;
         }

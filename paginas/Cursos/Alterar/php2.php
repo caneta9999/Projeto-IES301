@@ -54,7 +54,7 @@ else if($send == 'Excluir'){
     $select->bindParam(':idCurso', $id);
     $select->execute();
     $usuarios = $select->fetchAll();
-	$result= "Select idDiscplina FROM $db.$TB_DISCIPLINA WHERE Curso_idCurso=:idCurso";
+	$result= "Select idDisciplina FROM $db.$TB_DISCIPLINA WHERE Curso_idCurso=:idCurso";
     $select = $conx->prepare($result);
     $select->bindParam(':idCurso', $id);
     $select->execute();
@@ -73,18 +73,13 @@ else if($send == 'Excluir'){
 			$delete->execute();         
 		}  
 
-		$result= "DELETE FROM $db.$TB_CURSODISCIPLINA WHERE Curso_idCurso=:idCurso";
-		$delete = $conx->prepare($result);
-		$delete->bindParam(':idCurso', $id);
-		$delete->execute();
-
 		$result= "DELETE FROM $db.$TB_CURSO WHERE idCurso=:idCurso";
 		$delete = $conx->prepare($result);
 		$delete->bindParam(':idCurso', $id);
 		$delete->execute();
 		$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';}
 	else{
-		if(count($usuarios) == 0){
+		if(count($usuarios) != 0){
 			$_SESSION['mensagemErro'] = 'Há usuários cadastrados no curso!';}
 		else{
 			$_SESSION['mensagemErro'] = 'Há disciplinas cadastradas no curso!';

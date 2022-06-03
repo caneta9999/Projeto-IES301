@@ -8,35 +8,40 @@
     <link rel ="stylesheet" href="../../../css/css.css"/>
 
     <script type="module" src="../../../js/componentes-inicial.js"></script>
+	<script src="../../../js/jquery-3.6.0.min.js"></script>
+		<script src="../../../js/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <title>Projeto IES301</title>
 </head>
 <body>
     <a href='/projeto-ies301/paginas/index.php'><img class="logo" src='/projeto-ies301/imgs/logo-sistema.png' alt=''></a>
     <h1>Esqueci a senha</h1>
     <form id="formEsqueciSenha" method="POST" action="php.php">
-		<label for="login">Login: </label><input id="login" name="login" type="text" placeholder="Login" maxlength="100" required /> <br/>
-        <label for="cpf">CPF: </label><input id="cpf" name="cpf" type="number" placeholder="Digite o cpf" min="1" max="99999999999" required> <br/>  
-        Qual a palavra formada pelas letras?<br/>
+		<label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Login" maxlength="100" required /> <br/>
+        <label for="cpf">CPF: </label><input id="cpf" onchange="digitarCpf()" ="000.000.000-00" onkeypress="$(this).mask('000.000.000-00');" name="cpf" type="text" required> <br/>  
+        <h2>Digite a palavra formada pela imagem</h2>
         <p id="captchaText"></p>
         <input id="captcha" type="text" placeholder="Insira a palavra"/>
         <p id="captchaMensagem"></p>
         <input class="inputLogin" name="submit" type="submit" value="Enviar" />
     </form>
     <script>
+		function digitarCpf(){
+			$(document.getElementById("cpf")).val(document.getElementById("cpf").value).mask('000.000.000-00');
+		}
         window.onload = function () {
             var vetor = [
-                { teste: "BA AA BbanAnaAA", valor: "banana" },
-                { teste: "A ACAabaCAxiII", valor: "abacaxi" },
-                { teste: "B ABtOMateAA", valor: "tomate" },
-                { teste: "BBkiWiABBC CA", valor: "kiwi" },
+                { teste: "BAAABbanAnaAA", valor: "banana" },
+                { teste: "AACAabaCAxiII", valor: "abacaxi" },
+                { teste: "BABtOMateAA", valor: "tomate" },
+                { teste: "BBkiWiABBCCA", valor: "kiwi" },
                 { teste: "BBmELãoAFFASFDFSDAA", valor: "melão" },
-				{ teste: "MMAABA A12maÇã445AAA", valor: "maçã"}
+				{ teste: "MMAABAA12maÇã445AAA", valor: "maçã"}
             ];
             var indice = Math.floor(Math.random() * 100) % 6;
             document.getElementById("captchaText").innerHTML = "<b>" + vetor[indice].teste + "</b>";
             document.getElementById("formEsqueciSenha").onsubmit = function (e) {
                 if (document.getElementById("captcha").value != vetor[indice].valor) {
-                    document.getElementById("captchaMensagem").innerHTML = "Resposta Errada";
+                    document.getElementById("captchaMensagem").innerHTML = "<p class='mensagemErro'>Resposta errada!</p>";
                     e.preventDefault();
                 }
             }

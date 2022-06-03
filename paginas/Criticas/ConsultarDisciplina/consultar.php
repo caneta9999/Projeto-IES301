@@ -124,7 +124,7 @@
                 echo"<tr>";
                 if(isset($_SESSION['administradorLogin'])){
                   echo"<th >Id da critica</th>";
-                  echo"<th >Matricula Aluno</th>";}
+                  echo"<th >Matrícula do aluno</th>";}
                 echo"<th> Nota da disciplina</th>";
                 echo"<th >Nota para evolucao do aluno</th>";
                 echo"<th >Nota para o aluno</th>";
