@@ -99,6 +99,21 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
                 $_SESSION['idAlteracao6'] = $idCritica;
 				break;
             }
+            
+            $elogiosChecked = ["Carismático" => "", "Explicação" => "", "Material" => "", "Organização" => "", "Pontualidade" => "", "Prestativo" => ""];
+            foreach ($elogios as $elogio) {
+                if (strcmp($elogio, "Nenhum") !== 0) {
+                    $elogiosChecked[$elogio] = "checked";
+                }
+            }
+
+            $criticasChecked = ["Comunicação" => "", "Explicação" => "", "Material" => "", "Método de avaliação" => "", "Organização" => "", "Pontualidade" => ""];
+            foreach ($criticas as $critica) {
+                if (strcmp($critica, "Nenhum") !== 0) {
+                    $criticasChecked[$critica] = "checked";
+                }
+            }
+
             require '../../../camadaDados/conectar.php';
             require '../../../camadaDados/tabelas.php';      
             $result = "SELECT D1.Sigla, D1.Código, PD1.idProfessorDisciplina, D1.Nome 'DisciplinaNome',U1.Nome 'ProfessorNome', PD1.Periodo, PD1.DiaSemana FROM $db.$TB_PROFESSORDISCIPLINA PD1 inner join $db.$TB_DISCIPLINA D1 ON PD1.Disciplina_idDisciplina = D1.idDisciplina inner join $db.$TB_PROFESSOR P1 On P1.idProfessor = PD1.Professor_idProfessor inner join $db.$TB_USUARIO U1 on P1.Usuario_idUsuario = U1.idUsuario where PD1.idProfessorDisciplina like :id";
@@ -150,13 +165,29 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             echo '<label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" value='.$ano.' type="number" placeholder="Ano de conclusão" name="ano" id="ano" min="1973" max="2100" required> <br/>';              
             echo '<label for="semestre">Semestre de conclusão da disciplina: </label><input value='.$semestre.' class="inputAnoSemestre" type="number" placeholder="Semestre de conclusão" name="semestre" id="semestre" min="1" max="2" required> <br/>';                		
             echo '<h2>Elogios para o professor (máximo 3):</h2>';
-            foreach($elogios as $indice => $elogio){
-                selectElogio($indice+1, $elogio);
-            }
+            echo '<div class="gradeElogiosCriticasContainer">';
+            echo '<div class="gradeElogiosCriticas">';
+                echo'<label for="checkElogioCarismatico"><input id="checkElogioCarismatico" name="checkElogio[]" class="checkElogio" type="checkbox" value="Carismático" onchange="checkQuantidadeElogios(`checkElogioCarismatico`)" ' . $elogiosChecked['Carismático'] . '>Carismático</label>';
+                echo'<label for="checkElogioExplicacao"><input id="checkElogioExplicacao" name="checkElogio[]" class="checkElogio" type="checkbox" value="Explicação" onchange="checkQuantidadeElogios(`checkElogioExplicacao`)" ' . $elogiosChecked['Explicação'] . '>Explicação</label>';
+                echo '<label for="checkElogioMaterial"><input id="checkElogioMaterial" name="checkElogio[]" class="checkElogio" type="checkbox" value="Material" onchange="checkQuantidadeElogios(`checkElogioMaterial`)" ' . $elogiosChecked['Material'] . '>Material</label>';
+                echo '<label for="checkElogioOrganizacao"><input id="checkElogioOrganizacao" name="checkElogio[]" class="checkElogio" type="checkbox" value="Organização" onchange="checkQuantidadeElogios(`checkElogioOrganizacao`)" '. $elogiosChecked['Organização'] .'>Organização</label>';
+                echo '<label for="checkElogioPontualidade"><input id="checkElogioPontualidade" name="checkElogio[]" class="checkElogio" type="checkbox" value="Pontualidade" onchange="checkQuantidadeElogios(`checkElogioPontualidade`)" ' . $elogiosChecked['Pontualidade'] .'>Pontualidade</label>';
+                echo '<label for="checkElogioPrestativo"><input id="checkElogioPrestativo" name="checkElogio[]" class="checkElogio" type="checkbox" value="Prestativo" onchange="checkQuantidadeElogios(`checkElogioPrestativo`)" ' . $elogiosChecked['Prestativo'] .'>Prestativo</label>';
+            echo '</div>';
+            echo '</div>';
+            echo '<p id="mensagemErroElogios"></p>';
             echo '<h2>Críticas/Áreas de melhoria para o professor (máximo 3):</h2>';
-            foreach($criticas as $indice => $critica){
-                selectCritica($indice+1, $critica);
-            }
+            echo '<div class="gradeElogiosCriticasContainer">';
+            echo '<div class="gradeElogiosCriticas">';
+                echo '<label for="checkCriticaComunicacao"><input id="checkCriticaComunicacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Comunicação" onchange="checkQuantidadeCriticas(`checkCriticaComunicacao`)"' . $criticasChecked['Comunicação'] . '>Comunicação</label>';
+                echo '<label for="checkCriticaExplicacao"><input id="checkCriticaExplicacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Explicação" onchange="checkQuantidadeCriticas(`checkCriticaExplicacao`)" '. $criticasChecked['Explicação'] . '>Explicação</label>';
+                echo '<label for="checkCriticaMaterial"><input id="checkCriticaMaterial" name="checkCritica[]" class="checkCritica" type="checkbox" value="Material" onchange="checkQuantidadeCriticas(`checkCriticaMaterial`)" '. $criticasChecked['Material'] . '>Material</label>';
+                echo '<label for="checkCriticaMetodo"><input id="checkCriticaMetodo" name="checkCritica[]" class="checkCritica" type="checkbox" value="Método de avaliação" onchange="checkQuantidadeCriticas(`checkCriticaMetodo`)" '. $criticasChecked['Método de avaliação'] . '>Método de avaliação</label>';
+                echo '<label for="checkCriticaOrganizacao"><input id="checkCriticaOrganizacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Organização" onchange="checkQuantidadeCriticas(`checkCriticaOrganizacao`)" ' . $criticasChecked['Organização'] . '>Organização</label>';
+                echo '<label for="checkCriticaPontualidade"><input id="checkCriticaPontualidade" name="checkCritica[]" class="checkCritica" type="checkbox" value="Pontualidade" onchange="checkQuantidadeCriticas(`checkCriticaPontualidade`)" ' . $criticasChecked['Pontualidade'] .'>Pontualidade</label>';
+            echo '</div>';
+        echo '</div>';
+        echo '<p id="mensagemErroCriticas"></p>';
             echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" >'.$descricao.'</textarea> <br/>';
 			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja excluir esse registro? Não será possível reverter sua ação!'".')" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
 			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja cancelar a alteração? Não será possível reverter sua ação!'".')" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';
@@ -190,6 +221,50 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
 			var confirmar=confirm(mensagem);
 			return confirmar? true:false
 		}
+
+        function checkQuantidadeElogios(idUltimoElogio) {
+            let mensagemErro = document.getElementById("mensagemErroElogios");
+
+            let elogiosPossiveis = document.getElementsByClassName("checkElogio");
+            let elogiosMarcados = [];
+            for (let i = 0; i < elogiosPossiveis.length; i++) {
+                if (elogiosPossiveis[i].checked) {
+                    elogiosMarcados.push(elogiosPossiveis[i])
+                }
+            }
+            if (elogiosMarcados.length > 3) {
+                ultimoElogio = document.getElementById(idUltimoElogio);
+                ultimoElogio.checked = false;
+                mensagemErro.innerHTML = "Não é possível selecionar mais de 3 elogios!"
+                setTimeout(function() {
+                    mensagemErro.innerHTML = ""}, 4000 //Para fazer a mensagem desaparecer
+                );
+            } else {
+                mensagemErro.innerHTML = "";
+            }
+        }
+
+        function checkQuantidadeCriticas(idUltimaCritica) {
+            let mensagemErro = document.getElementById("mensagemErroCriticas");
+
+            let criticasPossiveis = document.getElementsByClassName("checkCritica");
+            let criticasMarcadas = [];
+            for (let i = 0; i < criticasPossiveis.length; i++) {
+                if (criticasPossiveis[i].checked) {
+                    criticasMarcadas.push(criticasPossiveis[i])
+                }
+            }
+            if (criticasMarcadas.length > 3) {
+                ultimaCritica = document.getElementById(idUltimaCritica);
+                ultimaCritica.checked = false;
+                mensagemErro.innerHTML = "Não é possível selecionar mais de 3 críticas!"
+                setTimeout(function() {
+                    mensagemErro.innerHTML = ""}, 4000 //Para fazer a mensagem desaparecer
+                );
+            } else {
+                mensagemErro.innerHTML = "";
+            }
+        }
     </script>
     <div id="push"></div>
     <div id="footer"></div> 

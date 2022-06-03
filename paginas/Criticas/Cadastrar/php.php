@@ -152,7 +152,7 @@ if ($send && $variavelControleExterna != 0) {
         }
 
         if ($criticasInvalidas) {
-            $_SESSION['mensagemErro'] = 'Ocorreu um erro ao cadastrar as críticas.';
+            $_SESSION['mensagemErro'] = 'Ocorreu um erro ao cadastrar as críticas/pontos de melhoria.';
             header('location: ../index.php');
             $variavelControle = 0;
             exit();
@@ -167,37 +167,7 @@ if ($send && $variavelControleExterna != 0) {
         array_push($criticas, "Nenhum");
     }
 
-    /* 
-    $elogio1 = elogioValidar(filter_input(INPUT_POST, 'elogio1', FILTER_SANITIZE_STRING));
-    $elogio2 = elogioValidar(filter_input(INPUT_POST, 'elogio2', FILTER_SANITIZE_STRING));
-    $elogio3 = elogioValidar(filter_input(INPUT_POST, 'elogio3', FILTER_SANITIZE_STRING));
-    $critica1 = criticaValidar(filter_input(INPUT_POST, 'critica1', FILTER_SANITIZE_STRING));
-    $critica2 = criticaValidar(filter_input(INPUT_POST, 'critica2', FILTER_SANITIZE_STRING));
-    $critica3 = criticaValidar(filter_input(INPUT_POST, 'critica3', FILTER_SANITIZE_STRING));
-    
-    //verificar se não há elogios iguais
-    if($elogio1 != 'Nenhum' && $elogio1 == $elogio2){
-        $elogio2 = 'Nenhum';
-    }
-    if($elogio1 != 'Nenhum' && $elogio1 == $elogio3){
-        $elogio3 = 'Nenhum';
-    }
-    if($elogio2 != 'Nenhum' && $elogio2 == $elogio3){
-        $elogio3 = 'Nenhum';
-    }
-    
-    //verificar se não há criticas iguais
-    if($critica1 != 'Nenhum' && $critica1 == $critica2){
-        $critica2 = 'Nenhum';
-    }
-    if($critica1 != 'Nenhum' && $critica1 == $critica3){
-        $critica3 = 'Nenhum';
-    }
-    if($critica2 != 'Nenhum' && $critica2 == $critica3){
-        $critica3 = 'Nenhum';
-    }
-    
-    */
+
     //montar a string de elogios
     $elogiosString = $elogios[0] . "-" . $elogios[1] . "-" . $elogios[2];
     //montar a string de críticas

@@ -117,10 +117,10 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
         <h2>Críticas/Áreas de melhoria para o professor (máximo 3):</h2>
         <div class="gradeElogiosCriticasContainer">
             <div class="gradeElogiosCriticas">
-                <label for="checkCriticaCarismatico"><input id="checkCriticaCarismatico" name="checkCritica[]" class="checkCritica" type="checkbox" value="Comunicação" onchange="checkQuantidadeCriticas('checkCriticaCarismatico')">Comunicação</label>
+                <label for="checkCriticaComunicacao"><input id="checkCriticaComunicacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Comunicação" onchange="checkQuantidadeCriticas('checkCriticaComunicacao')">Comunicação</label>
                 <label for="checkCriticaExplicacao"><input id="checkCriticaExplicacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Explicação" onchange="checkQuantidadeCriticas('checkCriticaExplicacao')">Explicação</label>
                 <label for="checkCriticaMaterial"><input id="checkCriticaMaterial" name="checkCritica[]" class="checkCritica" type="checkbox" value="Material" onchange="checkQuantidadeCriticas('checkCriticaMaterial')">Material</label>
-                <label for="checkCriticaMetodo"><input id="checkCriticaMetodo" name="checkCritica[]" class="checkCritica" type="checkbox" value="Método de avaliação" onchange="checkQuantidadeCriticas('checkCriticaMetodo')">Método de Avaliação</label>
+                <label for="checkCriticaMetodo"><input id="checkCriticaMetodo" name="checkCritica[]" class="checkCritica" type="checkbox" value="Método de avaliação" onchange="checkQuantidadeCriticas('checkCriticaMetodo')">Método de avaliação</label>
                 <label for="checkCriticaOrganizacao"><input id="checkCriticaOrganizacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Organização" onchange="checkQuantidadeCriticas('checkCriticaOrganizacao')">Organização</label>
                 <label for="checkCriticaPontualidade"><input id="checkCriticaPontualidade" name="checkCritica[]" class="checkCritica" type="checkbox" value="Pontualidade" onchange="checkQuantidadeCriticas('checkCriticaPontualidade')">Pontualidade</label>
             </div>
