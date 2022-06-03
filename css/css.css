@@ -204,10 +204,10 @@ input, select{
     min-width: 330px;
 }
 .mensagemFinalizacao{
-    color: green;
+   color: green;
 }
 .mensagemErro{
-    color: red;
+    color: var(--color-error);
 }
 
 #mensagemErroElogios, #mensagemErroCriticas {

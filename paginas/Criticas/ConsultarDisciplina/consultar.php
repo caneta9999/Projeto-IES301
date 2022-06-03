@@ -71,7 +71,7 @@
     <form action="php.php" method="POST">
       <?php
             echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
-            echo '<select class="selectpicker" data-size="10" data-live-search="true" id="disciplinaSelect" onchange="mudaDisciplina()">';
+            echo '<select class="selectpicker" data-size="15" data-live-search="true" id="disciplinaSelect" onchange="mudaDisciplina()">';
             $primeiroId = 0;
             foreach($_SESSION['queryProfessorDisciplinaCriticas2'] as $linha_array) {
 				$codigo = $linha_array['Código'];
