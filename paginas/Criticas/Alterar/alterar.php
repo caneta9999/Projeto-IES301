@@ -10,9 +10,6 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/css/bootstrap.css">
-	<link rel ="stylesheet" href="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css"/>
-    <script src="../../../js/jquery-3.6.0.min.js"></script>
     <link rel ="stylesheet" href="../../../css/css.css"/>
     <script type="module" src="../../../js/componentes.js"></script>
 
@@ -44,34 +41,6 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
 		<button type="submit" name="submit" class="button-search" value="Enviar"><span class="material-icons button-search">search</span>Pesquisar</button>
     </form>
     <hr/>
-    <?php
-        function selectElogio($numeroSelect, $item){
-            echo '<label id=labelElogio'.$numeroSelect.' for=elogioSelect'.$numeroSelect.' > Elogio: </label>';
-            echo '<select class="selectpicker" data-size="10" data-live-search="true" id=elogioSelect'.$numeroSelect.' onchange=mudaElogio'.$numeroSelect.'() >';
-                echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
-                echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
-                echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
-                echo '<option value="Organização" '.($item=='Organização'?"selected":"").'>Organização</option>';
-                echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
-                echo '<option value="Prestativo" '.($item=='Prestativo'?"selected":"").'>Prestativo</option>';
-                echo '<option value="Carismático" '.($item=='Carismático'?"selected":"").'>Carismático</option>';
-                echo '</select><br/><br/>';
-            echo '<input type="hidden" id=elogio'.$numeroSelect.' name=elogio'.$numeroSelect.' value='."'$item'".'/>';
-        }
-        function selectCritica($numeroSelect, $item){
-            echo '<label id=labelCritica'.$numeroSelect.' for=criticaSelect'.$numeroSelect.' > Possível melhoria: </label>';
-            echo '<select class="selectpicker" data-size="10" data-live-search="true" id=criticaSelect'.$numeroSelect.' onchange=mudaCritica'.$numeroSelect.'() >';
-            echo '<option value="Nenhum" '.($item=='Nenhum'?"selected":"").'>Nenhum</option>';
-            echo '<option value="Explicação" '.($item=='Explicação'?"selected":"").'>Explicação</option>';
-            echo '<option value="Material" '.($item=='Material'?"selected":"").'>Material</option>';
-            echo '<option value="Organização" '.($item=='Organização'?"selected":"").'>Organização</option>';
-            echo '<option value="Pontualidade" '.($item=='Pontualidade'?"selected":"").'>Pontualidade</option>';
-                echo '<option value="Comunicação"'.($item=='Comunicação'?"selected":"").'>Comunicação</option>';
-                echo '<option value="Método de avaliação"'.($item=='Método de avaliação'?"selected":"").'>Método de avaliação</option>';
-                echo '</select><br/><br/>';
-            echo '<input type="hidden" id=critica'.$numeroSelect.' name=critica'.$numeroSelect.' value='."'$item'".'/>';
-        }
-    ?>
     <?php
         if(isset($_SESSION['queryCritica3'])){
             $idCritica = -1;
@@ -268,8 +237,5 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
     </script>
     <div id="push"></div>
     <div id="footer"></div> 
-	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
-	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
-	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>		
 </body>
 </html>
