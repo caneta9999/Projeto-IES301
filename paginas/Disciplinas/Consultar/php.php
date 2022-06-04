@@ -40,7 +40,7 @@ if($send){
         }
         if($variavelControle){
             if($variavelControle == 1){//nome
-                $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, D1.Descrição, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE D1.Nome like :nome";
+                $result = "SELECT D1.Nome,D1.idDisciplina,D1.Sigla,D1.Código,D1.Tipo,D1.Ativa, C1.Nome 'NomeCurso' FROM $db.$TB_DISCIPLINA D1 inner join $db.$TB_CURSO C1 on D1.Curso_idCurso = C1.idCurso WHERE D1.Nome like :nome";
                 $select = $conx->prepare($result);
                 $select->execute(['nome' => $nome]);
                 $_SESSION['queryDisciplina1'] = $select->fetchAll();

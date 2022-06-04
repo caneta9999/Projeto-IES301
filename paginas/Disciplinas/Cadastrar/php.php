@@ -14,7 +14,7 @@ if($send){
         $nome = "DisciplinaSemNome".rand(0,1000);
     }
     $descricao = filter_input(INPUT_POST,'descricao',FILTER_SANITIZE_STRING);
-    if(strlen($descricao)<1 || strlen($descricao)>500){
+    if(strlen($descricao)<1 || strlen($descricao)>1500){
         $descricao = 'Disciplina...';
     }
     $codigo = filter_input(INPUT_POST,'codigo', FILTER_SANITIZE_NUMBER_INT);

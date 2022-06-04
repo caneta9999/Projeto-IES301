@@ -80,19 +80,13 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 					echo "<td>".($linha_array['Administrador']?"Sim":"Não")."</td>";    	
 					echo "<td>".substr($linha_array['Cpf'],0,3).".".substr($linha_array['Cpf'],3,3).".".substr($linha_array['Cpf'],6,3)."-".substr($linha_array['Cpf'],9,2)."</td>";      
 					echo "<td>".($linha_array['Ativo']?"Sim":"Não")."</td>";
-					if($_SESSION['administradorLogin']){
+					if($_SESSION['administradorLogin'] and ($linha_array['idUsuario'] == $_SESSION['idUsuarioLogin'] or !$linha_array['Administrador'])){
 							echo "<td>".'<button type="button" value="Alterar" class="button-go-update" onclick="editar('.$linha_array['idUsuario'].')"><span class="material-icons button-go-update">edit</span>Alterar</button>' ."</td>";
 					}
 					echo "</tr>";}
 				}
             echo  "</tbody>";
             echo "</table>";
-			if($_SESSION['administradorLogin']){
-				echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
-					echo '<input type="hidden" id="id" name="id" value="" />';
-					echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
-				echo "</form>";}
-            unset($_SESSION['queryUsuario1']);
 		}
         if(isset($_SESSION['queryUsuario2'])){
             echo "<h1>Alunos</h1>";
@@ -130,6 +124,12 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo "</table>";
             unset($_SESSION['queryUsuario2']);
 		}
+		if($_SESSION['administradorLogin']){
+			echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";
+				echo '<input type="hidden" id="id" name="id" value="" />';
+				echo '<input style="display:none;" type="submit" name="submit2" value="Enviar">';
+			echo "</form>";}
+         unset($_SESSION['queryUsuario1']);
 		?>
     <div id="push"></div>
     <div id="footer"></div>  

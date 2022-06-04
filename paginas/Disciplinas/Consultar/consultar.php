@@ -56,7 +56,6 @@ if(!isset($_SESSION['idUsuarioLogin']))
 				if($_SESSION['administradorLogin']){
 					echo"<th >Id</th>";}
                 echo"<th >Nome</th>";
-                echo"<th> Descrição</th>";
                 echo"<th> Código </th>";
                 echo"<th> Sigla </th>";
 				echo"<th> Tipo </th>";
@@ -71,8 +70,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
                 echo "<tr>";
 				if($_SESSION['administradorLogin']){
 					echo "<td>". $linha_array['idDisciplina'] ."</td>";}        
-                echo "<td>". $linha_array['Nome'] ."</td>";	
-                echo "<td>". $linha_array['Descrição'] ."</td>";	
+                echo "<td>". $linha_array['Nome'] ."</td>";		
                 echo "<td>". $linha_array['Código'] ."</td>";	
                 echo "<td>". $linha_array['Sigla'] ."</td>";	
 				if($linha_array['Tipo'] == 2){

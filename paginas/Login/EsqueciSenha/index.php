@@ -17,7 +17,7 @@
     <h1>Esqueci a senha</h1>
     <form id="formEsqueciSenha" method="POST" action="php.php">
 		<label for="login">Login: </label><input id="login" name="login" type="email" placeholder="Login" maxlength="100" required /> <br/>
-        <label for="cpf">CPF: </label><input id="cpf" onchange="digitarCpf()" ="000.000.000-00" onkeypress="$(this).mask('000.000.000-00');" name="cpf" type="text" required> <br/>  
+        <label for="cpf">CPF: </label><input id="cpf" onchange="digitarCpf()" placeholder="000.000.000-00" onkeypress="$(this).mask('000.000.000-00');" name="cpf" type="text" required> <br/>  
         <h2>Digite a palavra formada pela imagem</h2>
         <p id="captchaText"></p>
         <input id="captcha" type="text" placeholder="Insira a palavra"/>
