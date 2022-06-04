@@ -78,12 +78,11 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 	<br/>
     <?php
 		if(isset($_SESSION['queryProfessorDisciplina1'])){
-            $disciplina = '';
-            foreach($_SESSION['queryProfessorDisciplina1'] as $linha_array) {
-              $disciplina = $linha_array['DisciplinaNome'];
-              break;
-            }
-			if($disciplina != ''){
+				$disciplina = '';
+				foreach($_SESSION['queryProfessorDisciplina1'] as $linha_array) {
+				  $disciplina = $linha_array['DisciplinaNome'];
+				  break;
+				}
 				echo "<h2>"."$disciplina"."</h2>";
 				echo "<table class='sortable'>";
 				echo "<thead>";
@@ -137,10 +136,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					}
 					echo "</tr>";}
 				echo  "</tbody>";
-				echo "</table>";}
-			else{
-				echo "<p class='mensagemErro'>"."Entretanto, não há professores associados à disciplina!"."</p>";
-			}
+				echo "</table>";
             unset($_SESSION['queryProfessorDisciplina1']);
 		}
 		echo "<form id='formConsultarAlterar' method='POST' action='../Alterar/php1.php'>";

@@ -203,20 +203,21 @@ if(!isset($_SESSION['idUsuarioLogin']))
 	  if (input == '') {
 		return [];
 	  }
-	  var reg = new RegExp(input)
+	  var reg = new RegExp(input,'i')
 	  if(aluno){
 		if(document.getElementById('checkDisciplinasCurso').checked){
-		  return search_terms2.filter(function(term) {
-			  if (term.match(reg)) {
-			  return term;
-			  }
-		  })}
+			  return search_terms2.filter(function(term) {
+				  if (term.match(reg)) {
+					return term;
+				  }
+			  })
+		  }
 	  }
 	  return search_terms.filter(function(term) {
 		  if (term.match(reg)) {
-		  return term;
+			return term;
 		  }
-	  });
+	  })
 	} 
 	function showResults(val) {
 	  res = document.getElementById("result");
