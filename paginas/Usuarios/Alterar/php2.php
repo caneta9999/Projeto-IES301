@@ -180,66 +180,68 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		}
 	}
 	else if($send == 'Excluir' && $_SESSION['administradorLogin']){
-		if($tipo == 0){
-			$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idUsuario', $id);
-			$delete->execute();
-		}else if($tipo == 1){
-			$result = "SELECT idProfessor FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
-			$select = $conx->prepare($result);
-			$select->bindParam(':idUsuario',$id);
-			$select->execute();
-			$idProfessor = 0;
-			foreach($select->fetchAll() as $linha_array){
-				$idProfessor = $linha_array['idProfessor'];}
-			$result= "Select idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
-			$select = $conx->prepare($result);
-			$select->bindParam(':idProfessor', $idProfessor);
-			$select->execute();
-			$disciplinas = $select->fetchAll();
-			foreach($disciplinas as $linha_array) {
-				$disciplina = $linha_array['idProfessorDisciplina'];
-				$result= "DELETE FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina=:idProfessorDisciplina";
+		if($id!=1){
+			if($tipo == 0){
+				$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
 				$delete = $conx->prepare($result);
-				$delete->bindParam(':idProfessorDisciplina', $disciplina);
-				$delete->execute();         
+				$delete->bindParam(':idUsuario', $id);
+				$delete->execute();
+			}else if($tipo == 1){
+				$result = "SELECT idProfessor FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
+				$select = $conx->prepare($result);
+				$select->bindParam(':idUsuario',$id);
+				$select->execute();
+				$idProfessor = 0;
+				foreach($select->fetchAll() as $linha_array){
+					$idProfessor = $linha_array['idProfessor'];}
+				$result= "Select idProfessorDisciplina FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
+				$select = $conx->prepare($result);
+				$select->bindParam(':idProfessor', $idProfessor);
+				$select->execute();
+				$disciplinas = $select->fetchAll();
+				foreach($disciplinas as $linha_array) {
+					$disciplina = $linha_array['idProfessorDisciplina'];
+					$result= "DELETE FROM $db.$TB_CRITICA WHERE ProfessorDisciplina_idProfessorDisciplina=:idProfessorDisciplina";
+					$delete = $conx->prepare($result);
+					$delete->bindParam(':idProfessorDisciplina', $disciplina);
+					$delete->execute();         
+				}
+				$result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':idProfessor', $idProfessor);
+				$delete->execute();        
+				$result= "DELETE FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':idUsuario', $id);
+				$delete->execute();
+				$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':idUsuario', $id);
+				$delete->execute();                
+			}else if($tipo == 2){
+				$aluno = $_SESSION['idUsuarioLogin'];
+				$result = "SELECT A1.idAluno FROM $db.$TB_ALUNO A1 inner join $db.$TB_USUARIO U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
+				$select = $conx->prepare($result);
+				$select->bindParam(':idUsuario',$id);
+				$select->execute();
+				$aluno = '';
+				foreach($select->fetchAll() as $linha_array){
+					$aluno = $linha_array['idAluno'];
+					break;
+				} 
+				$result= "DELETE FROM $db.$TB_CRITICA WHERE Aluno_idAluno=:id";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':id', $aluno);
+				$delete->execute();        
+				$result= "DELETE FROM $db.$TB_ALUNO WHERE Usuario_idUsuario=:idUsuario";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':idUsuario', $id);
+				$delete->execute();
+				$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
+				$delete = $conx->prepare($result);
+				$delete->bindParam(':idUsuario', $id);
+				$delete->execute();                
 			}
-			$result= "DELETE FROM $db.$TB_PROFESSORDISCIPLINA WHERE Professor_idProfessor=:idProfessor";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idProfessor', $idProfessor);
-			$delete->execute();        
-			$result= "DELETE FROM $db.$TB_PROFESSOR WHERE Usuario_idUsuario=:idUsuario";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idUsuario', $id);
-			$delete->execute();
-			$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idUsuario', $id);
-			$delete->execute();                
-		}else if($tipo == 2){
-			$aluno = $_SESSION['idUsuarioLogin'];
-			$result = "SELECT A1.idAluno FROM $db.$TB_ALUNO A1 inner join $db.$TB_USUARIO U1 ON U1.idUsuario = A1.Usuario_idUsuario WHERE U1.idUsuario = :idUsuario";
-			$select = $conx->prepare($result);
-			$select->bindParam(':idUsuario',$id);
-			$select->execute();
-			$aluno = '';
-			foreach($select->fetchAll() as $linha_array){
-				$aluno = $linha_array['idAluno'];
-				break;
-			} 
-			$result= "DELETE FROM $db.$TB_CRITICA WHERE Aluno_idAluno=:id";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':id', $aluno);
-			$delete->execute();        
-			$result= "DELETE FROM $db.$TB_ALUNO WHERE Usuario_idUsuario=:idUsuario";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idUsuario', $id);
-			$delete->execute();
-			$result= "DELETE FROM $db.$TB_USUARIO WHERE idUsuario=:idUsuario";
-			$delete = $conx->prepare($result);
-			$delete->bindParam(':idUsuario', $id);
-			$delete->execute();                
 		}
 		$_SESSION['mensagemFinalizacao'] = 'Operação finalizada com sucesso!';
 		header("Location: ../index.php");

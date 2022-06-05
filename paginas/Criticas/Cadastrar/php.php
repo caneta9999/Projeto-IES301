@@ -245,7 +245,7 @@ if ($send && $variavelControleExterna != 0) {
         }
         header("Location: ../index.php");
     } catch (PDOException $e) {
-        $msgErr = "Erro na inclusão:<br />" . $e->getMessage();
+        $msgErr = "Erro na inclusão:<br />";
         $_SESSION['mensagemErro'] = $msgErr;
         header("Location: ../index.php");
     }
