@@ -104,6 +104,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
 	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
 	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
 	<script src="../../../css/bootstrap-select-1.13.14/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
-    <div id="footer"></div>    
+    <div id="push"></div>    
+	<div id="footer"></div>    
 </body>
 </html>

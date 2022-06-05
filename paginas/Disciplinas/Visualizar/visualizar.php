@@ -172,6 +172,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
         document.getElementById('tipo').value = document.getElementById('tipoSelect').value;
     }
     </script>
+	<div id="push"></div>
     <div id="footer"></div>    
 </body>
 </html>

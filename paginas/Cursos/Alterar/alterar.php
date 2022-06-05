@@ -61,6 +61,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             echo '</form>';
             unset($_SESSION['queryCurso2']);}
     ?>
+	<div id="push"></div>
     <div id="footer"></div>    
 	<script>
 		function confirmarSubmit(mensagem){

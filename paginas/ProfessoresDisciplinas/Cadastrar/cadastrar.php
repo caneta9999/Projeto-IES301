@@ -103,6 +103,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             document.getElementById('periodo').value = document.getElementById('periodoSelect').value;
         }
     </script>
+	<div id="push"></div>
     <div id="footer"></div> 
 	<script src="../../../js/node_modules/popper.js/dist/umd/popper.js"></script>
 	<script src="../../../css/bootstrap-4.6.1-dist/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>

@@ -31,6 +31,7 @@
     <input class="inputLogin" name="submit" type="submit" value="Entrar" />
     </form>
     <a id="aEsqueciSenha" href="./EsqueciSenha/index.php">Esqueceu a senha?</a>
-    <div id="footer"></div>    
+    <div id="push"></div>
+	<div id="footer"></div>    
 </body>
 </html>
