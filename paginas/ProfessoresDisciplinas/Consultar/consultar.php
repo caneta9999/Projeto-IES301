@@ -115,7 +115,7 @@ $_SESSION['queryProfessoresDisciplinasDisciplinas2'] = $select->fetchAll();
 					}      
 					echo "<td>". $linha_array['Periodo'] ."</td>";	
 					echo "<td>".$linha_array['dataInicial']."</td>";
-					echo "<td>".($linha_array['dataFinal']!='0000-00-00'?$linha_array['dataFinal']:"Não finalizada!")."</td>";
+					echo "<td>".($linha_array['dataFinal']!='2100-01-01'?$linha_array['dataFinal']:"Não finalizada!")."</td>";
 					$diaSemana = $linha_array['diaSemana'];
 					if($diaSemana == 2){
 					  $diaSemana = 'Segunda-feira';
