@@ -1,5 +1,5 @@
 # Projeto-IES301
-Projeto LOREM IPSUM criado para disciplina da faculdade. <br/>
+Projeto criado para disciplina da faculdade. <br/>
 <details>
 <summary>Créditos pela ajuda na hora de montar</summary>
 <br/>
