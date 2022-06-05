@@ -23,7 +23,7 @@
         $descricao = 'Disciplina...';
     }
     $descricaoLongaDemais = false;
-    if(strlen($descricao) > 11000) {
+    if(strlen($descricao) > 7200) {
         $descricao = 'Descrição longa demais!';
         $descricaoLongaDemais = true; 
     }
@@ -67,7 +67,7 @@
 					$_SESSION['mensagemErro'] = "Já há uma disciplina com esse código cadastrada!";}}
 			if ($descricaoLongaDemais) {
 				$variavelControle = 0;
-				$_SESSION['mensagemErro'] = "A descrição inserida é longa demais! (Acima de 11000 caracteres) ";
+				$_SESSION['mensagemErro'] = "A descrição inserida é longa demais!";
 			}
 
 			if($variavelControle){    

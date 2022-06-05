@@ -18,7 +18,9 @@ if($send){
         $descricao = 'Disciplina...';
     }
     $descricaoLongaDemais = false;
-    if(strlen($descricao) > 11000) {
+    var_dump($descricao);
+    exit();
+    if(strlen($descricao) > 21600) {
         $descricao = 'Descrição longa demais!';
         $descricaoLongaDemais = true; 
     }
@@ -68,7 +70,7 @@ if($send){
 				$_SESSION['mensagemErro'] = "Não identificamos um curso com esse id!";}}
         if ($descricaoLongaDemais) {
             $variavelControle = 0;
-            $_SESSION['mensagemErro'] = "A descrição inserida é longa demais! (Acima de 11000 caracteres) ";
+            $_SESSION['mensagemErro'] = "A descrição inserida é longa demais!";
         }
 
         if($variavelControle){    
