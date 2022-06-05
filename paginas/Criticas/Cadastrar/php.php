@@ -202,7 +202,7 @@ if ($send && $variavelControleExterna != 0) {
     } else {
         $anoQuery = $anoQuery . "-12-31";
     }
-    $result = "SELECT Count(*) 'Quantidade' FROM $db.$TB_PROFESSORDISCIPLINA where idProfessorDisciplina = :idDisciplina and DataInicial <= :data1 and (dataFinal >= :data2 or dataFinal='0000-00-00')";
+    $result = "SELECT Count(*) 'Quantidade' FROM $db.$TB_PROFESSORDISCIPLINA where idProfessorDisciplina = :idDisciplina and DataInicial <= :data1 and (dataFinal >= :data2 or dataFinal='2100-01-01')";
     $select = $conx->prepare($result);
     $select->bindParam(':idDisciplina', $disciplina);
     $select->bindParam(':data1', $anoQuery);

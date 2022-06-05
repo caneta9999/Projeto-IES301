@@ -51,8 +51,8 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
             $disciplina = 'Disciplina';
             $professor = 'Professor';
             $periodo = 0;
-            $dataInicial = '0000-00-00';
-            $dataFinal = '0000-00-00';
+            $dataInicial = '2100-01-01';
+            $dataFinal = '2100-01-01';
             foreach($_SESSION['queryProfessorDisciplina2'] as $linha_array){
                 $disciplina = $linha_array['DisciplinaNome'];
                 $professor = $linha_array['Nome'];

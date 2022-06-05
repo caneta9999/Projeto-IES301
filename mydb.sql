@@ -140,7 +140,7 @@ CREATE TABLE `professordisciplina` (
 --
 
 INSERT INTO `professordisciplina` (`idProfessorDisciplina`, `Professor_idProfessor`, `Disciplina_idDisciplina`, `Periodo`, `DataInicial`, `DataFinal`, `DiaSemana`) VALUES
-(2, 1, 3, '0', '2022-05-02', '0000-00-00', '2');
+(2, 1, 3, '0', '2022-05-02', '2100-01-01', '2');
 
 -- --------------------------------------------------------
 
