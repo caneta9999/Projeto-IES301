@@ -19,9 +19,14 @@
 		$nome = "DisciplinaSemNome".rand(0,1000);
 	}
 	$descricao = filter_input(INPUT_POST,'descricao',FILTER_SANITIZE_STRING);
-	if(strlen($descricao)<1 || strlen($descricao)>1500){
-		$descricao = 'Disciplina...';
-	}
+    if(strlen($descricao)<1) {
+        $descricao = 'Disciplina...';
+    }
+    $descricaoLongaDemais = false;
+    if(strlen($descricao) > 11000) {
+        $descricao = 'Descrição longa demais!';
+        $descricaoLongaDemais = true; 
+    }
 	$codigo = filter_input(INPUT_POST,'codigo', FILTER_SANITIZE_NUMBER_INT);
 	if(!is_numeric($codigo) || $codigo < 1 || $codigo > 9999){
 		$codigo = rand(0,1000);
@@ -60,6 +65,10 @@
 				if($linha_array['quantidade'] != 0){
 					$variavelControle = 0;
 					$_SESSION['mensagemErro'] = "Já há uma disciplina com esse código cadastrada!";}}
+			if ($descricaoLongaDemais) {
+				$variavelControle = 0;
+				$_SESSION['mensagemErro'] = "A descrição inserida é longa demais! (Acima de 11000 caracteres) ";
+			}
 
 			if($variavelControle){    
 				$result = "UPDATE $db.$TB_DISCIPLINA SET Nome=:nome, Descrição=:descricao, Código=:codigo,Sigla=:sigla,Tipo=:tipo,Ativa=:ativa WHERE idDisciplina = :id";
@@ -76,7 +85,7 @@
 			header("Location: ../index.php");	
 			}
 		catch(PDOException $e) {
-				$msgErr = "Erro na alteração:<br />".$e->getMessage();
+				$msgErr = "Erro na alteração:<br />";
 				$_SESSION['mensagemErro'] = $msgErr;     
 				header("Location: ../index.php");			
 		}

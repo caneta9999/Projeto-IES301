@@ -174,7 +174,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 			header("Location: ../index.php");	
 		}
 		catch(PDOException $e) {
-			$msgErr = "Erro na alteração:<br />".$e->getMessage();
+			$msgErr = "Erro na alteração:<br />";
 			$_SESSION['mensagemErro'] = $msgErr;     
 			header("Location: ../index.php");			
 		}

@@ -86,7 +86,7 @@ INSERT INTO `curso` (`idCurso`, `Nome`) VALUES
 CREATE TABLE `disciplina` (
   `idDisciplina` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
-  `Descrição` varchar(500) NOT NULL,
+  `Descrição` varchar(11000) NOT NULL,
   `Código` decimal(4,0) NOT NULL,
   `Sigla` varchar(8) NOT NULL,
   `Tipo` decimal(1,0) NOT NULL,
