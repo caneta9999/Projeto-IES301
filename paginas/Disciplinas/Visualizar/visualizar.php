@@ -130,7 +130,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
             echo '</section>';
             echo '<section>';
             echo '<h2> Descrição </h2>';
-            echo '<p>'. $descricao . '</p>';
+            echo '<div>'. nl2br($descricao) . '</div>';
             echo '</section>';
             echo '</main>';
             /*
