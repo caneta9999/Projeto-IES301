@@ -23,7 +23,7 @@
         $descricao = 'Disciplina...';
     }
     $descricaoLongaDemais = false;
-    if(strlen($descricao) > 7200) {
+    if(strlen($descricao) > 21600) {
         $descricao = 'Descrição longa demais!';
         $descricaoLongaDemais = true; 
     }

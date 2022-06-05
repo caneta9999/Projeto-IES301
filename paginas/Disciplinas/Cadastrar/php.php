@@ -18,8 +18,6 @@ if($send){
         $descricao = 'Disciplina...';
     }
     $descricaoLongaDemais = false;
-    var_dump($descricao);
-    exit();
     if(strlen($descricao) > 21600) {
         $descricao = 'Descrição longa demais!';
         $descricaoLongaDemais = true; 
