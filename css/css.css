@@ -51,7 +51,7 @@ header{
 }
 #divProfileLogout{
 	display: grid;
-	grid-template-columns: 1.2fr 1fr;
+	grid-template-columns: 1.5fr 1fr;
 }
 footer {
     background-color: var(--color-main);
