@@ -14,8 +14,13 @@ if($send){
         $nome = "DisciplinaSemNome".rand(0,1000);
     }
     $descricao = filter_input(INPUT_POST,'descricao',FILTER_SANITIZE_STRING);
-    if(strlen($descricao)<1 || strlen($descricao)>1500){
+    if(strlen($descricao)<1) {
         $descricao = 'Disciplina...';
+    }
+    $descricaoLongaDemais = false;
+    if(strlen($descricao) > 21600) {
+        $descricao = 'Descrição longa demais!';
+        $descricaoLongaDemais = true; 
     }
     $codigo = filter_input(INPUT_POST,'codigo', FILTER_SANITIZE_NUMBER_INT);
     if(!is_numeric($codigo) || $codigo < 1 || $codigo > 9999){
@@ -43,6 +48,7 @@ if($send){
 		$curso = 1;
 	}
 	$variavelControle = 1;
+
     try{
         $result = "SELECT count(*) 'quantidade' FROM $db.$TB_DISCIPLINA WHERE Código=:codigo";
 		$select = $conx->prepare($result);
@@ -60,6 +66,11 @@ if($send){
 			if($linha_array['quantidade'] != 1){
                 $variavelControle = 0;
 				$_SESSION['mensagemErro'] = "Não identificamos um curso com esse id!";}}
+        if ($descricaoLongaDemais) {
+            $variavelControle = 0;
+            $_SESSION['mensagemErro'] = "A descrição inserida é longa demais!";
+        }
+
         if($variavelControle){    
             $result = "INSERT INTO $db.$TB_DISCIPLINA (Nome,Descrição,Código,Sigla,Curso_idCurso,Tipo,Ativa) VALUES (:nome,:descricao,:codigo,:sigla,:idCurso,:tipo,:ativa)";
             $insert = $conx->prepare($result);
@@ -75,7 +86,7 @@ if($send){
         header("Location: ../index.php");	
         }
     catch(PDOException $e) {
-            $msgErr = "Erro na inclusão:<br />". $e->getMessage();
+            $msgErr = "Erro na inclusão:<br />";
             $_SESSION['mensagemErro'] = $msgErr;     
 			header("Location: ../index.php");			
     }

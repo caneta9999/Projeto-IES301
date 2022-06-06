@@ -86,7 +86,7 @@ INSERT INTO `curso` (`idCurso`, `Nome`) VALUES
 CREATE TABLE `disciplina` (
   `idDisciplina` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
-  `Descrição` varchar(500) NOT NULL,
+  `Descrição` varchar(21781) NOT NULL,
   `Código` decimal(4,0) NOT NULL,
   `Sigla` varchar(8) NOT NULL,
   `Tipo` decimal(1,0) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE `professordisciplina` (
 --
 
 INSERT INTO `professordisciplina` (`idProfessorDisciplina`, `Professor_idProfessor`, `Disciplina_idDisciplina`, `Periodo`, `DataInicial`, `DataFinal`, `DiaSemana`) VALUES
-(2, 1, 3, '0', '2022-05-02', '0000-00-00', '2');
+(2, 1, 3, '0', '2022-05-02', '2100-01-01', '2');
 
 -- --------------------------------------------------------
 

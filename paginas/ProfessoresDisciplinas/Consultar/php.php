@@ -41,7 +41,7 @@ if($send){
         header("Location: ./consultar.php");	
     }
     catch(PDOException $e) {
-            $msgErr = "Erro na consulta: " . $e . "<br />";
+            $msgErr = "Erro na consulta: <br />";
             $_SESSION['mensagemErro'] = $msgErr;     
 			header("Location: ../index.php");			
     }
