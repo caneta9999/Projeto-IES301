@@ -191,7 +191,7 @@ if(!isset($_SESSION['idUsuarioLogin']))
 		echo '<button class="button btnConsultar" id="btnConsultarCriticas"><a href="./Criticas/ConsultarDisciplina/consultar.php">Ver mais críticas</a></button> <br/>';	
 	}
 	?>
-	
+	<div id="push"></div>
     <div id="footer"></div>   
 	<script>
 	function editar(id){
