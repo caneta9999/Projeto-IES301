@@ -23,8 +23,11 @@ if(!preg_match($regexData, $dataInicial) || strlen($sigla)>10){
     $dataInicial = '2022-03-08';
 }
 $dataFinal = filter_input(INPUT_POST,'dataFinal',FILTER_SANITIZE_STRING);
-if($dataFinal != null && (!preg_match($regexData, $dataInicial) || strlen($sigla)>10)){
-    $dataFinal = '2022-03-08';
+if($dataFinal != null && (!preg_match($regexData, $dataInicial) || strlen($data)>10)){
+    $dataFinal = '2100-01-01';
+}
+if($dataFinal == null){
+	$dataFinal = '2100-01-01';
 }
 $diaSemana = filter_input(INPUT_POST,'diaSemana', FILTER_SANITIZE_NUMBER_INT);
 if(!is_numeric($diaSemana) || $diaSemana < 2 || $diaSemana > 7 ){
