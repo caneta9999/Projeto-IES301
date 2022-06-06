@@ -281,7 +281,7 @@ input, select{
 table {
     margin-left: auto;
     margin-right: auto;
-    min-width:900px;
+    min-width:800px;
     table-layout:fixed;
 }
 .tableContagemElogiosCriticas{
