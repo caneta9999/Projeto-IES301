@@ -136,30 +136,6 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
             document.getElementById('disciplina').value = document.getElementById('disciplinaSelect').value;
         }
 
-        function mudaElogio1() {
-            document.getElementById('elogio1').value = document.getElementById('elogioSelect1').value;
-        }
-
-        function mudaElogio2() {
-            document.getElementById('elogio2').value = document.getElementById('elogioSelect2').value;
-        }
-
-        function mudaElogio3() {
-            document.getElementById('elogio3').value = document.getElementById('elogioSelect3').value;
-        }
-
-        function mudaCritica1() {
-            document.getElementById('critica1').value = document.getElementById('criticaSelect1').value;
-        }
-
-        function mudaCritica2() {
-            document.getElementById('critica2').value = document.getElementById('criticaSelect2').value;
-        }
-
-        function mudaCritica3() {
-            document.getElementById('critica3').value = document.getElementById('criticaSelect3').value;
-        }
-
         function checkQuantidadeElogios(idUltimoElogio) {
             let mensagemErro = document.getElementById("mensagemErroElogios");
 

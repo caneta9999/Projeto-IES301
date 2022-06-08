@@ -63,6 +63,10 @@ if(!isset($_SESSION['idUsuarioLogin']) || $_SESSION['administradorLogin']!=1)
                 $id = $linha_array['idProfessorDisciplina'];
                 $_SESSION['idAlteracao5'] = $id;
             }
+            if (strcmp($dataFinal, '2100-01-01') == 0) {
+                $dataFinal = '';
+            }
+
             echo '<form method="POST" action="php2.php">';
             echo '<label for="id">Id:</label> <input value='.$id.' id="id" name="id" type="number" min="1" max="99999999999" required readonly="readonly"/> <br/>';
             echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina'"."/>";           
