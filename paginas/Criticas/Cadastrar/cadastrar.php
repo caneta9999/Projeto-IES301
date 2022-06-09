@@ -50,9 +50,9 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
     <div id="navbar"></div>
     <h1>Cadastrar crítica</h1>
     <button class="button btnVoltar button-go-return"><span class="material-icons button-go-return">reply</span><a class="button-go-return" href="../index.php">Voltar</a></button><br />
-    <form action="php.php" method="POST">
+    <form action="php.php" method="POST" class="form-critica">
         <?php
-        echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: </label>';
+        echo '<label id="labelDisciplina" for="disciplinaSelect"> Disciplina: ';
         echo '<select id="disciplinaSelect" class="selectpicker" data-size="10" data-live-search="true" onchange="mudaDisciplina()">';
         $idPrimeiro = 0;
         foreach ($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
@@ -89,17 +89,19 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
             echo '<option value='."'$id'".">"."{$disciplina} ({$sigla} : {$codigo}) - {$professor} ({$periodo})"."</option>";
         }
         echo '</select>';
-        echo '<br/><br/>';
+        echo '</label>';
         foreach ($_SESSION['queryProfessorDisciplinaCriticas1'] as $linha_array) {
             echo '<input type="hidden" id="disciplina" name="disciplina" value=' . "'$idPrimeiro'" . "/>";
             break;
         }
         ?>
-        <label for="notaDisciplina">Nota para a disciplina: </label><input class="inputNota" type="number" placeholder="1-5" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br />
-        <label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" type="number" placeholder="1-5" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br />
-        <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="1-5" name="notaAluno" id="notaAluno" min="1" max="5" required> <br />
-        <label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="XXXX" name="ano" id="ano" min="1973" max="2099" required> <br />
-        <label for="semestre">Semestre de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="1-2" name="semestre" id="semestre" min="1" max="2" required> <br />
+        <section id="section-notas-ano-semestre">
+            <label for="notaDisciplina">Nota para a disciplina: </label><input class="inputNota" type="number" placeholder="1-5" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required>
+            <label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" type="number" placeholder="1-5" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required>
+            <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="1-5" name="notaAluno" id="notaAluno" min="1" max="5" required>
+            <label for="ano">Ano de conclusão da disciplina: </label><input class="inputAno" type="number" placeholder="XXXX" name="ano" id="ano" min="1973" max="2099" required> 
+            <label for="semestre">Semestre de conclusão da disciplina: </label><input class="inputSemestre" type="number" placeholder="1-2" name="semestre" id="semestre" min="1" max="2" required>
+        </section>
        
         <h2>Elogios para o professor (máximo 3):</h2>
         <div class="gradeElogiosCriticasContainer">
@@ -114,7 +116,7 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
         </div>
         <p id="mensagemErroElogios"></p>
         
-        <h2>Críticas/Áreas de melhoria para o professor (máximo 3):</h2>
+        <h2 style="margin-top: 0">Críticas/Áreas de melhoria para o professor (máximo 3):</h2>
         <div class="gradeElogiosCriticasContainer">
             <div class="gradeElogiosCriticas">
                 <label for="checkCriticaComunicacao"><input id="checkCriticaComunicacao" name="checkCritica[]" class="checkCritica" type="checkbox" value="Comunicação" onchange="checkQuantidadeCriticas('checkCriticaComunicacao')">Comunicação</label>
@@ -127,7 +129,7 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
         </div>
         <p id="mensagemErroCriticas"></p>
         
-        <label for="descricao"> Comentário mais detalhado: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Comentário..." required maxlength="500"></textarea> <br />
+        <label for="descricao"> Comentário mais detalhado: </label><textarea rows="5" id="descricao" name="descricao" placeholder="Comentário..." required maxlength="500"></textarea>
         <button type="submit" name="submit" class="button-create" value="Enviar"><span class="material-icons button-create">add_circle</span>Cadastrar</button>
     </form>
     <div id="push"></div>

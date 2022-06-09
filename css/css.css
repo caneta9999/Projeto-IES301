@@ -170,9 +170,23 @@ input[type=submit]{
 	margin-right: 10px;
 	font-size: 21px;
 }
+
+#descricao {
+    width: 40vw;
+    max-width: 1000px;
+    resize: none;
+    margin-bottom: 1rem;
+}
+
 #divHomepageAdministradorTituloEstatistica{
 	display: grid;
 	grid-template-columns: 2fr 1fr;
+}
+
+.form-critica {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .gradeElogiosCriticas {
@@ -208,10 +222,31 @@ input[type=submit]{
 
 input, select{
     margin-bottom: 5px;
+    
 }
-.inputNota,.inputAnoSemestre{
-    min-width: 50px;
+
+.inputAno {
+    width: 5rem;
 }
+
+.inputNota, .inputSemestre {
+    width: 3.5rem;
+}
+
+
+@media (max-width: 600px) {
+    #descricao {
+        width: 95vw;
+    }
+    .logo {
+        width: 50%;
+    }
+    .gradeElogiosCriticas {
+        grid-column-gap: 2rem;
+        width: 100%;
+    }
+}
+
 .mensagemFinalizacao{
    color: green;
 }
@@ -273,6 +308,13 @@ input, select{
 
 .p-bold {
     font-weight: bold;
+}
+
+#section-notas-ano-semestre {
+    display: grid; 
+    grid-template-columns: 3fr 1fr;
+    justify-items: flex-end;
+    gap: 0.5rem;
 }
 
 @keyframes show-menu {
@@ -376,15 +418,6 @@ li {
 	font-family: cursive;
 }
 
-@media (max-width: 600px) {
-    .logo {
-        width: 50%;
-    }
-    .gradeElogiosCriticas {
-        grid-column-gap: 2rem;
-        width: 100%;
-    }
-}
 
 #result {
   padding: 3px;
