@@ -1,7 +1,7 @@
 # Projeto-IES301
 Projeto criado para disciplina da faculdade. <br/>
 <details>
-<summary>Créditos pela ajuda na hora de montar</summary>
+<summary>Créditos pela grande ajuda na hora de montar</summary>
 <br/>
 https://www.mundojs.com.br/2018/01/11/como-fazer-captcha-com-javascript/<br/>
 https://www.algolia.com/blog/engineering/how-to-implement-autocomplete-with-javascript-on-your-website/<br/>
