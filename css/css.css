@@ -178,6 +178,10 @@ input[type=submit]{
     margin-bottom: 1rem;
 }
 
+#disciplina-em-alterar-critica {
+    min-width: 31rem;
+}
+
 #divHomepageAdministradorTituloEstatistica{
 	display: grid;
 	grid-template-columns: 2fr 1fr;
@@ -225,6 +229,10 @@ input, select{
     
 }
 
+input[readonly] {
+    background-color: lightgray;
+}
+
 .inputAno {
     width: 5rem;
 }
@@ -235,12 +243,24 @@ input, select{
 
 
 @media (max-width: 600px) {
+    #botoes-em-alterar-critica {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+    }
     #descricao {
         width: 95vw;
+    }
+    #disciplina-em-alterar-critica {
+        min-width: 90vw;
     }
     .logo {
         width: 50%;
     }
+    
+}
+
+@media (max-width: 1050px) {
     .gradeElogiosCriticas {
         grid-column-gap: 2rem;
         width: 100%;
@@ -310,10 +330,16 @@ input, select{
     font-weight: bold;
 }
 
+#section-id-disciplina {
+    display: flex; 
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
 #section-notas-ano-semestre {
     display: grid; 
     grid-template-columns: 3fr 1fr;
-    justify-items: flex-end;
     gap: 0.5rem;
 }
 
