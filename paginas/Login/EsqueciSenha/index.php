@@ -40,7 +40,7 @@
             var indice = Math.floor(Math.random() * 100) % 6;
             document.getElementById("captchaText").innerHTML = "<b>" + vetor[indice].teste + "</b>";
             document.getElementById("formEsqueciSenha").onsubmit = function (e) {
-                if (document.getElementById("captcha").value != vetor[indice].valor) {
+                if (document.getElementById("captcha").value.toLowerCase() != vetor[indice].valor) {
                     document.getElementById("captchaMensagem").innerHTML = "<p class='mensagemErro'>Resposta errada!</p>";
                     e.preventDefault();
                 }
