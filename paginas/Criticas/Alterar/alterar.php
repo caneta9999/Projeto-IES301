@@ -128,11 +128,11 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             $disciplina = "{$disciplina} ({$sigla} : {$codigo}) - {$professor} ({$periodo})";
             echo '<label for="disciplina">Disciplina:</label><input type="text" id="disciplina" readonly="readonly" name="disciplina" value='."'$disciplina' style='min-width:500px' "."/>";         
             echo '<br/>';
-            echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br/>';
-            echo '<label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" value='.$notaEvolucao.' type="number" placeholder="Nota para o quanto você evoluiu durante a disciplina" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>';
-            echo '<label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" value='.$notaAluno.' placeholder="Nota para sua dedicação na disciplina" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>';
-            echo '<label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" value='.$ano.' type="number" placeholder="Ano de conclusão" name="ano" id="ano" min="1973" max="2100" required> <br/>';              
-            echo '<label for="semestre">Semestre de conclusão da disciplina: </label><input value='.$semestre.' class="inputAnoSemestre" type="number" placeholder="Semestre de conclusão" name="semestre" id="semestre" min="1" max="2" required> <br/>';                		
+            echo '<label for="notaDisciplina">Nota para a disciplina: </label><input type="number" value='.$notaDisciplina.' name="notaDisciplina" placeholder="1-5" id="notaDisciplina" min="1" max="5" required> <br/>';
+            echo '<label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" value='.$notaEvolucao.' type="number" placeholder="1-5" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br/>';
+            echo '<label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" value='.$notaAluno.' placeholder="1-5" name="notaAluno" id="notaAluno" min="1" max="5" required> <br/>';
+            echo '<label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" value='.$ano.' type="number" placeholder="XXXX" name="ano" id="ano" min="1973" max="2099" required> <br/>';              
+            echo '<label for="semestre">Semestre de conclusão da disciplina: </label><input value='.$semestre.' class="inputAnoSemestre" type="number" placeholder="1-2" name="semestre" id="semestre" min="1" max="2" required> <br/>';                		
             echo '<h2>Elogios para o professor (máximo 3):</h2>';
             echo '<div class="gradeElogiosCriticasContainer">';
             echo '<div class="gradeElogiosCriticas">';
@@ -157,7 +157,7 @@ if(!isset($_SESSION['idUsuarioLogin']) || ($_SESSION['tipoLogin'] != 2 && !$_SES
             echo '</div>';
         echo '</div>';
         echo '<p id="mensagemErroCriticas"></p>';
-            echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Defina sua critica" required maxlength="500" >'.$descricao.'</textarea> <br/>';
+            echo '<label for="descricao"> Descrição: </label><textarea rows="5" cols="30" id="descricao" name="descricao" placeholder="Comentário..." required maxlength="500" >'.$descricao.'</textarea> <br/>';
 			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja excluir esse registro? Não será possível reverter sua ação!'".')" type="submit" class="button-delete" value="Excluir" /><span class="material-icons button-delete">delete</span>Excluir</button>';				
 			echo '<button name="submit" onclick="return confirmarSubmit('."'Você realmente deseja cancelar a alteração? Não será possível reverter sua ação!'".')" type="submit" value="Cancelar" class="button-cancel"><span class="material-icons button-cancel">close</span>Cancelar</button>';
 			echo '<button name="submit" type="submit" class="button-confirm" value="Alterar" /><span class="material-icons button-confirm">done</span>Confirmar</button>';

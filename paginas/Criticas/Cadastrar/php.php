@@ -80,7 +80,7 @@ if ($send && $variavelControleExterna != 0) {
         $descricao = 'descricao';
     }
     $ano = filter_input(INPUT_POST, 'ano', FILTER_SANITIZE_NUMBER_INT);
-    if (!is_numeric($ano) || $ano > 2100 || $ano < 1973) {
+    if (!is_numeric($ano) || $ano > 2099 || $ano < 1973) {
         $ano = 1973;
     }
     $semestre = filter_input(INPUT_POST, 'semestre', FILTER_SANITIZE_NUMBER_INT);

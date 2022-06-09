@@ -98,7 +98,7 @@ $_SESSION['queryProfessorDisciplinaCriticas1'] = $select->fetchAll();
         <label for="notaDisciplina">Nota para a disciplina: </label><input class="inputNota" type="number" placeholder="1-5" name="notaDisciplina" id="notaDisciplina" min="1" max="5" required> <br />
         <label for="notaEvolucao">Nota para sua evolução: </label><input class="inputNota" type="number" placeholder="1-5" name="notaEvolucao" id="notaEvolucao" min="1" max="5" required> <br />
         <label for="notaAluno">Nota para você: </label><input class="inputNota" type="number" placeholder="1-5" name="notaAluno" id="notaAluno" min="1" max="5" required> <br />
-        <label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="XXXX" name="ano" id="ano" min="1973" max="2100" required> <br />
+        <label for="ano">Ano de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="XXXX" name="ano" id="ano" min="1973" max="2099" required> <br />
         <label for="semestre">Semestre de conclusão da disciplina: </label><input class="inputAnoSemestre" type="number" placeholder="1-2" name="semestre" id="semestre" min="1" max="2" required> <br />
        
         <h2>Elogios para o professor (máximo 3):</h2>
