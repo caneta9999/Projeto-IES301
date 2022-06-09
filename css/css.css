@@ -210,7 +210,7 @@ input, select{
     margin-bottom: 5px;
 }
 .inputNota,.inputAnoSemestre{
-    min-width: 330px;
+    min-width: 50px;
 }
 .mensagemFinalizacao{
    color: green;
